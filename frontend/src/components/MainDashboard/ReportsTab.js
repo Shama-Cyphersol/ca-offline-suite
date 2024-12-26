@@ -47,16 +47,16 @@ const ReportsTable = () => {
   };
 
   return (
-    <div className="bg-gray-50/50 min-h-screen p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-md p-8 backdrop-blur-sm">
+    <div className="bg-gray-50/50 min-h-screen ">
+      <div className="mx-auto">
+        <div className="bg-white rounded-2xl pd-2 lg:p-5 backdrop-blur-sm">
           {view === 'reports' ? (
             <>
               <h1 className="text-2xl font-semibold text-gray-800 mb-6">
                 Select a Case to download reports
               </h1>
-              <div className="overflow-hidden rounded-lg border border-gray-200">
-                <table className="w-full">
+              <div className="overflow-hidden shadow-sm rounded-lg border border-gray-200 overflow-x-auto">
+                <table className="w-full ">
                   <thead>
                     <tr className="bg-[#3498db]">
                       <th className="px-6 py-4 text-sm font-semibold text-white">Sr No.</th>

@@ -86,7 +86,7 @@ const IndividualTable = ({ caseData, caseId }) => {
       </div>
 
       {/* Table - Apple Style with Company Blue */}
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-200">
+      <div className="mx-auto bg-white rounded-2xl shadow-sm border border-gray-200">
         <div className="overflow-x-auto rounded-xl" >
           <table className="w-full ">
             <thead>

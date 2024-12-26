@@ -39,10 +39,10 @@ const CaseDashboard = () => {
 
   return (
     <div className='h-full flex bg-gray-50'>
-       <div className='h-full flex-1 bg-gray-200'>
+       <div className='h-full bg-gray-200'>
         <Sidebar onNavigate={handleOnNavigate} navItems={navItems} source={"case-dashboard"} caseId={caseId}/>
       </div>
-      <div className='h-full flex-[3.5] max-h-full overflow-y-auto'>
+      <div className='h-full w-full max-h-full overflow-y-auto'>
         {/* create a header which will contain the title and back button */}
         {/* <div className='flex justify-between items-center py-5 shadow-[10px_5px_14px_rgba(149,157,165,0.2)]'>
           <h1 className='text-xl font-bold text-center w-full opacity-80'>{navItems[activePage].title}</h1>
@@ -52,7 +52,7 @@ const CaseDashboard = () => {
         </div> */}
 
          <header className="bg-white border-b border-gray-200">
-                  <div className="max-w-7xl mx-auto px-6 py-4">
+                  <div className="mx-auto px-6 py-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <button
@@ -77,7 +77,7 @@ const CaseDashboard = () => {
                 </header>
 
         <main className="flex-1 overflow-auto p-6">
-          <div className="max-w-7xl mx-auto">
+          <div className="mx-auto">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
             {activePage === 0 && <AccountNumNameManager caseData={caseData}/>}
             {activePage === 1 && <IndividualTable caseId={caseId} caseData={caseData}/>}

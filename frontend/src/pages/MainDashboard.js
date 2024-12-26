@@ -23,10 +23,10 @@ const MainDashboard = () => {
     ];
     return (
     <div className='h-full flex'>
-      <div className='h-full max-h-full flex-1 bg-gray-200'>
+      <div className='h-full max-h-full  bg-gray-200'>
         <Sidebar onNavigate={handleOnNavigate} source={"main-dashboard"} navItems={navItems}/>
       </div>
-      <div className='h-full flex-[3.5] p-5 max-h-full overflow-y-auto'>
+      <div className='h-full w-full p-5 max-h-full overflow-y-auto '>
         {activePage === 0 && <Dashboard/>}
         {activePage === 1 && <GenerateReport/>}
         {activePage === 2 && <ReportsTab/>}

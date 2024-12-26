@@ -6,9 +6,9 @@ import ReportChart from "./ReportChart";
 const Dashboard = () => {
 
   const dummyStats = {
-    totalReports: 1234,
-    monthlyReports: 156,
-    totalStatements: 4567,
+    totalReports: 25,
+    monthlyReports: 30,
+    totalStatements: 102,
   };
   const dummyChartData = {
     daily: [
@@ -34,13 +34,11 @@ const Dashboard = () => {
   };
 
 
-
-
   return (
     <div>
       <h1 className='text-3xl font-bold ml-5'>Dashboard</h1>
       <div className=''>
-        <div className='p-2 mb-10'>
+        <div className='p-2 mb-6'>
           <Statistics stats={dummyStats} />
         </div>
         <div>

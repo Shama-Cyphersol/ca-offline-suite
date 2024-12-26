@@ -14,7 +14,7 @@ const GenerateReportForm = () => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
   const caseIdRef = useRef(null);
-  const [forAts, setForAts] = useState(true);
+  const [forAts, setForAts] = useState(false);
 
   const filteredUnits = units.filter((u) =>
     u.toLowerCase().includes(searchTerm.toLowerCase())
@@ -158,7 +158,7 @@ const GenerateReportForm = () => {
   return (
     <div className="bg-gray-50/50">
       <div className="mx-auto">
-        <div className="bg-white rounded-2xl shadow-md p-8 backdrop-blur-sm">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 backdrop-blur-sm">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
               {/* Unit Dropdown */}
@@ -358,9 +358,11 @@ const GenerateReportForm = () => {
                   
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       fileInputRef.current?.click()}}
-                    className="mt-4 px-6 py-2.5 text-sm font-medium text-white bg-[#3498db] rounded-lg hover:bg-[#2980b9] shadow-sm transition-all cursor-pointer flex items-center gap-2"
+                    // className="mt-4 px-6 py-2.5 text-sm font-medium text-white bg-[#3498db] rounded-lg hover:bg-[#2980b9] shadow-sm transition-all cursor-pointer flex items-center gap-2"
+                    className="mt-4 px-6 py-2.5 text-sm font-medium  bg-white text-[#3498db] border border-[#3498db] rounded-lg hover:bg-[#2980b9] hover:text-white shadow-sm transition-all cursor-pointer flex items-center gap-2"
                   >
                     {selectedFiles.length > 0 ? "Add More Files" : "Browse Files"}
                   </button>

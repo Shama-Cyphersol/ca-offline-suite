@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
-import { Link,useLocation,useNavigate} from 'react-router-dom';
+import { useLocation,useNavigate} from 'react-router-dom';
 import Summary from '../components/IndividualDashboard/Summary';
 import Transactions from '../components/IndividualDashboard/Transactions';
 import EodBalance from '../components/IndividualDashboard/EodBalance';
@@ -14,7 +14,7 @@ import UnkownCredit from '../components/IndividualDashboard/UnkownCredit';
 import Reversal from '../components/IndividualDashboard/Reversal';
 import Investment from '../components/IndividualDashboard/Investment';
 import EMI from '../components/IndividualDashboard/EMI';
-import ForeignTransactions from '../components/IndividualDashboard/ForeignTransactions';
+// import ForeignTransactions from '../components/IndividualDashboard/ForeignTransactions';
 import {MoveLeft} from 'lucide-react';
 
 const IndividualDashboard = () => {
@@ -24,6 +24,7 @@ const IndividualDashboard = () => {
   const { caseId, individualId } = useParams()
   const {name, accountNumber} = state;
   const navigate = useNavigate();
+  console.log('IndividualDashboard:', caseId, individualId, name, accountNumber);
   
   const navItems = [
     { text: 'Summary', icon: null},
@@ -48,18 +49,16 @@ const IndividualDashboard = () => {
 
   return (
     <div className='h-full flex bg-gray-50'>
-    <div className='h-full flex-1 bg-gray-200'>
+    <div className='h-full bg-gray-200'>
      <Sidebar onNavigate={handleOnNavigate} navItems={navItems} source={"individual-dashboard"} name={name}/>
    </div>
-   <div className='h-full flex-[3.5] max-h-full overflow-y-auto'>
+   <div className='h-full w-full max-h-full overflow-y-auto'>
      {/* create a header which will contain the title and back button */}
      {/* <div className='flex justify-between items-center py-5 shadow-[10px_5px_14px_rgba(149,157,165,0.2)]'> */}
        {/* <h1 className='text-xl font-bold text-center w-full opacity-80'>{navItems[activePage].text}</h1>
         <Link to={-1}><button className='bg-[#99C3Eb] hover:bg-blue-400 text-white font-bold py-2 px-4 rounded mr-5 flex gap-x-2 items-center'>
           <MoveLeft size={24}/>Back</button>
         </Link> */}
-
-        
      {/* </div> */}
      <header className="bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-6 py-4">

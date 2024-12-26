@@ -3,48 +3,47 @@ import { Info, Trash2, Plus, Eye, Search } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 import { Outlet, Link } from "react-router-dom";
 
-// Your existing helper functions remain the same
-const generateAccountNumber = () => {
-  return Math.floor(Math.random() * 9000000000) + 1000000000;
-};
+// const generateAccountNumber = () => {
+//   return Math.floor(Math.random() * 9000000000) + 1000000000;
+// };
 
-  // Generate sample data
-const generateDummyData = () => {
-    const cases = [];
-    const startDate = new Date('2024-01-01');
-    const banks = ['HDFC', 'SBI', 'ICICI', 'Axis', 'Union Bank'];
+//   // Generate sample data
+// const generateDummyData = () => {
+//     const cases = [];
+//     const startDate = new Date('2024-01-01');
+//     const banks = ['HDFC', 'SBI', 'ICICI', 'Axis', 'Union Bank'];
 
     
-    for (let i = 0; i < 25; i++) {
-      const date = new Date(startDate);
-      date.setDate(startDate.getDate() + i);
+//     for (let i = 0; i < 25; i++) {
+//       const date = new Date(startDate);
+//       date.setDate(startDate.getDate() + i);
       
-      const caseId = `CASE${String(i + 1).padStart(4, '0')}`;
-      const bank = banks[Math.floor(Math.random() * banks.length)];
+//       const caseId = `CASE${String(i + 1).padStart(4, '0')}`;
+//       const bank = banks[Math.floor(Math.random() * banks.length)];
       
-      cases.push({
-        date: date.toLocaleDateString('en-GB'),
-        case_id: caseId,
-        report_name: `${bank} Bank Statement Analysis`,
-        already_existing_pdfs: [
-          {
-            pdf_path: `/documents/statements/${bank.toLowerCase()}_${generateAccountNumber()}.pdf`,
-            case_ids: [caseId, `CASE${String(Math.floor(Math.random() * 9999)).padStart(4, '0')}`]
-          },
-          {
-            pdf_path: `/documents/statements/${bank.toLowerCase()}_${generateAccountNumber()}.pdf`,
-            case_ids: [caseId]
-          }
-        ],
-        pdf_paths_not_extracted: Math.random() > 0.7 ? [
-          `/failed/corrupt_statement_${Math.random().toString(36).substring(7)}.pdf`,
-          `/failed/unreadable_${Math.random().toString(36).substring(7)}.pdf`
-        ] : []
-      });
-    }
+//       cases.push({
+//         date: date.toLocaleDateString('en-GB'),
+//         case_id: caseId,
+//         report_name: `${bank} Bank Statement Analysis`,
+//         already_existing_pdfs: [
+//           {
+//             pdf_path: `/documents/statements/${bank.toLowerCase()}_${generateAccountNumber()}.pdf`,
+//             case_ids: [caseId, `CASE${String(Math.floor(Math.random() * 9999)).padStart(4, '0')}`]
+//           },
+//           {
+//             pdf_path: `/documents/statements/${bank.toLowerCase()}_${generateAccountNumber()}.pdf`,
+//             case_ids: [caseId]
+//           }
+//         ],
+//         pdf_paths_not_extracted: Math.random() > 0.7 ? [
+//           `/failed/corrupt_statement_${Math.random().toString(36).substring(7)}.pdf`,
+//           `/failed/unreadable_${Math.random().toString(36).substring(7)}.pdf`
+//         ] : []
+//       });
+//     }
     
-    return cases;
-  };
+//     return cases;
+//   };
   
 const loadRecentReports = () => {
   const data = require('../data/cases.json');
@@ -100,10 +99,9 @@ const RecentReports = () => {
 
   return (
     <div className="min-h-screen  p-2">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-semibold text-gray-900">Recent Reports</h1>
-          
+      <div className="mx-auto">
+        <div className="flex justify-between items-center mb-8 flex-col gap-5 md:gap-0 md:flex-row">
+          <h1 className="text-2xl font-semibold text-gray-900 ">Recent Reports</h1>
           {/* Search Input - Matching previous component style */}
           <div className="relative w-[400px]">
             <input
@@ -208,7 +206,7 @@ const RecentReports = () => {
             <button
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages || filteredData.length === 0}
-              className="px-4 py-2 text-sm font-medium text-white bg-[#3498db] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2980b9] transition-colors"
+              className="px-4 py-2 text-sm font-medium text-white bg-[#3498db] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2980b9] transition-colors "
             >
               Next
             </button>
@@ -217,7 +215,7 @@ const RecentReports = () => {
 
         {/* Info Dialog */}
         {showDialog && (
-          <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center">
+          <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-[11]">
             <div className="bg-white rounded-2xl w-3/4 max-h-[80vh] shadow-xl">
               <div className="bg-[#3498db] text-white px-6 py-4 rounded-t-2xl">
                 <h3 className="text-lg font-medium">Case Information</h3>
@@ -247,7 +245,7 @@ const RecentReports = () => {
                       ))}
                     </div>
                   ) : (
-                    <h2 className="text-xl font-semibold text-gray-900">No Statements had any error</h2>
+                    <h2 className="text-md text-gray-900">No Statements had any error</h2>
                   )
                 )}
               </div>
