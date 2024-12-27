@@ -1,0 +1,21 @@
+{
+  "name": "cyphersol-ats-electron-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "concurrently \"npm run start:fastapi\" \"npm run start:react\" \"npm run start:electron\"",
+    "start:fastapi": "cd backend && uvicorn app:app --reload --port 5000",
+    "start:react": "cd frontend/react-app && npm start",
+    "start:electron": "cross-env NODE_ENV=development wait-on http://localhost:3000 && electron frontend/electron/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^28.3.3",
+    "wait-on": "^7.2.0"
+  }
+}
