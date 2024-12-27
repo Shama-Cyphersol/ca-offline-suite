@@ -2,6 +2,10 @@
 
 CypherSol Desktop application built with React, Electron, and FastApi.
 
+```bash
+hey this is harsh
+```
+
 ## Quick Start
 Prerequisites: Node.js, Python 3.8+
 
