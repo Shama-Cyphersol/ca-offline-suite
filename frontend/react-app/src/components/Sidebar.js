@@ -52,8 +52,6 @@ const data = {
       url: "#",
       icon: Files,
     },
-
-    
     // {
     //   title: "Settings",
     //   url: "#",
@@ -165,7 +163,7 @@ const SidebarDynamic =  ({ navItems,activeTab, setActiveTab })=> {
               <DropdownMenuGroup>
                 <DropdownMenuItem>
                   <Sparkles className="mr-2 h-4 w-4" />
-                  <span>Refer and Earn</span>
+                  <span>Upgrade to Pro</span>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
