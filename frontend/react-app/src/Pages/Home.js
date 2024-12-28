@@ -5,6 +5,7 @@ import { cn } from "../lib/utils";
 import { ScrollArea } from "../components/ui/scroll-area";
 import Sidebar from '../components/Sidebar';
 import MainDashboard from '../components/MainDashboardComponents/MainDashboard';
+import Analytics from '../components/MainDashboardComponents/Analytics';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -53,13 +54,14 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className={cn("h-full w-full flex h-screen bg-background")}>
+      <div className={cn("w-full flex h-screen bg-background")}>
         <Sidebar navItems={navItems} activeTab={activeTab} setActiveTab={setActiveTab}/>
         <ScrollArea className="w-full">
           <div className="flex-1 flex flex-col overflow-hidden">
             <main className="flex-1">
               {activeTab === 'Dashboard' && <MainDashboard />} 
               {activeTab === 'Generate Report' && <ReportGenerator />}
+              {activeTab === 'Analytics' && <Analytics />}
             </main>
           </div>
         </ScrollArea>
