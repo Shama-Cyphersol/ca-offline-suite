@@ -18,13 +18,14 @@ function createWindow() {
         title: 'CypherSol',
 
     });
+    const startUrl=`file://${path.join(app.getAppPath(), '../react-app/build/index.html')}`
+    console.log(startUrl);    
 
     // Load the React app
-    win.loadURL(
-        isDev
-            ? 'http://localhost:3000'
-            : `file://${path.join(__dirname, '../frontend/build/index.html')}`
+    win.loadURL(`file://${path.join(app.getAppPath(), '../react-app/build/index.html')}`
+
     );
+  
 
     if (isDev) {
 

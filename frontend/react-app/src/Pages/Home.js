@@ -9,14 +9,6 @@ import MainDashboard from '../components/MainDashboardComponents/MainDashboard';
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('Dashboard');
   
-
-  // const navItems = [
-  //   // { name: 'Dashboard', icon: LayoutDashboard, id: 'Dashboard' },
-  //   // { name: 'Generate Report', icon: Files, id: 'report' }
-  //   {text: 'Dashboard', icon: LayoutDashboard},
-  //   {text: 'Generate Report', icon: Files}
-  // ];
-
   const navItems = [
       {
         title: "Dashboard",

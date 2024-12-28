@@ -1,0 +1,17 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.electron.electronapp
+productName: Electron App
+files:
+  - filter:
+      - electron/**/*
+      - react-app/build/**/*
+      - node_modules/**/*
+mac:
+  category: public.app-category.utilities
+win:
+  target: nsis
+linux:
+  target: AppImage
+electronVersion: 33.2.1

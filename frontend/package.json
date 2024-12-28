@@ -1,12 +1,13 @@
 {
   "name": "electronapp",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "electron/main.js",
+  "homepage": ".",
   "description": "Electron application with React and shadcn/ui",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "build:react": "cd myapp && npm run build",
+    "build:react": "cd react-app && npm run build",
     "build:electron": "electron-builder",
     "build": "npm run build:react && npm run build:electron"
   },
@@ -26,25 +27,26 @@
     "electron": "^33.2.1",
     "electron-builder": "^24.13.3"
   },
-  "build": {
-    "appId": "com.electron.electronapp",
-    "productName": "Electron App",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "main.js",
-      "myapp/build/**/*",
-      "node_modules/**/*"
-    ],
-    "mac": {
-      "category": "public.app-category.utilities"
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "linux": {
-      "target": "AppImage"
-    }
+ "build": {
+  "appId": "com.electron.electronapp",
+  "productName": "Electron App",
+  "directories": {
+    "output": "dist"
+  },
+
+  "files": [
+    "electron/**/*",
+    "react-app/build/**/*",
+    "node_modules/**/*"
+  ],
+  "mac": {
+    "category": "public.app-category.utilities"
+  },
+  "win": {
+    "target": "nsis"
+  },
+  "linux": {
+    "target": "AppImage"
   }
+}
 }
