@@ -5,10 +5,11 @@
   "homepage": ".",
   "description": "Electron application with React and shadcn/ui",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
-    "build:react": "cd react-app && npm run build",
-    "build:electron": "electron-builder",
+   "start:react":"cd react-app && npm start",
+   "start:electron":"cross-env NODE_ENV=development electron .",
+   "start": "concurrently \"npm run start:react\" \"npm run start:electron\"",
+    "build:react":"cd react-app && npm run build",
+    "build:electron":"electron-builder",
     "build": "npm run build:react && npm run build:electron"
   },
   "author": "",
@@ -24,6 +25,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "concurrently": "^8.2.0",
     "electron": "^33.2.1",
     "electron-builder": "^24.13.3"
   },

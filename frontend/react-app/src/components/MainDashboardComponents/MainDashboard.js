@@ -17,7 +17,7 @@ import MetricCard from '../Elements/timecard';
 
 const MainDashboard = () => {
   const timeMetric = {
-    title: "Time Saved",
+    title: "Time consumed",
     value: 1234,
     unit: "minutes",
     icon: Clock,
