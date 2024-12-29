@@ -9,6 +9,27 @@ import { useState } from 'react';
 import { cn } from "../../lib/utils";
 import { useNavigate } from 'react-router-dom';
 import { Eye, Plus, Trash2, Info, Search} from 'lucide-react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "../ui/alert-dialog"
+
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "../ui/pagination"
 
 const RecentReports = () => {
     const { toast } = useToast();
@@ -30,14 +51,59 @@ const RecentReports = () => {
         { id: 8, date: '11-12-2024', caseId: 'ATS_unit_1_00004', reportName: 'Report_ATS_unit_1_00004', status: 'Failed' },
         { id: 9, date: '10-12-2024', caseId: 'ATS_unit_1_00009', reportName: 'Report_ATS_unit_1_00009', status: 'Completed' },
         { id: 10, date: '10-12-2024', caseId: 'ATS_unit_1_00010', reportName: 'Report_ATS_unit_1_00010', status: 'In Progress' }
-
     ]);
 
-    const totalPages = Math.ceil(recentReports.length / itemsPerPage);
-    const currentReports = recentReports.slice(
+    // Filter reports based on search query
+    const filteredReports = recentReports.filter(report =>
+        report.reportName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        report.caseId.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const totalPages = Math.ceil(filteredReports.length / itemsPerPage);
+    const currentReports = filteredReports.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
+
+    // Generate page numbers to display
+    const getPageNumbers = () => {
+        const pageNumbers = [];
+        const maxVisiblePages = 5;
+        
+        if (totalPages <= maxVisiblePages) {
+            // Show all pages if total pages are less than or equal to maxVisiblePages
+            for (let i = 1; i <= totalPages; i++) {
+                pageNumbers.push(i);
+            }
+        } else {
+            // Always show first page
+            pageNumbers.push(1);
+            
+            // Show current page and surrounding pages
+            if (currentPage > 2) {
+                pageNumbers.push('ellipsis');
+            }
+            
+            if (currentPage !== 1 && currentPage !== totalPages) {
+                pageNumbers.push(currentPage);
+            }
+            
+            if (currentPage < totalPages - 1) {
+                pageNumbers.push('ellipsis');
+            }
+            
+            // Always show last page
+            pageNumbers.push(totalPages);
+        }
+        
+        return pageNumbers;
+    };
+
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
 
     const StatusBadge = ({ status }) => {
         const variants = {
@@ -149,42 +215,80 @@ const RecentReports = () => {
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        className="h-8 w-8 text-black  hover:text-black bg-gray-200 hover:bg-gray-400
-                                                    dark:bg-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-600"
-                                        onClick={() => handleViewInfo()}
-                                    >
-                                        <Info className="h-4 w-4" />
-                                    </Button>
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                size="icon"
+                                                className="h-8 w-8 text-black hover:text-black bg-gray-200 hover:bg-gray-400
+                                                            dark:bg-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-600"
+                                                onClick={() => handleViewInfo()}
+                                            >
+                                                <Info className="h-4 w-4" />
+                                            </Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This action cannot be undone. This will permanently delete your
+                                                    account and remove your data from our servers.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction>Continue</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
-                
-                <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
-                    <Button
-                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                        disabled={currentPage === 1}
-                        variant="default"
-                    >
-                        Previous
-                    </Button>
-                    
-                    <span className="text-sm text-gray-600">
-                        {recentReports.length > 0 ? `Page ${currentPage} of ${totalPages}` : ''}
-                    </span>
-                    
-                    <Button
-                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                        disabled={currentPage === totalPages || recentReports.length === 0}
-                        variant="default"
-                    >
-                        Next
-                    </Button>
-                </div>
+                {totalPages > 1 && (
+                    <div className="mt-6">
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious 
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        className={cn(
+                                            "cursor-pointer",
+                                            currentPage === 1 && "pointer-events-none opacity-50"
+                                        )}
+                                    />
+                                </PaginationItem>
+                                
+                                {getPageNumbers().map((pageNumber, index) => (
+                                    <PaginationItem key={index}>
+                                        {pageNumber === 'ellipsis' ? (
+                                            <PaginationEllipsis />
+                                        ) : (
+                                            <PaginationLink
+                                                onClick={() => handlePageChange(pageNumber)}
+                                                isActive={currentPage === pageNumber}
+                                                className="cursor-pointer"
+                                            >
+                                                {pageNumber}
+                                            </PaginationLink>
+                                        )}
+                                    </PaginationItem>
+                                ))}
+
+                                <PaginationItem>
+                                    <PaginationNext
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        className={cn(
+                                            "cursor-pointer",
+                                            currentPage === totalPages && "pointer-events-none opacity-50"
+                                        )}
+                                    />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+                    </div>
+                )}
             </CardContent>
         </Card>
     )
