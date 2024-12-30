@@ -1,5 +1,10 @@
-import * as React from "react"
-import { LayoutDashboard, Files } from 'lucide-react'
+import * as React from "react";
+import {
+  LayoutDashboard,
+  Files,
+  ChevronRight,
+  ChevronDown,
+} from "lucide-react";
 import logo from "../data/assets/logo.png";
 import {
   Sidebar,
@@ -14,15 +19,18 @@ import {
   SidebarMenuSub,
   SidebarMenuSubItem,
   SidebarMenuSubButton,
-} from "./ui/sidebar"
-
-import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react'
+} from "./ui/sidebar";
 
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "./ui/avatar"
+  BadgeCheck,
+  Bell,
+  ChevronsUpDown,
+  CreditCard,
+  LogOut,
+  Sparkles,
+} from "lucide-react";
+
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,8 +39,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu"
- 
+} from "./ui/dropdown-menu";
 
 const data = {
   user: {
@@ -76,15 +83,22 @@ const data = {
     //   ],
     // },
   ],
-  
-}
+};
 
-const SidebarDynamic =  ({ navItems,activeTab, setActiveTab })=> {
+const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
+  const [expandedItems, setExpandedItems] = React.useState({});
   const [user, setUser] = React.useState({
-                                          name: "Harsh",
-                                          email: "m@example.com",
-                                          avatar: "#",
-                                        })
+    name: "Harsh",
+    email: "m@example.com",
+    avatar: "#",
+  });
+
+  const toggleSubmenu = (title) => {
+    setExpandedItems((prev) => ({
+      ...prev,
+      [title]: !prev[title],
+    }));
+  };
 
   const NavMain = ({ items, activeTab, setActiveTab }) => {
     return (
@@ -92,21 +106,55 @@ const SidebarDynamic =  ({ navItems,activeTab, setActiveTab })=> {
         {items.map((item) => (
           <SidebarMenuItem key={item.title}>
             <SidebarMenuButton
+              defaultOpen
               asChild
               isActive={activeTab === item.title}
-              onClick={() => setActiveTab(item.title)}
+              onClick={() => {
+                if (item.items) {
+                  toggleSubmenu(item.title);
+                } else {
+                  setActiveTab(item.title);
+                }
+              }}
             >
-              <button className="w-full flex items-center">
-                {item.icon && <item.icon className="mr-2 h-4 w-4" />}
-                <span>{item.title}</span>
+              <button
+                className={`w-full flex items-center justify-between ${
+                  activeTab === item.title
+                    ? "font-bold text-black"
+                    : "text-gray-600"
+                }`}
+              >
+                <div className="flex items-center">
+                  {item.icon && <item.icon className="mr-2  h-4 w-4" />}
+                  <span>{item.title}</span>
+                </div>
+                {item.items &&
+                  (expandedItems[item.title] ? (
+                    <ChevronDown className="h-4 w-4" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4" />
+                  ))}
               </button>
             </SidebarMenuButton>
-            {item.items && (
+            {item.items && expandedItems[item.title] && (
               <SidebarMenuSub>
                 {item.items.map((subItem) => (
                   <SidebarMenuSubItem key={subItem.title}>
-                    <SidebarMenuSubButton asChild>
-                      <a href={subItem.url}>{subItem.title}</a>
+                    <SidebarMenuSubButton
+                      asChild
+                      isActive={activeTab === subItem.title}
+                      onClick={() => setActiveTab(subItem.title)}
+                    >
+                      <a
+                        href={subItem.url}
+                        className={`${
+                          activeTab === subItem.title
+                            ? "font-semibold text-black"
+                            : "text-gray-600"
+                        }`}
+                      >
+                        {subItem.title}
+                      </a>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                 ))}
@@ -115,13 +163,11 @@ const SidebarDynamic =  ({ navItems,activeTab, setActiveTab })=> {
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
-    )
-  }
+    );
+  };
 
-  const NavUser = ({
-    user
-  }) =>{
-    const { isMobile } = useSidebar()
+  const NavUser = ({ user }) => {
+    const { isMobile } = useSidebar();
 
     return (
       <SidebarMenu>
@@ -130,7 +176,8 @@ const SidebarDynamic =  ({ navItems,activeTab, setActiveTab })=> {
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              >
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">HJ</AvatarFallback>
@@ -146,7 +193,8 @@ const SidebarDynamic =  ({ navItems,activeTab, setActiveTab })=> {
               className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
               side="top"
               align="end"
-              sideOffset={4}>
+              sideOffset={4}
+            >
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
@@ -190,8 +238,8 @@ const SidebarDynamic =  ({ navItems,activeTab, setActiveTab })=> {
           </DropdownMenu>
         </SidebarMenuItem>
       </SidebarMenu>
-    )
-  }
+    );
+  };
 
   return (
     <Sidebar collapsible="icon">
@@ -201,20 +249,18 @@ const SidebarDynamic =  ({ navItems,activeTab, setActiveTab })=> {
         </div>
       </SidebarHeader>
       <SidebarContent className="overflow-y-auto p-4 ">
-        <NavMain 
-          items={navItems} 
+        <NavMain
+          items={navItems}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
-}
+  );
+};
 
-export default SidebarDynamic
-
+export default SidebarDynamic;

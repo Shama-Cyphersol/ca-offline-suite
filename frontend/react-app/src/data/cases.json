@@ -1,0 +1,693 @@
+[
+    {
+        "case_id": "ATS_unit_1_00013",
+        "file_names": [
+            "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010028523993-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010029621557-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010030338004-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010031725465-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010033620539-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010042072884-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/920020070769790-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010029141637-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010029673176-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010031257438-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010031473986-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010031949917-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010033504770-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010035619692-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010036546458-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010037582189-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010037753433-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010037887646-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010041260990-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010042272314-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921010043224914-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921020028429416-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921020029095010-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/Zam zam/921020029370861-01-01-2019to02-08-2024.pdf"
+        ],
+        "start_date": "-",
+        "end_date": "-",
+        "report_name": "Report_ATS_unit_1_00013",
+        "individual_names": {
+            "Name": [
+                "ZAM ZAM FOUNDATION",
+                "ZAM ZAM FOUNDATION RAIPUR ZOME MAB",
+                "ZAM ZAM FOUNDATION AKOLA ZONE NAFILA",
+                "ZAM ZAM FOUNDATION AKOLA ZONE WAJIBA",
+                "ZAM ZAM FOUNDATION RAIPUR ZONE MTM NAFILA",
+                "ZAM ZAM FOUNDATION-AKOLA ZONE JAMIA NAFILA",
+                "ZAM ZAM FOUNDATION AKOLA ZONE MTM WAJIBA",
+                "ZAM ZAM FOUNDATION",
+                "ZAM ZAM FOUNDATION",
+                "ZAM ZAM FOUNDATION NAGPUR ZONE WAJIBA",
+                "ZAM ZAM FOUNDATION RAIPUR ZONE JAMIA NAFILA",
+                "ZAM ZAM FOUNDATION - AKOLA ZONE MAB",
+                "ZAM ZAM FOUNDATION-NAGPUR ZONE MAB",
+                "ZAM ZAM FOUNDATION - NAGPUR ZONE JAMIA NAFILA",
+                "ZAM ZAM FOUNDATION-AKOLA ZONE MTM NAFILA",
+                "ZAM ZAM FOUNDATION-NAGPUR ZONE MTM NAFILA",
+                "ZAM ZAM FOUNDATION-NAGPUR ZONE JAMIA WAJIBA",
+                "ZAM ZAM FOUNDATION RAIPUR ZONE MTM WAJIBA",
+                "ZAM ZAM FOUNDATION RAIPUR ZONE WAJIBA",
+                "ZAM ZAM FOUNDATION-RAIPUR ZONE JAMIA WAJIBA",
+                "ZAM ZAM FOUNDATION NAGPUR ZONE MTM WAJIBA",
+                "ZAM ZAM FOUNDATION-AKOLA ZONE JAMIA WAJIBA",
+                "ZAM ZAM FOUNDATION RAIPUR ZONE SALARY",
+                "ZAM ZAM FOUNDATION AKOLA ZONE SALARY",
+                "ZAM ZAM FOUNDATION-NAGPUR ZONE SALARY"
+            ],
+            "Acc Number": [
+                "920020069625328",
+                "921010028523993",
+                "921010029621557",
+                "921010030338004",
+                "921010031725465",
+                "921010033620539",
+                "921010042072884",
+                "920020070769790",
+                "921010029141637",
+                "921010029673176",
+                "921010031257438",
+                "921010031473986",
+                "921010031949917",
+                "921010033504770",
+                "921010035619692",
+                "921010036546458",
+                "921010037582189",
+                "921010037753433",
+                "921010037887646",
+                "921010041260990",
+                "921010042272314",
+                "921010043224914",
+                "921020028429416",
+                "921020029095010",
+                "921020029370861"
+            ]
+        },
+        "date": "17-12-2024",
+        "pdf_paths_not_extracted": [],
+        "already_existing_pdfs": [
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "920020069625328"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/920020070769790-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "920020070769790"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010028523993-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010028523993"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010029141637-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010029141637"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010029621557-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010029621557"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010029673176-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010029673176"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010030338004-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010030338004"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010031257438-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010031257438"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010031473986-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010031473986"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010031725465-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010031725465"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010031949917-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010031949917"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010033504770-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010033504770"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010033620539-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003",
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010033620539"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010043224914-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010043224914"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921020028429416-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921020028429416"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921020029095010-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921020029095010"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921020029370861-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921020029370861"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010042272314-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010042272314"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010037887646-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010037887646"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010037753433-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010037753433"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010035619692-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010035619692"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010042072884-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010042072884"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010041260990-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010041260990"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010037582189-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010037582189"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Zam zam/921010036546458-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00007"
+                ],
+                "acc_number": "921010036546458"
+            }
+        ]
+    },
+    {
+        "case_id": "ATS_unit_1_00010",
+        "file_names": [
+            "C:/Users/qures/Downloads/Dawat Axis Bank/Dawat Axis Bank/01-08-2021 To  31-07-2022.pdf"
+        ],
+        "start_date": "",
+        "end_date": "",
+        "report_name": "Report_ATS_unit_1_00010",
+        "individual_names": {
+            "Name": [
+                "DAWAT E ISLAMI HIND MALIYAT NAFILA"
+            ],
+            "Acc Number": [
+                "918020071540816"
+            ]
+        },
+        "date": "14-12-2024",
+        "pdf_paths_not_extracted": [
+            "C:/Users/qures/Downloads/Dawat Axis Bank/Dawat Axis Bank/03-08-2018 To  01-08-2019- Nil.pdf"
+        ],
+        "already_existing_pdfs": [
+            {
+                "pdf_path": "C:/Users/qures/Downloads/Dawat Axis Bank/Dawat Axis Bank/01-08-2021 To  31-07-2022.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00009"
+                ],
+                "acc_number": "918020071540816"
+            }
+        ]
+    },
+    {
+        "case_id": "ATS_unit_1_00009",
+        "file_names": [
+            "C:/Users/qures/Downloads/Dawat Axis Bank/Dawat Axis Bank/01-08-2021 To  31-07-2022.pdf"
+        ],
+        "start_date": "",
+        "end_date": "",
+        "report_name": "Report_ATS_unit_1_00009",
+        "individual_names": {
+            "Name": [
+                "Person 1"
+            ],
+            "Acc Number": [
+                "918020071540816"
+            ]
+        },
+        "date": "14-12-2024",
+        "pdf_paths_not_extracted": [
+            "C:/Users/qures/Downloads/Dawat Axis Bank/Dawat Axis Bank/03-08-2018 To  01-08-2019- Nil.pdf",
+            "C:/Users/qures/Downloads/Dawat Axis Bank/Dawat Axis Bank/03-08-2018 To  31-07-2019.pdf",
+            "C:/Users/qures/Downloads/Dawat Axis Bank/Dawat Axis Bank/01-08-2019 To 31-07-2020.pdf",
+            "C:/Users/qures/Downloads/Dawat Axis Bank/Dawat Axis Bank/01-08-2020 To  31-07-2021.pdf"
+        ],
+        "already_existing_pdfs": []
+    },
+    {
+        "case_id": "ATS_unit_1_00008",
+        "file_names": [
+            "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/Aiyaz hdf 23.pdf",
+            "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/hdfc poojan.pdf",
+            "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/IndusIndAccountStatement_XXXXXXXX2819_18-10-2024_15.30.411729245641363.pdf"
+        ],
+        "start_date": "-",
+        "end_date": "-",
+        "report_name": "Report_ATS_unit_1_00008",
+        "individual_names": {
+            "Name": [
+                "MR AIYAZANWARQURESHI",
+                "POOJAN VIG",
+                "PRATIK TRIVEDI"
+            ],
+            "Acc Number": [
+                "50100575475699",
+                "18002026161",
+                "153888272819"
+            ]
+        },
+        "date": "13-12-2024",
+        "pdf_paths_not_extracted": [],
+        "already_existing_pdfs": [
+            {
+                "pdf_path": "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/Aiyaz hdf 23.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00001"
+                ],
+                "acc_number": "50100575475699"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/hdfc poojan.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00001"
+                ],
+                "acc_number": "18002026161"
+            }
+        ]
+    },
+    {
+        "case_id": "ATS_unit_1_00007",
+        "file_names": [
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/920020069625328-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/920020070769790-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010028523993-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010029141637-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010029621557-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010029673176-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010030338004-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031257438-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031473986-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031725465-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031949917-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010033504770-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010033620539-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010043224914-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921020028429416-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921020029095010-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921020029370861-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/eight.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/five.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/four.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/one.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/seven.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/six.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/three.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/two.pdf"
+        ],
+        "start_date": "-",
+        "end_date": "-",
+        "report_name": "Report_ATS_unit_1_00007",
+        "individual_names": {
+            "Name": [
+                "Person 1",
+                "Person 2",
+                "Person 3",
+                "Person 4",
+                "Person 5",
+                "Person 6",
+                "Person 7",
+                "Person 8",
+                "Person 9",
+                "Person 10",
+                "Person 11",
+                "Person 12",
+                "Person 13",
+                "Person 14",
+                "Person 15",
+                "Person 16",
+                "Person 17",
+                "Person 18",
+                "Person 19",
+                "Person 20",
+                "Person 21",
+                "Person 22",
+                "Person 23",
+                "Person 24",
+                "Person 25"
+            ],
+            "Acc Number": [
+                "920020069625328",
+                "920020070769790",
+                "921010028523993",
+                "921010029141637",
+                "921010029621557",
+                "921010029673176",
+                "921010030338004",
+                "921010031257438",
+                "921010031473986",
+                "921010031725465",
+                "921010031949917",
+                "921010033504770",
+                "921010033620539",
+                "921010043224914",
+                "921020028429416",
+                "921020029095010",
+                "921020029370861",
+                "921010042272314",
+                "921010037887646",
+                "921010037753433",
+                "921010035619692",
+                "921010042072884",
+                "921010041260990",
+                "921010037582189",
+                "921010036546458"
+            ]
+        },
+        "date": "13-12-2024",
+        "pdf_paths_not_extracted": [],
+        "already_existing_pdfs": [
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/920020069625328-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "920020069625328"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/920020070769790-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "920020070769790"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010028523993-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010028523993"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010029141637-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010029141637"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010029621557-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010029621557"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010029673176-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010029673176"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010030338004-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010030338004"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031257438-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010031257438"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031473986-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010031473986"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031725465-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010031725465"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031949917-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010031949917"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010033504770-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010033504770"
+            },
+            {
+                "pdf_path": "C:/Users/qures/Downloads/10.90.122.21 (1)/921010033620539-01-01-2019to02-08-2024.pdf",
+                "case_ids": [
+                    "ATS_unit_1_00003"
+                ],
+                "acc_number": "921010033620539"
+            }
+        ]
+    },
+    {
+        "case_id": "ATS_unit_1_00003",
+        "file_names": [
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/920020069625328-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/920020070769790-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010028523993-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010029141637-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010029621557-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010029673176-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010030338004-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031257438-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031473986-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031725465-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010031949917-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010033504770-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010033620539-01-01-2019to02-08-2024.pdf"
+        ],
+        "start_date": "-",
+        "end_date": "-",
+        "report_name": "Report_ATS_unit_1_00003",
+        "individual_names": {
+            "Name": [
+                "Person 1",
+                "Person 2",
+                "Person 3",
+                "Person 4",
+                "Person 5",
+                "Person 6",
+                "Person 7",
+                "Person 8",
+                "Person 9",
+                "Person 10",
+                "Person 11",
+                "Person 12",
+                "Person 13"
+            ],
+            "Acc Number": [
+                "920020069625328",
+                "920020070769790",
+                "921010028523993",
+                "921010029141637",
+                "921010029621557",
+                "921010029673176",
+                "921010030338004",
+                "921010031257438",
+                "921010031473986",
+                "921010031725465",
+                "921010031949917",
+                "921010033504770",
+                "921010033620539"
+            ]
+        },
+        "date": "12-12-2024",
+        "pdf_paths_not_extracted": [
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921010043224914-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921020028429416-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921020029095010-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/921020029370861-01-01-2019to02-08-2024.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/eight.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/five.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/four.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/one.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/seven.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/six.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/three.pdf",
+            "C:/Users/qures/Downloads/10.90.122.21 (1)/two.pdf"
+        ],
+        "already_existing_pdfs": []
+    },
+    {
+        "case_id": "ATS_unit_1_00002",
+        "file_names": [
+            "C:/Users/qures/Downloads/Ats 5 statements/Account_stmt_XX0841_09122024.pdf",
+            "C:/Users/qures/Downloads/Ats 5 statements/Account_stmt_XX5012_09122024.pdf",
+            "C:/Users/qures/Downloads/Ats 5 statements/Account_stmt.pdf",
+            "C:/Users/qures/Downloads/Ats 5 statements/Acct Statement_XX9909_09122024 (1).pdf",
+            "C:/Users/qures/Downloads/Ats 5 statements/Acct Statement_XX9909_09122024.pdf"
+        ],
+        "start_date": "-",
+        "end_date": "-",
+        "report_name": "Report_ATS_unit_1_00002",
+        "individual_names": {
+            "Name": [
+                "SUNIL SUBHASH BAGUL",
+                "         \nPRASHANT VASANT GOSAVI",
+                "         \nRAHUL RAMESH DESHMUKH",
+                "NITIN PRABHAKAR SURYAWANSHI",
+                "NITIN PRABHAKAR SURYAWANSHI"
+            ],
+            "Acc Number": [
+                "124010100160841",
+                "124010100315012",
+                "910010029672380",
+                "50100125999909",
+                "50100125999909"
+            ]
+        },
+        "date": "12-12-2024",
+        "pdf_paths_not_extracted": [],
+        "already_existing_pdfs": []
+    },
+    {
+        "case_id": "ATS_unit_1_00001",
+        "file_names": [
+            "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/Aiyaz hdf 23.pdf",
+            "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/hdfc poojan.pdf",
+            "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/IndusIndAccountStatement_XXXXXXXX2819_18-10-2024_15.30.411729245641363.pdf",
+            "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/IndusIndAccountStatement_XXXXXXXX2819_18-10-2024_15.30.411729245641363.pdf"
+        ],
+        "start_date": "-",
+        "end_date": "-",
+        "report_name": "Report_ATS_unit_1_00001",
+        "individual_names": {
+            "Name": [
+                "Aiyaz",
+                "Poojan",
+                "PRATIK N TRIVEDI",
+                "Person 1"
+            ],
+            "Acc Number": [
+                "50100575475699",
+                "18002026161",
+                "XXXXXXXXXXX",
+                "153888272819"
+            ]
+        },
+        "date": "12-12-2024",
+        "pdf_paths_not_extracted": [],
+        "already_existing_pdfs": []
+    }
+]
