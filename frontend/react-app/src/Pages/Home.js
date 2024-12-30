@@ -6,6 +6,7 @@ import { ScrollArea } from "../components/ui/scroll-area";
 import Sidebar from '../components/Sidebar';
 import MainDashboard from '../components/MainDashboardComponents/MainDashboard';
 import Analytics from '../components/MainDashboardComponents/Analytics';
+import {BreadcrumbDynamic}  from '../components/BreadCrumb';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -47,16 +48,13 @@ const Dashboard = () => {
       },
     ]
 
-  const handleOnNavigate = (selectedNav) => {
-    console.log('Navigating to:', selectedNav);
-    setActiveTab(selectedNav);
-  }
-
   return (
     <>
-      <div className={cn("w-full flex h-screen bg-background")}>
+
+      <div className={cn("h-full w-full flex h-screen bg-background")}>
         <Sidebar navItems={navItems} activeTab={activeTab} setActiveTab={setActiveTab}/>
         <ScrollArea className="w-full">
+        <BreadcrumbDynamic/>
           <div className="flex-1 flex flex-col overflow-hidden">
             <main className="flex-1">
               {activeTab === 'Dashboard' && <MainDashboard />} 

@@ -66,7 +66,7 @@ const MainDashboard = () => {
 
   return (
         <ScrollArea className="h-full">
-          <div className="p-8 space-y-8">
+          <div className="p-8 pt-0 space-y-8">
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
