@@ -49,5 +49,13 @@
     "linux": {
       "target": "AppImage"
     }
+  },
+  "dependencies": {
+    "@radix-ui/react-progress": "^1.1.1",
+    "@radix-ui/react-toast": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
   }
 }
