@@ -7,16 +7,36 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import RecentReports  from "./RecentReports";
 import { ReportChart } from "../Elements/chartComponent";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { Files, BarChart3, Bell, Moon, Sun, User, Settings, LogOut, Search } from 'lucide-react';
+import { Bell, Moon, Sun, User, Settings, LogOut, Search,Clock} from 'lucide-react';
 import { useTheme } from "../theme-provider";
 import { useState } from 'react';
 
+import StatsMetricCard from '../Elements/StatsCard';
+import MetricCard from '../Elements/timecard';
+
 
 const MainDashboard = () => {
+  const timeMetric = {
+    title: "Time consumed",
+    value: 1234,
+    unit: "minutes",
+    icon: Clock,
+    growth: "+12.5%",
+    metrics: {
+      Daily: "45 min",
+      Weekly: "315 min",
+      Monthly: "1,234 min"
+    },
+    stats: {
+      "Efficiency Rate": "94.2%",
+      "Tasks Automated": "847"
+    }
+  }
+  
     const { theme, setTheme } = useTheme();
     const [chartViewType, setChartViewType] = useState("daily");
     const [searchQuery, setSearchQuery] = useState("");
-
+    
     const dummyChartData = {
         daily: [
           { label: "Mon", value: 10 },
@@ -34,12 +54,53 @@ const MainDashboard = () => {
         ]
       };
     
-      const stats = {
-        totalReports: 1234,
-        monthlyReports: 156,
-        totalStatements: 5678
-      };
-
+      const statsData = {
+        statements: {
+          chartData: [
+            { month: 'Sep', value: 1050 },
+            { month: 'Oct', value: 1200 },
+            { month: 'Nov', value: 1150 },
+            { month: 'Dec', value: 1300 }
+          ],
+          breakdownData: [
+            { label: 'Daily Avg', value: '41' },
+            { label: 'Weekly Avg', value: '287' },
+            { label: 'Monthly Avg', value: '1,234' }
+          ],
+          bottomStats: [
+            { label: 'Success Rate', value: '99.2%' },
+            { label: 'Avg. Processing Time', value: '1.2s' }
+          ]
+        },
+        reports: {
+          chartData: [
+            { month: 'Sep', value: 700 },
+            { month: 'Oct', value: 780 },
+            { month: 'Nov', value: 820 },
+            { month: 'Dec', value: 847 }
+          ],
+          breakdownData: [
+            { label: 'Daily', value: '28' },
+            { label: 'Weekly', value: '196' },
+            { label: 'Monthly', value: '847' }
+          ],
+          bottomStats: [
+            { label: 'Success Rate', value: '98.5%' },
+            { label: 'Avg. Size', value: '2.3 MB' }
+          ]
+        },
+        timeSaved: {
+          breakdownData: [
+            { label: 'Daily', value: '45 min' },
+            { label: 'Weekly', value: '315 min' },
+            { label: 'Monthly', value: '1,234 min' }
+          ],
+          bottomStats: [
+            { label: 'Efficiency Rate', value: '94.2%' },
+            { label: 'Tasks Automated', value: '847' }
+          ]
+        }
+      }
 
     const notifications = [
         { id: 1, title: 'New Message', message: 'You have a new message from the team.', time: '5m ago' },
@@ -47,26 +108,11 @@ const MainDashboard = () => {
         { id: 3, title: 'Update Available', message: 'A new version is available.', time: '1h ago' },
       ];
 
-    const StatsCard = ({ title, value, description, icon: Icon }) => (
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {title}
-            </CardTitle>
-            <Icon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{value.toLocaleString()}</div>
-            {description && (
-              <p className="text-xs text-muted-foreground mt-1">{description}</p>
-            )}
-          </CardContent>
-        </Card>
-      );
+   
 
   return (
         <ScrollArea className="h-full">
-          <div className="p-8 space-y-8">
+          <div className="p-8 pt-0 space-y-8">
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
@@ -75,16 +121,6 @@ const MainDashboard = () => {
                 </p>
               </div>
               <div className="flex items-center space-x-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search reports..."
-                    className="pl-10 w-[250px]"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon" className="relative">
@@ -145,30 +181,74 @@ const MainDashboard = () => {
               </div>
             </div>
     
-            <div className="grid gap-4 md:grid-cols-3">
-              <StatsCard
-                title="Total Reports"
-                value={stats.totalReports}
-                description="All time reports generated"
-                icon={Files}
-              />
-              <StatsCard
-                title="Monthly Reports"
-                value={stats.monthlyReports}
-                description="Reports generated this month"
-                icon={BarChart3}
-              />
-              <StatsCard
-                title="Total Statements"
-                value={stats.totalStatements}
-                description="Processed statements"
-                icon={Files}
-              />
-            </div>
+            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <StatsMetricCard
+                  type="reports"
+                  title="Monthly Reports"
+                  mainValue={120}
+                  mainValueLabel="Reports Generated"
+                  percentageChange={15}
+                  breakdownData={[
+                    { label: 'Approved', value: 90 },
+                    { label: 'Pending', value: 20 },
+                    { label: 'Rejected', value: 10 }
+                  ]}
+                  bottomStats={[
+                    { label: 'Total Reports', value: 120 },
+                    { label: 'Errors', value: 2 }
+                  ]}
+                  chartData={[
+                    { month: 'Jan', value: 30 },
+                    { month: 'Feb', value: 50 },
+                    { month: 'Mar', value: 40 }
+                  ]}
+                  chartType="bar"
+                />
+                <StatsMetricCard
+                  type="statements"
+                  title="Monthly Statements"
+                  mainValue={500}
+                  mainValueLabel="Statements Processed"
+                  percentageChange={10}
+                  breakdownData={[
+                    { label: 'Approved', value: 350 },
+                    { label: 'Pending', value: 100 },
+                    { label: 'Rejected', value: 50 }
+                  ]}
+                  bottomStats={[
+                    { label: 'Total Statements', value: 500 },
+                    { label: 'Errors', value: 5 }
+                  ]}
+                  chartData={[
+                    { month: 'Jan', value: 120 },
+                    { month: 'Feb', value: 200 },
+                    { month: 'Mar', value: 180 },
+                    { month: 'Apr', value: 250 }
+                  ]}
+                  chartType="line"
+                />
+                <StatsMetricCard
+                  type="timeSaved"
+                  title="Time Saved"
+                  mainValue={1200}
+                  mainValueLabel="Minutes Saved"
+                  percentageChange={25}
+                  breakdownData={[
+                    { label: 'Manual Processing', value: '800 mins' },
+                    { label: 'Automation', value: '400 mins' },
+                    { label: 'Optimization', value: '200 mins' }
+                  ]}
+                  bottomStats={[
+                    { label: 'Average Time Saved/Day', value: '40 mins' },
+                    { label: 'Peak Savings', value: '100 mins' }
+                  ]}
+                />
+              </div>
+
+            {/* <MetricCard {...timeMetric} /> */}
     
             {/* Recent reports */}
             <RecentReports/>
-    
             <Card>
               <CardHeader>
                 <CardTitle>Analytics Overview</CardTitle>

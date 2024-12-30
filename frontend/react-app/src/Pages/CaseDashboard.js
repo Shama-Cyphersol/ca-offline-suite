@@ -55,7 +55,6 @@ const CaseDashboard = () => {
         <ScrollArea className="w-full">
           <div className="flex-1 flex flex-col overflow-hidden">
             <main className="flex-1">
-              <p onClick={handleView}>Hi</p>
               {activeTab === "Acc No and Acc Name" && <AccountNumNameManager />}
               {activeTab === "Individual Table" && <IndividualTable />}
               {activeTab === "Combined Table" && <CombinedTable />}

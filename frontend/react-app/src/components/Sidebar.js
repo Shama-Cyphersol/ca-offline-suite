@@ -145,8 +145,7 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
                       isActive={activeTab === subItem.title}
                       onClick={() => setActiveTab(subItem.title)}
                     >
-                      <a
-                        href={subItem.url}
+                      <button
                         className={`${
                           activeTab === subItem.title
                             ? "font-semibold text-black"
@@ -154,7 +153,7 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
                         }`}
                       >
                         {subItem.title}
-                      </a>
+                      </button>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                 ))}
