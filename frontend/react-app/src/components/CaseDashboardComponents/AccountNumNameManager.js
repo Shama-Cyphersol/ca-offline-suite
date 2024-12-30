@@ -30,7 +30,7 @@ import {
   } from "../ui/pagination"
   
 
-  const AccountNumNameManager = () => {
+  const AccountNumNameManager = ({caseId}) => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
