@@ -36,7 +36,7 @@ import {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    const [recentReports] = useState([
+    const [reports, setReports] = useState([
         { 
             id: 1, 
             fileName: '/path/to/documents/john_doe_statement.pdf',
@@ -111,8 +111,24 @@ import {
         }
     ]);
 
+    const handleNameChange = (id, newName) => {
+        setReports(prevReports =>
+            prevReports.map(report =>
+                report.id === id ? { ...report, name: newName } : report
+            )
+        );
+    };
+
+    const handleAccNumberChange = (id, newAccNumber) => {
+        setReports(prevReports =>
+            prevReports.map(report =>
+                report.id === id ? { ...report, accNumber: newAccNumber } : report
+            )
+        );
+    };
+
     // Filter reports based on search query
-    const filteredReports = recentReports.filter(report => 
+    const filteredReports = reports.filter(report => 
         report.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         report.accNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
         report.fileName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -132,12 +148,10 @@ import {
         const maxVisiblePages = 5;
         
         if (totalPages <= maxVisiblePages) {
-            // Show all pages if total pages are less than max visible
             for (let i = 1; i <= totalPages; i++) {
                 pageNumbers.push(i);
             }
         } else {
-            // Show pages with ellipsis
             if (currentPage <= 3) {
                 for (let i = 1; i <= 4; i++) {
                     pageNumbers.push(i);
@@ -167,6 +181,11 @@ import {
         if (page >= 1 && page <= totalPages) {
             setCurrentPage(page);
         }
+    };
+
+    const handleSaveChanges = () => {
+        // Here you would typically make an API call to save the changes
+        console.log('Saving changes:', reports);
     };
 
     return (
@@ -210,8 +229,20 @@ import {
                                             {report.fileName}
                                         </div>
                                     </TableCell>
-                                    <TableCell>{report.name}</TableCell>
-                                    <TableCell>{report.accNumber}</TableCell>
+                                    <TableCell>
+                                        <Input
+                                            value={report.name}
+                                            onChange={(e) => handleNameChange(report.id, e.target.value)}
+                                            className="max-w-[200px]"
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Input
+                                            value={report.accNumber}
+                                            onChange={(e) => handleAccNumberChange(report.id, e.target.value)}
+                                            className="max-w-[200px]"
+                                        />
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -232,7 +263,7 @@ import {
                                 
                                 {getPageNumbers().map((pageNumber, index) => (
                                     <PaginationItem key={index}>
-                                        {pageNumber === 'ellipsis' ? (
+                                        {pageNumber === '...' ? (
                                             <PaginationEllipsis />
                                         ) : (
                                             <PaginationLink
@@ -262,20 +293,25 @@ import {
                     <AlertDialog>
                         <div className="flex justify-center">
                             <AlertDialogTrigger asChild>
-                                <Button variant="default" className="mt-12">Save Changes</Button>
+                                <Button 
+                                    variant="default" 
+                                    className="mt-12"
+                                    onClick={handleSaveChanges}
+                                >
+                                    Save Changes
+                                </Button>
                             </AlertDialogTrigger>
                         </div>
                         <AlertDialogContent>
                             <AlertDialogHeader>
-                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogTitle>Confirm Changes</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                    This action cannot be undone. This will permanently delete your
-                                    account and remove your data from our servers.
+                                    Are you sure you want to save these changes? This action will update the account information in the database.
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction>Continue</AlertDialogAction>
+                                <AlertDialogAction onClick={handleSaveChanges}>Save Changes</AlertDialogAction>
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>
