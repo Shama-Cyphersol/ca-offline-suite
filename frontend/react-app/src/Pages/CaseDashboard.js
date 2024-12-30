@@ -6,7 +6,6 @@ import AccountNumNameManager from "../components/CaseDashboardComponents/Account
 import IndividualTable from "../components/CaseDashboardComponents/IndividualTable";
 import CombinedTable from "../components/CaseDashboardComponents/CombinedTable";
 import { useNavigate } from "react-router-dom";
-import {MoveLeft} from 'lucide-react';
 
 const CaseDashboard = () => {
   const [activeTab, setActiveTab] = useState("Acc No and Acc Name");
@@ -56,14 +55,6 @@ const CaseDashboard = () => {
         <ScrollArea className="w-full">
           <div className="flex-1 flex flex-col overflow-hidden">
             <main className="flex-1">
-            <button
-                onClick={() => navigate(-1)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                title="Back"
-            >
-                <MoveLeft className="w-5 h-5 text-gray-600" />
-            </button>
-            {/* <p onClick={handleView}>Hi</p> */}
               {activeTab === "Acc No and Acc Name" && <AccountNumNameManager />}
               {activeTab === "Individual Table" && <IndividualTable />}
               {activeTab === "Combined Table" && <CombinedTable />}

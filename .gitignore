@@ -44,6 +44,7 @@ yarn-error.log*
 .pnp.*
 .yarn-integrity
 
+
 # React Frontend
 /frontend/react-app/.pnp
 /frontend/react-app/.pnp.js
@@ -58,6 +59,7 @@ yarn-error.log*
 /frontend/react-app/yarn-debug.log*
 /frontend/react-app/yarn-error.log*
 /frontend/react-app/node_modules/
+frontend/react-app/package-lock.json
 
 # Electron
 /frontend/electron/dist
