@@ -8,31 +8,38 @@
     "start:fastapi": "cd backend && uvicorn app:app --reload --port 5000",
     "start:react": "cd frontend/react-app && npm start",
     "start:electron": "cross-env NODE_ENV=development wait-on http://localhost:3000 && electron frontend/electron/main.js",
-    "build": "cross-env NODE_ENV=development npm run build:react && npm run build:electron",
-    "build:react": "cd frontend/react-app && cross-env NODE_ENV=production npm run build",
-    "build:electron": "cross-env NODE_ENV=production electron-builder"
+    "build": "rm -rf dist && cross-env NODE_ENV=production npm run build:react && npm run build:electron",
+    "build:react": "cd frontend/react-app && npm run build",
+    "build:electron": "electron-builder"
+
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+ "devDependencies": {
     "concurrently": "^8.2.0",
-    "cross-env": "^7.0.3",
     "electron": "^33.2.1",
     "electron-builder": "^24.13.3",
+    "cross-env": "^7.0.3",
     "wait-on": "^7.2.0"
   },
-  "build": {
+ "build": {
     "appId": "com.electron.electronapp",
-    "productName": "Electron App",
+    "productName": "Cyphersol",
     "directories": {
       "output": "dist"
     },
-    "files": [
-      "frontend/**/*",
 
-      "node_modules/*/"
+    "files": [
+      "frontend/electron/**/*",
+      "frontend/react-app/build/**/*",
+      "!frontend/react-app/build/static/js/*.map",
+      "!frontend/react-app/node_modules",
+      "package.json"
     ],
+    "extraMetadata": {
+      "main": "frontend/electron/main.js"
+    },
     "mac": {
       "category": "public.app-category.utilities"
     },
@@ -42,8 +49,5 @@
     "linux": {
       "target": "AppImage"
     }
-  },
-  "dependencies": {
-    "electron-is-dev": "^3.0.1"
   }
 }

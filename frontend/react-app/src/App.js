@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Dashboard from './Pages/Home';
 import { ThemeProvider } from './components/theme-provider';
-import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import CaseDashboard from './Pages/CaseDashboard';
 import IndividualDashboard from './Pages/IndividualDashboard';
 import ElectronIntro from './components/ElectronIntro';
@@ -11,11 +11,10 @@ import { SidebarProvider } from './components/ui/sidebar';
 import {ScrollArea} from './components/ui/scroll-area';
 import { Hash } from 'lucide-react';
 
-
-
 function App() {
-    const [showIntro, setShowIntro] = useState(true);
-    console.log("Process env", process.env.NODE_ENV);
+    const [showIntro, setShowIntro] = useState(true);  
+    console.log('isDev', process.env.NODE_ENV);
+  
   return (
     <ThemeProvider defaultTheme="system" storageKey="app-theme">
       {showIntro && <ElectronIntro onComplete={() => setShowIntro(false)} />}

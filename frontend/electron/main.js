@@ -1,17 +1,21 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow ,protocol} = require('electron');
 const path = require('path');
 
-// Add a default value and ensure only valid environments are used
-const NODE_ENV = process.env.NODE_ENV || 'production'; // Fallback to production if not set
-const isDev = NODE_ENV === 'development';
+// Instead of electron-is-dev, we'll use this simple check
+const isDev = process.env.NODE_ENV === 'development' 
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+// Add this function to handle file protocol
+function createProtocol() {
+    protocol.registerFileProtocol('app', (request, callback) => {
+      const url = request.url.replace('app://', '');
+      try {
+        return callback(path.normalize(`${__dirname}/../react-app/build/${url}`));
+      } catch (error) {
+        console.error('Protocol error:', error);
+      }
+    });
+  }
 
-// Validate environment
-if (NODE_ENV !== 'development' && NODE_ENV !== 'production') {
-    console.warn(`Warning: Invalid NODE_ENV "${NODE_ENV}". Defaulting to production.`);
-}
-
-console.log('Current Environment:', NODE_ENV);
-console.log('Is Development Mode:', isDev);
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -28,21 +32,26 @@ function createWindow() {
 
     });
 
-    // Load the React app
-    win.loadURL(
-        isDev
-            ? 'http://localhost:3000'
-            : `file://${path.join(__dirname, '../react-app/build/index.html')}`
-    );
+    if (isDev) {
+        win.loadURL('http://localhost:3000');
+    } else {
+        // Use absolute path resolution for production
+        const prodPath = path.resolve(__dirname, '..', 'react-app', 'build', 'index.html');
+        console.log('Production path:', prodPath);
+        win.loadFile(prodPath).catch(err => {
+            console.error('Failed to load production build:', err);
+        });
+    }
 
     if (isDev) {
-
         // win.webContents.openDevTools();
     }
 }
 
-app.whenReady().then(createWindow);
-
+app.whenReady().then(() => {
+  createProtocol();
+  createWindow();
+});
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();

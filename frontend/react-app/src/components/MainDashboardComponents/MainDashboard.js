@@ -112,7 +112,7 @@ const MainDashboard = () => {
 
   return (
         <ScrollArea className="h-full">
-          <div className="p-8 space-y-8">
+          <div className="p-8 pt-0 space-y-8">
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
@@ -121,7 +121,7 @@ const MainDashboard = () => {
                 </p>
               </div>
               <div className="flex items-center space-x-4">
-                <div className="relative">
+                {/* <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     placeholder="Search reports..."
@@ -129,7 +129,7 @@ const MainDashboard = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                </div>
+                </div> */}
                 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
