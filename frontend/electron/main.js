@@ -1,8 +1,17 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
-// Instead of electron-is-dev, we'll use this simple check
-const isDev = process.env.NODE_ENV === 'development';
+// Add a default value and ensure only valid environments are used
+const NODE_ENV = process.env.NODE_ENV || 'production'; // Fallback to production if not set
+const isDev = NODE_ENV === 'development';
+
+// Validate environment
+if (NODE_ENV !== 'development' && NODE_ENV !== 'production') {
+    console.warn(`Warning: Invalid NODE_ENV "${NODE_ENV}". Defaulting to production.`);
+}
+
+console.log('Current Environment:', NODE_ENV);
+console.log('Is Development Mode:', isDev);
 
 function createWindow() {
     const win = new BrowserWindow({
