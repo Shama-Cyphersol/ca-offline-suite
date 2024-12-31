@@ -58,10 +58,10 @@ export default function Eligibility() {
                         Discover the products you're eligible for and the associated benefits.
                     </p>
                 </div>
-                <Card className="p-4 shadow-lg rounded-lg">
+                <Card className="p-4 rounded-lg">
                     <Accordion type="single" collapsible className="w-full">
                         <AccordionItem value="item-1">
-                            <AccordionTrigger>User 1</AccordionTrigger>
+                            <AccordionTrigger className="font-bold">User 1</AccordionTrigger>
                             <AccordionContent>
                                 <Table>
                                     <TableHeader>
@@ -86,7 +86,7 @@ export default function Eligibility() {
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-2">
-                            <AccordionTrigger>User 2</AccordionTrigger>
+                            <AccordionTrigger className="font-bold">User 2</AccordionTrigger>
                             <AccordionContent>
                                 <Table>
                                     <TableHeader>
@@ -117,19 +117,37 @@ export default function Eligibility() {
                 {note.map((section, index) => (
                     <Card
                         key={index}
-                        className="p-6 border-l-4 border-blue-400 rounded-lg shadow-sm"
+                        className="p-6 rounded-lg shadow-sm"
                     >
-                        <h4 className="text-lg font-semibold text-gray-700 mb-2">
+                        <h4 className="text-lg font-semibold text-gray-700 mb-2 dark:text-white">
                             {section.title}
                         </h4>
                         {Array.isArray(section.content) ? (
-                            <ul className="list-disc space-y-1 text-gray-600">
+                            <ul className="list-none space-y-1 text-gray-600 dark:text-white">
                                 {section.content.map((item, idx) => (
-                                    <li key={idx}>{item}</li>
+                                    <li key={idx} className="flex items-start">
+                                        <span className="mr-2 mt-1 text-black dark:text-white">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M9 5l7 7-7 7"
+                                />
+                            </svg>
+                        </span>
+                                        {item}
+                                    </li>
                                 ))}
                             </ul>
                         ) : (
-                            <p className="text-gray-600">{section.content}</p>
+                            <p className="text-gray-600 dark:text-white">{section.content}</p>
                         )}
                     </Card>
                 ))}

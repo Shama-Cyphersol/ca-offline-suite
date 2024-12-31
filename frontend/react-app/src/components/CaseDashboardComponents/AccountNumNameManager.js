@@ -195,19 +195,19 @@ import {
                     <div className="flex justify-between items-center">
                         <div>
                             <CardTitle>Account Number & Name Manager</CardTitle>
-                            <CardDescription>
+                            <CardDescription className="py-3">
                                 A list of recent reports from all projects
                             </CardDescription>
                         </div>
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input
-                                placeholder="Search reports..."
-                                className="pl-10 w-[250px]"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </div>
+                                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                <Input
+                                                    placeholder="Search reports..."
+                                                    className="pl-10 w-[400px]"
+                                                    value={searchQuery}
+                                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                                />
+                                            </div>                   
                     </div>
                 </CardHeader>
                 <CardContent>
@@ -233,14 +233,14 @@ import {
                                         <Input
                                             value={report.name}
                                             onChange={(e) => handleNameChange(report.id, e.target.value)}
-                                            className="max-w-[200px]"
+                                            className="max-w-[80%]"
                                         />
                                     </TableCell>
                                     <TableCell>
                                         <Input
                                             value={report.accNumber}
                                             onChange={(e) => handleAccNumberChange(report.id, e.target.value)}
-                                            className="max-w-[200px]"
+                                            className="max-w-[80%]"
                                         />
                                     </TableCell>
                                 </TableRow>

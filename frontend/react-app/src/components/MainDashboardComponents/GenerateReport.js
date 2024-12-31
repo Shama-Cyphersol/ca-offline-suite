@@ -175,11 +175,11 @@ export default function GenerateReport() {
   ];
 
   return (
-    <div className="p-8 space-y-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div className="p-8 space-y-8 bg-white dark:bg-black min-h-screen">
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold tracking-tight">Report Generator</h2>
         <div className="flex items-center space-x-4">
-          <div className="relative">
+          {/* <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
             <input
               type="text"
@@ -190,8 +190,8 @@ export default function GenerateReport() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
-          <button
+          </div> */}
+          {/* <button
             onClick={() => setDarkMode(!darkMode)}
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 
                      text-gray-600 dark:text-gray-300"
@@ -201,7 +201,7 @@ export default function GenerateReport() {
             ) : (
               <Moon className="w-5 h-5" />
             )}
-          </button>
+          </button> */}
           <button
             onClick={() => setNotificationsOpen(!notificationsOpen)}
             className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 
@@ -232,7 +232,7 @@ export default function GenerateReport() {
         </div>
       </div>
 
-      <div className="w-full rounded-xl shadow-sm p-6 bg-white dark:bg-gray-800">
+      <div>
         <GenerateReportForm />
       </div>
 

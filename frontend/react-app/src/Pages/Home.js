@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LayoutDashboard, Files } from "lucide-react";
+import { LayoutDashboard, FilePlus2,Files, Import,ChartNoAxesCombined, ReceiptIndianRupee } from "lucide-react";
 import ReportGenerator from "../components/MainDashboardComponents/GenerateReport";
 import { cn } from "../lib/utils";
 import { ScrollArea } from "../components/ui/scroll-area";
@@ -33,17 +33,17 @@ const Dashboard = () => {
     {
       title: "Generate Report",
       url: "#",
-      icon: Files,
+      icon: FilePlus2 ,
     },
     {
       title: "Analytics",
       url: "#",
-      icon: Files,
+      icon: ChartNoAxesCombined,
     },
     {
       title: "Import to Tally",
       url: "#",
-      icon: Files,
+      icon: Import,
     },
     {
       title: "Eligibility",
@@ -53,7 +53,7 @@ const Dashboard = () => {
     {
       title: "Billing",
       url: "#",
-      icon: Files,
+      icon: ReceiptIndianRupee,
     },
   ]
 
