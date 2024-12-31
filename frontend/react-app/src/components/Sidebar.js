@@ -33,7 +33,7 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
   const navigate = useNavigate();
   const { isCollapsed } = useSidebar();
   const [user] = React.useState({
-    name: "Harsh",
+    name: "Harsh Jajal",
     email: "m@example.com",
     avatar: "#",
   });
