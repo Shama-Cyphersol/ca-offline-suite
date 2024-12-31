@@ -30,7 +30,7 @@ import {
   } from "../ui/pagination"
   
 
-  const AccountNumNameManager = ({caseId}) => {
+  const AccountNumNameManager = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -203,7 +203,7 @@ import {
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search reports..."
-                                className="pl-10 w-[250px]"
+                                className="pl-10 w-[400px]"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
@@ -304,14 +304,14 @@ import {
                         </div>
                         <AlertDialogContent>
                             <AlertDialogHeader>
-                                <AlertDialogTitle>Confirm Changes</AlertDialogTitle>
+                                <AlertDialogTitle>Confirm</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                    Are you sure you want to save these changes? This action will update the account information in the database.
+                                    Are you sure you want to save these changes?
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={handleSaveChanges}>Save Changes</AlertDialogAction>
+                                <AlertDialogAction onClick={handleSaveChanges}>Save</AlertDialogAction>
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>

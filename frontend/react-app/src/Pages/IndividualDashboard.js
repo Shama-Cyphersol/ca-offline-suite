@@ -6,6 +6,11 @@ import AccountNumNameManager from '../components/CaseDashboardComponents/Account
 import IndividualTable from '../components/CaseDashboardComponents/IndividualTable';
 import Summary from '../components/IndividualDashboardComponents/Summary';
 import Transactions from '../components/IndividualDashboardComponents/Transactions';
+import Debtors from '../components/IndividualDashboardComponents/Debtors';
+import Creditors from '../components/IndividualDashboardComponents/Creditors';
+import EMI from '../components/IndividualDashboardComponents/EMI';
+import Investment from '../components/IndividualDashboardComponents/Investment';
+import EodBalance from '../components/IndividualDashboardComponents/EodBalance';
 
 const IndividualDashboard = () => {
     const [activeTab, setActiveTab] = useState('Acc No and Acc Name');
@@ -38,7 +43,7 @@ const IndividualDashboard = () => {
       url: "#",
       icon: null,
     },    {
-      title:"Debitors",
+      title:"Debtors",
       url: "#",
       icon: null,
     },    
@@ -53,7 +58,7 @@ const IndividualDashboard = () => {
       icon: null,
     },
     {
-      title:"Investments",
+      title:"Investment",
       url: "#",
       icon: null,
     }
@@ -69,6 +74,11 @@ const IndividualDashboard = () => {
             <main className="flex-1">
               {activeTab === 'Summary' && <Summary />} 
               {activeTab === 'Transactions' && <Transactions />}
+              {activeTab === 'Debtors' && <Debtors />}
+              {activeTab === 'Creditors' && <Creditors/>}
+              {activeTab === 'EMI' && <EMI/>}
+              {activeTab === 'Investment' && <Investment/>}
+              {activeTab === 'EOD' && <EodBalance />}
 
             </main>
           </div>

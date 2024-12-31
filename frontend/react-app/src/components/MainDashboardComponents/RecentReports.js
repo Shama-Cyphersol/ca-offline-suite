@@ -37,26 +37,91 @@ const RecentReports = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [currentInfoIndex, setCurrentInfoIndex] = useState(0);
 
-    const itemsPerPage = 5;
+    const itemsPerPage = 10;
 
     const [recentReports, setRecentReports] = useState([
-        { id: 1, date: '13-12-2024', caseId: 'ATS_unit_1_00008', reportName: 'Report_ATS_unit_1_00008', status: 'Completed' },
-        { id: 2, date: '13-12-2024', caseId: 'ATS_unit_1_00007', reportName: 'Report_ATS_unit_1_00007', status: 'Completed' },
-        { id: 3, date: '12-12-2024', caseId: 'ATS_unit_1_00003', reportName: 'Report_ATS_unit_1_00003', status: 'In Progress' },
-        { id: 4, date: '12-12-2024', caseId: 'ATS_unit_1_00002', reportName: 'Report_ATS_unit_1_00002', status: 'Failed'},
-        { id: 5, date: '12-12-2024', caseId: 'ATS_unit_1_00001', reportName: 'Report_ATS_unit_1_00001', status: 'Completed' },
-        { id: 6, date: '11-12-2024', caseId: 'ATS_unit_1_00006', reportName: 'Report_ATS_unit_1_00006', status: 'In Progress' },
-        { id: 7, date: '11-12-2024', caseId: 'ATS_unit_1_00005', reportName: 'Report_ATS_unit_1_00005', status: 'Completed' },
-        { id: 8, date: '11-12-2024', caseId: 'ATS_unit_1_00004', reportName: 'Report_ATS_unit_1_00004', status: 'Failed' },
-        { id: 9, date: '10-12-2024', caseId: 'ATS_unit_1_00009', reportName: 'Report_ATS_unit_1_00009', status: 'Completed' },
-        { id: 10, date: '10-12-2024', caseId: 'ATS_unit_1_00010', reportName: 'Report_ATS_unit_1_00010', status: 'In Progress' }
+
+        { date: '13-12-2024', reportName: 'Report_ATS_unit_1_00008', status: 'Completed' },
+        { date: '13-12-2024', reportName: 'Report_ATS_unit_1_00007', status: 'Completed' },
+        { date: '12-12-2024', reportName: 'Report_ATS_unit_1_00003', status: 'In Progress' },
+        { date: '12-12-2024', reportName: 'Report_ATS_unit_1_00002', status: 'Failed'},
+        { date: '12-12-2024', reportName: 'Report_ATS_unit_1_00001', status: 'Completed' },
+        { date: '11-12-2024', reportName: 'Report_ATS_unit_1_00006', status: 'In Progress' },
+        { date: '11-12-2024', reportName: 'Report_ATS_unit_1_00005', status: 'Completed' },
+        { date: '11-12-2024', reportName: 'Report_ATS_unit_1_00004', status: 'Failed' },
+        { date: '10-12-2024', reportName: 'Report_ATS_unit_1_00009', status: 'Completed' },
+        { date: '10-12-2024', reportName: 'Report_ATS_unit_1_00010', status: 'In Progress' },
+        { date: '10-12-2024', reportName: 'Report_ATS_unit_1_00011', status: 'Completed' },
+        { date: '10-12-2024', reportName: 'Report_ATS_unit_1_00012', status: 'Completed' },
     ]);
+
+    const reportInfoData = [
+        {
+            id: 1,
+            reportName: 'Report_ATS_unit_1_00008',
+            documents: [
+                {
+                    path: "C:/Users/documents/Reports/2024/January/Statement_Analysis_1.pdf",
+                    type: "Bank Statement"
+                },
+                {
+                    path: "C:/Users/documents/Reports/2024/January/Transaction_Report_1.pdf",
+                    type: "Transaction Report"
+                }
+            ]
+        },
+        {
+            id: 2,
+            reportName: 'Report_ATS_unit_1_00007',
+            documents: [
+                {
+                    path: "C:/Users/documents/Reports/2024/February/Client_Statement.pdf",
+                    type: "Bank Statement"
+                },
+                {
+                    path: "C:/Users/documents/Reports/2024/February/Analysis_Summary.pdf",
+                    type: "Analysis Report"
+                }
+            ]
+        },
+        {
+            id: 3,
+            reportName: 'Report_ATS_unit_1_00006',
+            documents: [
+                {
+                    path: "C:/Users/documents/Reports/2024/March/Corporate_Statement.pdf",
+                    type: "Corporate Statement"
+                },
+                {
+                    path: "C:/Users/documents/Reports/2024/March/Transaction_Analysis.pdf",
+                    type: "Analysis Report"
+                }
+            ]
+        }
+    ];
+
+
+    const isFirstInfo = currentInfoIndex === 0;
+    const isLastInfo = currentInfoIndex === reportInfoData.length - 1;
+
+    const handlePrevInfo = () => {
+        if (!isFirstInfo) {
+            setCurrentInfoIndex(prev => prev - 1);
+        }
+    };
+
+    const handleNextInfo = () => {
+        if (!isLastInfo) {
+            setCurrentInfoIndex(prev => prev + 1);
+        }
+    };
 
     // Filter reports based on search query
     const filteredReports = recentReports.filter(report =>
         report.reportName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        report.caseId.toLowerCase().includes(searchQuery.toLowerCase())
+        report.reportName.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const totalPages = Math.ceil(filteredReports.length / itemsPerPage);
@@ -157,7 +222,7 @@ const RecentReports = () => {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                             placeholder="Search reports..."
-                            className="pl-10 w-[250px]"
+                            className="pl-10 w-[400px]"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -172,12 +237,12 @@ const RecentReports = () => {
                             <TableHead>Report Name</TableHead>
                             <TableHead>Status</TableHead>
                             <TableHead>Actions</TableHead>
-                            <TableHead>Info</TableHead>
+                            <TableHead>Details</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {currentReports.map((report) => (
-                            <TableRow key={report.id}>
+                            <TableRow key={report.reportName}>
                                 <TableCell>{report.date}</TableCell>
                                 <TableCell>{report.reportName}</TableCell>
                                 <TableCell>
@@ -188,7 +253,7 @@ const RecentReports = () => {
                                         <Button
                                             variant="outline"
                                             size="icon"
-                                            onClick={() => handleView(report.id)}
+                                            onClick={() => handleView(report.caseId)}
                                             className="h-8 w-8 text-blue-600  hover:text-blue-800  bg-blue-200 hover:bg-blue-400
                                                         dark:bg-blue-900 dark:text-blue-200 dark:hover:text-blue-100 dark:hover:bg-blue-600"
                                         >
@@ -215,32 +280,65 @@ const RecentReports = () => {
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                    <AlertDialog>
-                                        <AlertDialogTrigger asChild>
-                                            <Button
-                                                variant="outline"
-                                                size="icon"
-                                                className="h-8 w-8 text-black hover:text-black bg-gray-200 hover:bg-gray-400
-                                                            dark:bg-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-600"
-                                                onClick={() => handleViewInfo()}
-                                            >
-                                                <Info className="h-4 w-4" />
-                                            </Button>
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    This action cannot be undone. This will permanently delete your
-                                                    account and remove your data from our servers.
-                                                </AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction>Continue</AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
+                                <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="h-8 w-8 text-black hover:text-black bg-gray-200 hover:bg-gray-400
+                                                    dark:bg-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-600"
+                                            onClick={() => handleViewInfo()}
+                                        >
+                                            <Info className="h-4 w-4" />
+                                        </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent className="max-w-3xl">
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle className="bg-gray-700 text-white p-4 -mx-6 -mt-6 rounded-t-lg">
+                                                Report Information
+                                            </AlertDialogTitle>
+                                            <div className="mt-4">
+                                                <h3 className="text-lg font-semibold mb-2">
+                                                    {reportInfoData[currentInfoIndex].reportName}
+                                                </h3>
+                                                <div className="space-y-4">
+                                                    {reportInfoData[currentInfoIndex].documents.map((doc, idx) => (
+                                                        <div key={idx} className="bg-gray-50 p-4 rounded">
+                                                            <p className="text-gray-600 mt-1">Path: {doc.path}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter className="flex-col items-center space-y-4">
+                                            <div className="flex items-center space-x-4">
+                                                <Button
+                                                    variant="default"
+                                                    onClick={handlePrevInfo}
+                                                    disabled={isFirstInfo}
+                                                    className={cn(
+                                                        "flex items-center space-x-2",
+                                                        isFirstInfo && "opacity-50 cursor-not-allowed"
+                                                    )}
+                                                >
+                                                    <span>Previous</span>
+                                                </Button>
+                                                <Button
+                                                    variant="default"
+                                                    onClick={handleNextInfo}
+                                                    disabled={isLastInfo}
+                                                    className={cn(
+                                                        "flex items-center space-x-2",
+                                                        isLastInfo && "opacity-50 cursor-not-allowed"
+                                                    )}
+                                                >
+                                                    <span>Next</span>
+                                                </Button>
+                                                <AlertDialogCancel>Close</AlertDialogCancel>
+                                            </div>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
                                 </TableCell>
                             </TableRow>
                         ))}
