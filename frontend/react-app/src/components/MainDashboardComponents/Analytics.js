@@ -1,5 +1,5 @@
 import React from "react";
-import { Eye } from "lucide-react";
+import { Eye, Download } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   Table,
@@ -21,36 +21,54 @@ const reports = [
 
 const Analytics = () => {
   return (
-    <div className="w-full mx-2 p-4 pr-6">
-      <h1 className="text-4xl font-bold mb-2">Analytics</h1>
-      <p className="text-muted-foreground mb-6">
-        Select a name to view the report
-      </p>
+    <div className="w-full p-6">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold tracking-tight">Analytics</h1>
+        <p className="text-muted-foreground mt-2">
+          Select a name to view the report
+        </p>
+      </div>
 
-      <Table className=" rounded-lg p-4 pr-2">
-        
-        <TableHeader>
-          <TableRow>
-            <TableHead>Date</TableHead>
-            <TableHead>Report Name</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {reports.map((report, index) => (
-            <TableRow key={index}>
-              <TableCell>{report.date}</TableCell>
-              <TableCell>{report.name}</TableCell>
-              <TableCell className="text-right">
-                <Button variant="default" size="sm" className="space-x-2">
-                  <Eye className="h-4 w-4" />
-                  <span>View Report</span>
-                </Button>
-              </TableCell>
+      <div className="w-full">
+        <Table>
+          <TableHeader>
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="w-[150px] font-semibold">Date</TableHead>
+              <TableHead className="font-semibold">Report Name</TableHead>
+              <TableHead className="w-[280px] text-right font-semibold">Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {reports.map((report, index) => (
+              <TableRow 
+                key={index}
+                className="hover:bg-muted/50 transition-colors"
+              >
+                <TableCell className="font-medium">{report.date}</TableCell>
+                <TableCell>{report.name}</TableCell>
+                <TableCell className="text-right space-x-2">
+                  <Button 
+                    variant="secondary" 
+                    size="sm" 
+                    className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    View
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Download
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };

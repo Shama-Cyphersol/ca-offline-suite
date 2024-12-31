@@ -277,65 +277,63 @@ const RecentReports = () => {
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                        <Button
-                                            variant="outline"
-                                            size="icon"
-                                            className="h-8 w-8"
-                                            onClick={() => handleViewInfo()}
-                                        >
-                                            <Info className="h-4 w-4" />
-                                        </Button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent className="max-w-3xl">
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle className="bg-gray-700 text-white p-4 -mx-6 -mt-6 rounded-t-lg">
-                                                Report Information
-                                            </AlertDialogTitle>
-                                            <div className="mt-4">
-                                                <h3 className="text-lg font-semibold mb-2">
-                                                    {reportInfoData[currentInfoIndex].reportName}
-                                                </h3>
-                                                <div className="space-y-4">
-                                                    {reportInfoData[currentInfoIndex].documents.map((doc, idx) => (
-                                                        <div key={idx} className="bg-gray-50 p-4 rounded">
-                                                            <p className="text-gray-600 mt-1">Path: {doc.path}</p>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter className="flex-col items-center space-y-4">
-                                            <div className="flex items-center space-x-4">
-                                                <Button
-                                                    variant="default"
-                                                    onClick={handlePrevInfo}
-                                                    disabled={isFirstInfo}
-                                                    className={cn(
-                                                        "flex items-center space-x-2",
-                                                        isFirstInfo && "opacity-50 cursor-not-allowed"
-                                                    )}
-                                                >
-                                                    <span>Previous</span>
-                                                </Button>
-                                                <Button
-                                                    variant="default"
-                                                    onClick={handleNextInfo}
-                                                    disabled={isLastInfo}
-                                                    className={cn(
-                                                        "flex items-center space-x-2",
-                                                        isLastInfo && "opacity-50 cursor-not-allowed"
-                                                    )}
-                                                >
-                                                    <span>Next</span>
-                                                </Button>
-                                                <AlertDialogCancel>Close</AlertDialogCancel>
-                                            </div>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                                </TableCell>
+    <AlertDialog>
+        <AlertDialogTrigger asChild>
+            <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 hover:bg-black/5"
+            >
+                <Info className="h-4 w-4 text-black/80" />
+            </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent className="max-w-2xl bg-white shadow-lg border-0">
+            <AlertDialogHeader>
+                <AlertDialogTitle className="text-xl font-medium text-black bg-black/[0.03] -mx-6 -mt-6 p-4 border-b border-black/10">
+                    Report Information
+                </AlertDialogTitle>
+                <div className="py-6">
+                    <h3 className="text-base font-medium text-black">
+                        {reportInfoData[currentInfoIndex].reportName}
+                    </h3>
+                    <div className="mt-6 space-y-4">
+                        {reportInfoData[currentInfoIndex].documents.map((doc, idx) => (
+                            <div key={idx} className="bg-black/[0.02] hover:bg-black/[0.04] transition-colors p-4 rounded-md border border-black/5">
+                                <div className="flex items-center space-x-2">
+                                    <span className="text-sm font-medium text-black/40">Path:</span>
+                                    <span className="text-sm text-black/70">{doc.path}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </AlertDialogHeader>
+            <AlertDialogFooter className="border-t border-black/10 pt-6">
+                <div className="flex justify-between w-full gap-3">
+                    <Button
+                        variant="outline"
+                        onClick={handlePrevInfo}
+                        disabled={isFirstInfo}
+                        className="px-6 bg-transparent border-black/10 text-black/70 hover:bg-black/[0.03] hover:border-black/20 hover:text-black disabled:opacity-30"
+                    >
+                        Previous
+                    </Button>
+                    <AlertDialogCancel className="px-8 bg-black text-white hover:bg-black/90 hover:text-white">
+                        Close
+                    </AlertDialogCancel>
+                    <Button
+                        variant="outline"
+                        onClick={handleNextInfo}
+                        disabled={isLastInfo}
+                        className="px-6 bg-transparent border-black/10 text-black/70 hover:bg-black/[0.03] hover:border-black/20 hover:text-black disabled:opacity-30"
+                    >
+                        Next
+                    </Button>
+                </div>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
+</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
