@@ -21,8 +21,12 @@ const BarLineChart = ({
   data,
   title = "Combined Chart - Line & Bar",
   config = {},
-  xAxisKey = "month",
-  yAxisKeys = [
+  xAxis = {
+    key: "month",
+    tickFormatter: (value) =>
+      typeof value === "string" ? value.slice(0, 3) : value,
+  },
+  yAxis = [
     { key: "mobile", type: "bar", color: "hsl(var(--chart-3))" },
     { key: "desktop", type: "line", color: "hsl(var(--chart-5))" },
   ],
@@ -44,35 +48,38 @@ const BarLineChart = ({
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey={xAxisKey}
+              dataKey={xAxis.key}
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) =>
-                typeof value === "string" ? value.slice(0, 3) : value
-              }
+              tickFormatter={xAxis.tickFormatter}
             />
-            <YAxis axisLine={false} tickLine={false} tickMargin={8} />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tickMargin={8}
+              tickFormatter={xAxis.tickFormatter || undefined} // Optional tick formatting
+            />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
-            {yAxisKeys.map((yAxis) =>
-              yAxis.type === "bar" ? (
+            {yAxis.map((yAxisItem) =>
+              yAxisItem.type === "bar" ? (
                 <Bar
-                  key={yAxis.key}
-                  dataKey={yAxis.key}
-                  fill={yAxis.color}
+                  key={yAxisItem.key}
+                  dataKey={yAxisItem.key}
+                  fill={yAxisItem.color}
                   radius={4}
                   barSize={20}
                 />
               ) : (
                 <Line
-                  key={yAxis.key}
-                  dataKey={yAxis.key}
+                  key={yAxisItem.key}
+                  dataKey={yAxisItem.key}
                   type="natural"
-                  stroke={yAxis.color}
+                  stroke={yAxisItem.color}
                   strokeWidth={2}
                   dot={{
-                    fill: yAxis.color,
+                    fill: yAxisItem.color,
                     r: 4,
                   }}
                   activeDot={{

@@ -8,13 +8,11 @@ import { Badge } from "../ui/badge";
 import { useState } from 'react';
 import { cn } from "../../lib/utils";
 import { useNavigate } from 'react-router-dom';
-import { Eye, Plus, Trash2, Info, Search} from 'lucide-react';
+import { Eye, Plus, Trash2, Info, Search, Edit, Edit2} from 'lucide-react';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
-    AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
@@ -30,6 +28,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "../ui/pagination"
+import CategoryEditModal from './CategoryEditModal';
 
 const RecentReports = () => {
     const { toast } = useToast();
@@ -38,9 +37,10 @@ const RecentReports = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [currentInfoIndex, setCurrentInfoIndex] = useState(0);
+    const [isCategoryEditOpen, setIsCategoryEditOpen] = useState(false);
 
     const itemsPerPage = 10;
-
+    console.log({isLoading})
     const [recentReports, setRecentReports] = useState([
 
         { date: '13-12-2024', reportName: 'Report_ATS_unit_1_00008', status: 'Completed' },
@@ -118,6 +118,7 @@ const RecentReports = () => {
         }
     };
 
+
     // Filter reports based on search query
     const filteredReports = recentReports.filter(report =>
         report.reportName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -188,8 +189,8 @@ const RecentReports = () => {
         console.log('Clicked on add report');
     };
 
-    const handleDeleteReport = (id) => {
-        setRecentReports(recentReports.filter(report => report.id !== id));
+    const handleDeleteReport = (reportName) => {
+        setRecentReports(recentReports.filter(report => report.reportName !== reportName));
         toast({
             title: "Report Deleted",
             description: "The report has been removed from your list.",
@@ -198,9 +199,8 @@ const RecentReports = () => {
     };
 
     const handleView = (caseId) => {
-        console.log('View case:', caseId);
         setIsLoading(true);
-        navigate(`/case-dashboard/${caseId}`);
+        navigate(`/case-dashboard/${caseId}/defaultTab`);
         setIsLoading(false);
     };
 
@@ -208,8 +208,16 @@ const RecentReports = () => {
         console.log('Clicked on info');
     };
 
+    const toggleEdit = (id) => {
+        console.log('Clicked on edit');
+        setIsCategoryEditOpen(!isCategoryEditOpen);
+    }
+
+
     return (
         <Card>
+            <CategoryEditModal open={isCategoryEditOpen} onOpenChange={toggleEdit} />
+
             <CardHeader>
                 <div className="flex justify-between items-center">
                     <div>
@@ -238,6 +246,7 @@ const RecentReports = () => {
                             <TableHead>Status</TableHead>
                             <TableHead>Actions</TableHead>
                             <TableHead>Details</TableHead>
+                            <TableHead>Details</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -254,10 +263,12 @@ const RecentReports = () => {
                                             variant="outline"
                                             size="icon"
                                             onClick={() => handleView(report.caseId)}
+
                                             className="h-8 w-8"
                                         >
                                             <Eye className="h-4 w-4" />
                                         </Button>
+                                        
                                         <Button
                                             variant="outline"
                                             size="icon"
@@ -269,8 +280,16 @@ const RecentReports = () => {
                                         <Button
                                             variant="outline"
                                             size="icon"
+                                            onClick={() => toggleEdit(report.caseId)}
                                             className="h-8 w-8"
-                                            onClick={() => handleDeleteReport(report.id)}
+                                        >
+                                            <Edit2 className="h-4 w-4" />
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="h-8 w-8"
+                                            onClick={() => handleDeleteReport(report.reportName)}
                                         >
                                             <Trash2 className="h-4 w-4" />
                                         </Button>
@@ -280,62 +299,60 @@ const RecentReports = () => {
                                 <AlertDialog>
                                     <AlertDialogTrigger asChild>
                                         <Button
-                                            variant="outline"
+                                            variant="ghost"
                                             size="icon"
-                                            className="h-8 w-8"
-                                            onClick={() => handleViewInfo()}
+                                            className="h-8 w-8 hover:bg-black/5"
                                         >
-                                            <Info className="h-4 w-4" />
+                                            <Info className="h-4 w-4 text-black/80" />
                                         </Button>
                                     </AlertDialogTrigger>
-                                    <AlertDialogContent className="max-w-3xl">
+                                    <AlertDialogContent className="max-w-2xl bg-white shadow-lg border-0">
                                         <AlertDialogHeader>
-                                            <AlertDialogTitle className="bg-gray-700 text-white p-4 -mx-6 -mt-6 rounded-t-lg">
+                                            <AlertDialogTitle className="text-xl font-medium text-black bg-black/[0.03] -mx-6 -mt-6 p-4 border-b border-black/10">
                                                 Report Information
                                             </AlertDialogTitle>
-                                            <div className="mt-4">
-                                                <h3 className="text-lg font-semibold mb-2">
+                                            <div className="py-6">
+                                                <h3 className="text-base font-medium text-black">
                                                     {reportInfoData[currentInfoIndex].reportName}
                                                 </h3>
-                                                <div className="space-y-4">
+                                                <div className="mt-6 space-y-4">
                                                     {reportInfoData[currentInfoIndex].documents.map((doc, idx) => (
-                                                        <div key={idx} className="bg-gray-50 p-4 rounded">
-                                                            <p className="text-gray-600 mt-1">Path: {doc.path}</p>
+                                                        <div key={idx} className="bg-black/[0.02] hover:bg-black/[0.04] transition-colors p-4 rounded-md border border-black/5">
+                                                            <div className="flex items-center space-x-2">
+                                                                <span className="text-sm font-medium text-black/40">Path:</span>
+                                                                <span className="text-sm text-black/70">{doc.path}</span>
+                                                            </div>
                                                         </div>
                                                     ))}
                                                 </div>
                                             </div>
                                         </AlertDialogHeader>
-                                        <AlertDialogFooter className="flex-col items-center space-y-4">
-                                            <div className="flex items-center space-x-4">
+                                        <AlertDialogFooter className="border-t border-black/10 pt-6">
+                                            <div className="flex justify-between w-full gap-3">
                                                 <Button
-                                                    variant="default"
+                                                    variant="outline"
                                                     onClick={handlePrevInfo}
                                                     disabled={isFirstInfo}
-                                                    className={cn(
-                                                        "flex items-center space-x-2",
-                                                        isFirstInfo && "opacity-50 cursor-not-allowed"
-                                                    )}
+                                                    className="px-6 bg-transparent border-black/10 text-black/70 hover:bg-black/[0.03] hover:border-black/20 hover:text-black disabled:opacity-30"
                                                 >
-                                                    <span>Previous</span>
+                                                    Previous
                                                 </Button>
+                                                <AlertDialogCancel className="px-8 bg-black text-white hover:bg-black/90 hover:text-white">
+                                                    Close
+                                                </AlertDialogCancel>
                                                 <Button
-                                                    variant="default"
+                                                    variant="outline"
                                                     onClick={handleNextInfo}
                                                     disabled={isLastInfo}
-                                                    className={cn(
-                                                        "flex items-center space-x-2",
-                                                        isLastInfo && "opacity-50 cursor-not-allowed"
-                                                    )}
+                                                    className="px-6 bg-transparent border-black/10 text-black/70 hover:bg-black/[0.03] hover:border-black/20 hover:text-black disabled:opacity-30"
                                                 >
-                                                    <span>Next</span>
+                                                    Next
                                                 </Button>
-                                                <AlertDialogCancel>Close</AlertDialogCancel>
                                             </div>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog>
-                                </TableCell>
+                            </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

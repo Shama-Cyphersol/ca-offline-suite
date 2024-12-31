@@ -77,6 +77,7 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%; */
+
     --chart-1: 359 2% 90%;
     --chart-2: 240 1% 74%;
     --chart-3: 240 1% 58%;
@@ -95,7 +96,7 @@
 }
 
 @keyframes wave {
-  0% { 
+  0% {
     transform: translateX(-50%) translateY(0) rotate(0deg);
     border-radius: 50%;
   }
@@ -103,19 +104,19 @@
     transform: translateX(-30%) translateY(-2%) rotate(180deg);
     border-radius: 45%;
   }
-  100% { 
+  100% {
     transform: translateX(-50%) translateY(0) rotate(360deg);
     border-radius: 50%;
   }
 }
 @keyframes fadeIn {
-  from { 
-    opacity: 0; 
-    transform: translateY(10px); 
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 .animate-wave {

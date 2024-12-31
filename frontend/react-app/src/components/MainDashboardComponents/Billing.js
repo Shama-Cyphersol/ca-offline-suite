@@ -1,42 +1,13 @@
 import React, { useState } from "react";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Download, Package } from "lucide-react";
 import { ScrollArea } from "../ui/scroll-area";
 import { Progress } from "../ui/progress";
 import { Card, CardContent } from "../ui/card";
 
 export default function Billing() {
     const [billingCycle, setBillingCycle] = useState('monthly');
-    const [progress, setProgress] = useState(65); 
-
-    const plans = [
-        {
-            name: "Basic",
-            price: { monthly: 29, annual: 290 },
-            description: "Perfect for small teams and startups",
-            features: [
-                "Up to 5 team members",
-                "10GB storage space",
-                "Basic analytics dashboard",
-                "Email support",
-                "API access",
-                "Basic integrations"
-            ],
-            isPopular: false
-        },
-        {
-            name: "Professional",
-            price: { monthly: 59, annual: 590 },
-            description: "Ideal for growing businesses",
-            features: [
-                "Up to 20 team members",
-                "50GB storage space",
-                "Advanced analytics",
-                "24/7 priority support",
-                "Advanced API access",
-                "Custom integrations"
-            ],
-            isPopular: false
-        },
+    const [progress, setProgress] = useState(65);
+    const [plans, setPlans] = useState([
         {
             name: "Enterprise",
             price: { monthly: 99, annual: 990 },
@@ -51,7 +22,12 @@ export default function Billing() {
             ],
             isPopular: true
         }
-    ];
+    ]);
+
+    const handleDownloadInvoice = () => {
+        // Add your invoice download logic here
+        console.log("Downloading invoice...");
+    };
 
     return (
         <ScrollArea className="h-full">
@@ -76,23 +52,35 @@ export default function Billing() {
                 {/* Latest Invoice */}
                 <Card className="mb-8">
                     <CardContent className="p-6">
-                        <h3 className="text-xl font-bold mb-4">Latest Invoice</h3>
-                        <div className="space-y-2">
-                            <div className="flex justify-between">
-                                <span>Invoice Number</span>
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xl font-bold">Latest Invoice</h3>
+                            <button 
+                                onClick={() => console.log("Downloading invoice...")}
+                                className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 flex items-center gap-2"
+                            >
+                                <Download className="w-4 h-4" />
+                                Download Invoice
+                            </button>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex justify-between py-2 border-b">
+                                <span className="text-gray-600">Invoice Number</span>
                                 <span className="font-medium">INV-2024-001</span>
                             </div>
-                            <div className="flex justify-between">
-                                <span>Date</span>
+                            <div className="flex justify-between py-2 border-b">
+                                <span className="text-gray-600">Date</span>
                                 <span className="font-medium">Dec 31, 2024</span>
                             </div>
-                            <div className="flex justify-between">
-                                <span>Amount</span>
+                            <div className="flex justify-between py-2 border-b">
+                                <span className="text-gray-600">Amount</span>
                                 <span className="font-medium">$990.00</span>
                             </div>
-                            <div className="flex justify-between">
-                                <span>Status</span>
-                                <span className="text-green-500 font-medium">Paid</span>
+                            <div className="flex justify-between py-2">
+                                <span className="text-gray-600">Status</span>
+                                <span className="text-green-500 font-medium flex items-center gap-1">
+                                    <CheckCircle className="w-4 h-4" />
+                                    Paid
+                                </span>
                             </div>
                         </div>
                     </CardContent>
@@ -128,59 +116,74 @@ export default function Billing() {
                         </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {plans.map((plan, idx) => (
-                            <div 
-                                key={plan.name}
-                                className={`relative rounded-2xl p-8 transition-all duration-300 ${
-                                    plan.isPopular 
-                                    ? 'border-2 border-blue-500 shadow-lg scale-105 z-10' 
-                                    : 'border border-gray-200 opacity-50 hover:opacity-100'
-                                }`}
-                            >
-                                {plan.isPopular && (
-                                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
-                                        Recommended
-                                    </span>
-                                )}
-                                
-                                <div className="mb-6">
-                                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                        {plan.name}
-                                    </h3>
-                                    <p className="text-gray-600 text-sm">
-                                        {plan.description}
-                                    </p>
-                                </div>
-
-                                <div className="mb-6">
-                                    <span className="text-4xl font-bold text-gray-900">
-                                        ${billingCycle === 'monthly' ? plan.price.monthly : plan.price.annual}
-                                    </span>
-                                    <span className="text-gray-600">
-                                        /{billingCycle === 'monthly' ? 'mo' : 'year'}
-                                    </span>
-                                </div>
-
-                                <button className={`w-full py-3 px-4 rounded-lg mb-6 font-medium transition-colors ${
-                                    plan.isPopular
-                                    ? 'bg-blue-500 text-white hover:bg-blue-600'
-                                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                                }`}>
-                                    Get started
-                                </button>
-
-                                <div className="space-y-4">
-                                    {plan.features.map((feature, featureIdx) => (
-                                        <div key={featureIdx} className="flex items-center gap-3">
-                                            <CheckCircle className="w-5 h-5 text-blue-500" />
-                                            <span className="text-gray-600">{feature}</span>
+                    {plans.length > 0 ? (
+                        <div className="flex justify-center">
+                            <div className="grid grid-cols-1 gap-8 items-center w-full max-w-lg">
+                                {plans.map((plan, idx) => (
+                                    <div 
+                                        key={plan.name}
+                                        className={`rounded-2xl p-8 transition-all duration-300 relative ${
+                                            plan.isPopular 
+                                            ? 'border-2 border-black shadow-lg scale-105 z-10' 
+                                            : 'border border-gray-200 opacity-50 hover:opacity-100'
+                                        }`}
+                                    >
+                                        {plan.isPopular && (
+                                            <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-black text-white text-sm font-medium rounded-full">
+                                                Recommended
+                                            </span>
+                                        )}
+                                        
+                                        <div className="mb-6">
+                                            <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                                {plan.name}
+                                            </h3>
+                                            <p className="text-gray-600 text-sm">
+                                                {plan.description}
+                                            </p>
                                         </div>
-                                    ))}
-                                </div>
+
+                                        <div className="mb-6">
+                                            <span className="text-4xl font-bold text-gray-900">
+                                                ${billingCycle === 'monthly' ? plan.price.monthly : plan.price.annual}
+                                            </span>
+                                            <span className="text-gray-600">
+                                                /{billingCycle === 'monthly' ? 'mo' : 'year'}
+                                            </span>
+                                        </div>
+
+                                        <button className={`w-full py-3 px-4 rounded-lg mb-6 font-medium transition-colors ${
+                                            plan.isPopular
+                                            ? 'bg-black text-white hover:bg-gray-800'
+                                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                                        }`}>
+                                            Current Plan
+                                        </button>
+
+                                        <div className="space-y-4">
+                                            {plan.features.map((feature, featureIdx) => (
+                                                <div key={featureIdx} className="flex items-center gap-3">
+                                                    <CheckCircle className="w-5 h-5 text-black" />
+                                                    <span className="text-gray-600">{feature}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ) : (
+                        <Card className="p-8 text-center">
+                            <div className="flex flex-col items-center gap-4">
+                                <Package className="w-12 h-12 text-gray-400" />
+                                <h3 className="text-xl font-medium">No Plans Selected</h3>
+                                <p className="text-gray-600">Choose a plan to get started with our services</p>
+                                <button className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800">
+                                    View Available Plans
+                                </button>
+                            </div>
+                        </Card>
+                    )}
                 </div>
             </div>
         </ScrollArea>
