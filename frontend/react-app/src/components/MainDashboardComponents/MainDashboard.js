@@ -1,107 +1,18 @@
 import React from 'react'
 import { ScrollArea } from "../ui/scroll-area";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import RecentReports  from "./RecentReports";
-import { ReportChart } from "../Elements/chartComponent";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { Bell, Moon, Sun, User, Settings, LogOut, Search,Clock} from 'lucide-react';
+import { Bell, Moon, Sun} from 'lucide-react';
 import { useTheme } from "../theme-provider";
-import { useState } from 'react';
 
 import StatsMetricCard from '../Elements/StatsCard';
-import MetricCard from '../Elements/timecard';
 
 
 const MainDashboard = () => {
-  const timeMetric = {
-    title: "Time consumed",
-    value: 1234,
-    unit: "minutes",
-    icon: Clock,
-    growth: "+12.5%",
-    metrics: {
-      Daily: "45 min",
-      Weekly: "315 min",
-      Monthly: "1,234 min"
-    },
-    stats: {
-      "Efficiency Rate": "94.2%",
-      "Tasks Automated": "847"
-    }
-  }
   
     const { theme, setTheme } = useTheme();
-    const [chartViewType, setChartViewType] = useState("daily");
-    const [searchQuery, setSearchQuery] = useState("");
     
-    const dummyChartData = {
-        daily: [
-          { label: "Mon", value: 10 },
-          { label: "Tue", value: 15 },
-          { label: "Wed", value: 8 },
-          { label: "Thu", value: 12 },
-          { label: "Fri", value: 20 },
-        ],
-        monthly: [
-          { label: "Jan", value: 45 },
-          { label: "Feb", value: 52 },
-          { label: "Mar", value: 38 },
-          { label: "Apr", value: 42 },
-          { label: "May", value: 55 },
-        ]
-      };
-    
-      const statsData = {
-        statements: {
-          chartData: [
-            { month: 'Sep', value: 1050 },
-            { month: 'Oct', value: 1200 },
-            { month: 'Nov', value: 1150 },
-            { month: 'Dec', value: 1300 }
-          ],
-          breakdownData: [
-            { label: 'Daily Avg', value: '41' },
-            { label: 'Weekly Avg', value: '287' },
-            { label: 'Monthly Avg', value: '1,234' }
-          ],
-          bottomStats: [
-            { label: 'Success Rate', value: '99.2%' },
-            { label: 'Avg. Processing Time', value: '1.2s' }
-          ]
-        },
-        reports: {
-          chartData: [
-            { month: 'Sep', value: 700 },
-            { month: 'Oct', value: 780 },
-            { month: 'Nov', value: 820 },
-            { month: 'Dec', value: 847 }
-          ],
-          breakdownData: [
-            { label: 'Daily', value: '28' },
-            { label: 'Weekly', value: '196' },
-            { label: 'Monthly', value: '847' }
-          ],
-          bottomStats: [
-            { label: 'Success Rate', value: '98.5%' },
-            { label: 'Avg. Size', value: '2.3 MB' }
-          ]
-        },
-        timeSaved: {
-          breakdownData: [
-            { label: 'Daily', value: '45 min' },
-            { label: 'Weekly', value: '315 min' },
-            { label: 'Monthly', value: '1,234 min' }
-          ],
-          bottomStats: [
-            { label: 'Efficiency Rate', value: '94.2%' },
-            { label: 'Tasks Automated', value: '847' }
-          ]
-        }
-      }
-
     const notifications = [
         { id: 1, title: 'New Message', message: 'You have a new message from the team.', time: '5m ago' },
         { id: 2, title: 'Report Ready', message: 'Your report is ready to download.', time: '10m ago' },

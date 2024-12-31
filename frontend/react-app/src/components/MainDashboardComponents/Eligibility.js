@@ -49,7 +49,7 @@ const note = [
 export default function Eligibility() {
     return (
         <ScrollArea className="h-full">
-            <div className="p-8 space-y-8">
+            <div className="p-8 pt-0 space-y-8">
                 <div className="text-left">
                     <h2 className="text-3xl font-extrabold to-blue-400 bg-clip-text ">
                         Eligibility

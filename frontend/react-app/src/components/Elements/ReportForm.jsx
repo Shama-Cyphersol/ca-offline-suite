@@ -338,7 +338,7 @@ const GenerateReportForm = () => {
   return (
     <div className="bg-white dark:bg-black">
   <div className="mx-auto">
-    <div className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 backdrop-blur-sm">
+    <div className="bg-white dark:bg-black rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 backdrop-blur-sm">
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           {/* Unit Dropdown */}

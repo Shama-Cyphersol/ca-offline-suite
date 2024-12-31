@@ -1,0 +1,122 @@
+[
+    {
+        "Value Date": 1681084800000,
+        "Description": "medcsi416021xxxxxx3604googleplaysercybss",
+        "Debit": 79.0
+    },
+    {
+        "Value Date": 1682467200000,
+        "Description": "debitcardissuancefee170223-mir2411077945410",
+        "Debit": 493.48
+    },
+    {
+        "Value Date": 1682467200000,
+        "Description": "debitcardissuancefee220223-mir2411077818886",
+        "Debit": 885.0
+    },
+    {
+        "Value Date": 1682467200000,
+        "Description": "debitcardissuancefee240223-mir2411077314036",
+        "Debit": 885.0
+    },
+    {
+        "Value Date": 1683590400000,
+        "Description": "fee-atmcash(1txn)22\/04\/23-aor2412909517080",
+        "Debit": 24.78
+    },
+    {
+        "Value Date": 1683676800000,
+        "Description": "medcsi416021xxxxxx3604googleplayse",
+        "Debit": 79.0
+    },
+    {
+        "Value Date": 1683763200000,
+        "Description": "fee-atmcash(1txn)29\/04\/23-aor2413128191403",
+        "Debit": 24.78
+    },
+    {
+        "Value Date": 1686355200000,
+        "Description": "medcsi416021xxxxxx3604googleplayse",
+        "Debit": 79.0
+    },
+    {
+        "Value Date": 1688947200000,
+        "Description": "medcsi416021xxxxxx3604googleplayse",
+        "Debit": 79.0
+    },
+    {
+        "Value Date": 1691625600000,
+        "Description": "medcsi416021xxxxxx3604googleplayse",
+        "Debit": 79.0
+    },
+    {
+        "Value Date": 1694304000000,
+        "Description": "medcsi416021xxxxxx3604googleplayse",
+        "Debit": 79.0
+    },
+    {
+        "Value Date": 1694563200000,
+        "Description": ".impsp2p322109372263#09\/08\/2023090823-mir2425699241345",
+        "Debit": 4.14
+    },
+    {
+        "Value Date": 1694995200000,
+        "Description": ".impsp2p322900314482#17\/08\/2023170823-mir2426011595026",
+        "Debit": 4.14
+    },
+    {
+        "Value Date": 1695859200000,
+        "Description": "mhtcvv2nfcymkt\/zestmoney",
+        "Debit": 1.0
+    },
+    {
+        "Value Date": 1696809600000,
+        "Description": ".impsp2p325314331777#10\/09\/2023100923-mir2428059665529",
+        "Debit": 4.14
+    },
+    {
+        "Value Date": 1696896000000,
+        "Description": "medcsi416021xxxxxx3604googleplayse",
+        "Debit": 79.0
+    },
+    {
+        "Value Date": 1699574400000,
+        "Description": "medcsi416021xxxxxx3604googleplayse",
+        "Debit": 79.0
+    },
+    {
+        "Value Date": 1700611200000,
+        "Description": "ambchargeforjun23311023-mir2432578818096",
+        "Debit": 21.24
+    },
+    {
+        "Value Date": 1700611200000,
+        "Description": "ambchargeformay23311023-mir2432575043242",
+        "Debit": 545.16
+    },
+    {
+        "Value Date": 1700611200000,
+        "Description": "ambchargeforoct23311023-mir2432574972215",
+        "Debit": 423.52
+    },
+    {
+        "Value Date": 1700611200000,
+        "Description": "ambchargeforsep23311023-mir2432575057831",
+        "Debit": 392.12
+    },
+    {
+        "Value Date": 1700611200000,
+        "Description": "ambchargeforaug23311023-mir2432575171782",
+        "Debit": 325.68
+    },
+    {
+        "Value Date": 1702166400000,
+        "Description": "medcsi416021xxxxxx3604googleplayse",
+        "Debit": 79.0
+    },
+    {
+        "Value Date": 1703289600000,
+        "Description": "achd-razorpaysoftwarepriv-northernarnf",
+        "Debit": 4766.0
+    }
+]

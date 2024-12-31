@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Dashboard from './Pages/Home';
 import { ThemeProvider } from './components/theme-provider';
@@ -8,26 +8,26 @@ import IndividualDashboard from './Pages/IndividualDashboard';
 import ElectronIntro from './components/ElectronIntro';
 import { useState } from 'react';
 import { SidebarProvider } from './components/ui/sidebar';
-import {ScrollArea} from './components/ui/scroll-area';
-import { Hash } from 'lucide-react';
+import { BreadcrumbProvider ,useBreadcrumb} from './contexts/BreadcrumbContext';
 
 
 function App() {
-    const [showIntro, setShowIntro] = useState(true);  
-    console.log('isDev', process.env.NODE_ENV);
   
+    const [showIntro, setShowIntro] = useState(true);  
+
   return (
     <ThemeProvider defaultTheme="system" storageKey="app-theme">
       {showIntro && <ElectronIntro onComplete={() => setShowIntro(false)} />}
       <SidebarProvider>
-
         <HashRouter>
+        <BreadcrumbProvider>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/case-dashboard/:caseId" element={<CaseDashboard />} />
-            <Route path="/individual-dashboard/:caseId/:individualId" element={<IndividualDashboard />} />
-          
+            <Route path="/"  element={<Dashboard />} />
+            <Route path="/:defaultTab" element={<Dashboard />} />
+            <Route path="/case-dashboard/:caseId/:defaultTab" element={<CaseDashboard />} />
+            <Route path="/individual-dashboard/:caseId/:individualId/:defaultTab" element={<IndividualDashboard />} />
           </Routes>
+        </BreadcrumbProvider>
         </HashRouter>
       </SidebarProvider>
     </ThemeProvider>

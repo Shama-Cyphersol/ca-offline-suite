@@ -27,4 +27,4 @@ const EodBalance = () => {
   )
 }
 
-export default EodBalance
+export default EodBalance;
