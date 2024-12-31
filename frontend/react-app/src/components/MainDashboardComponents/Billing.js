@@ -3,6 +3,8 @@ import { CheckCircle, Download, Package } from "lucide-react";
 import { ScrollArea } from "../ui/scroll-area";
 import { Progress } from "../ui/progress";
 import { Card, CardContent } from "../ui/card";
+import { Progress } from "../ui/progress";
+import { Card, CardContent } from "../ui/card";
 
 export default function Billing() {
     const [billingCycle, setBillingCycle] = useState('monthly');
