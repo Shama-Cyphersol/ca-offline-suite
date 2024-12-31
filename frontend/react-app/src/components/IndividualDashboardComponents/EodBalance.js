@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import { EodBalanceCharts } from "../charts/EodBalanceChart";
 
 const EodBalance = () => {
   return (
-    <div>EodBalance</div>
-  )
-}
+    <div>
+      <EodBalanceCharts />
+      EodBalance
+    </div>
+  );
+};
 
-export default EodBalance
+export default EodBalance;

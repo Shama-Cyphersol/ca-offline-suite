@@ -1,17 +1,27 @@
-import React from 'react';
+import React from "react";
 import { Card, CardContent } from "../ui/card";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { TrendingUp, Clock, FileText, ClipboardList } from 'lucide-react';
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { TrendingUp, Clock, FileText, ClipboardList } from "lucide-react";
 
 // Icon Component
 const MetricIcon = ({ type }) => {
   const iconProps = { className: "h-6 w-6 text-white" };
   switch (type) {
-    case 'statements':
+    case "statements":
       return <ClipboardList {...iconProps} />;
-    case 'reports':
+    case "reports":
       return <FileText {...iconProps} />;
-    case 'timeSaved':
+    case "timeSaved":
       return <Clock {...iconProps} />;
     default:
       return null;
@@ -19,16 +29,16 @@ const MetricIcon = ({ type }) => {
 };
 
 // Main Component
-const StatsMetricCard = ({ 
+const StatsMetricCard = ({
   type,
-  title = 'N/A',
+  title = "N/A",
   mainValue = 0,
-  mainValueLabel = '',
+  mainValueLabel = "",
   percentageChange = 0,
   breakdownData = [],
   bottomStats = [],
   chartData = [],
-  chartType = 'line'
+  chartType = "line",
 }) => {
   return (
     <Card className="w-full h-[450px] bg-gradient-to-br from-blue-600 to-indigo-600 text-white overflow-hidden">
@@ -43,7 +53,8 @@ const StatsMetricCard = ({
           </div>
           <div className="flex items-center text-emerald-300 text-sm font-medium">
             <TrendingUp className="h-4 w-4 mr-1" />
-            {percentageChange > 0 ? '+' : ''}{percentageChange}%
+            {percentageChange > 0 ? "+" : ""}
+            {percentageChange}%
           </div>
         </div>
 
@@ -53,7 +64,8 @@ const StatsMetricCard = ({
             {mainValue.toLocaleString()}
           </div>
           <div className="text-sm text-blue-100">
-            {mainValueLabel || (type === 'timeSaved' ? 'minutes' : `${type} generated`)}
+            {mainValueLabel ||
+              (type === "timeSaved" ? "minutes" : `${type} generated`)}
           </div>
         </div>
 
@@ -71,52 +83,64 @@ const StatsMetricCard = ({
         {chartData?.length > 0 && (
           <div className="h-40 mt-6">
             <ResponsiveContainer width="95%" height="100%">
-              {chartType === 'line' ? (
-                <LineChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                  <XAxis 
-                    dataKey="month" 
-                    stroke="rgba(255,255,255,0.5)"
-                    tick={{ fill: '#fff', fontSize: 12 }}
+              {chartType === "line" ? (
+                <LineChart
+                  data={chartData}
+                  margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+                >
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="rgba(255,255,255,0.1)"
                   />
-                  <YAxis 
+                  <XAxis
+                    dataKey="month"
                     stroke="rgba(255,255,255,0.5)"
-                    tick={{ fill: '#fff', fontSize: 12 }}
+                    tick={{ fill: "#fff", fontSize: 12 }}
                   />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'rgba(255,255,255,0.9)',
-                      color: '#000'
+                  <YAxis
+                    stroke="rgba(255,255,255,0.5)"
+                    tick={{ fill: "#fff", fontSize: 12 }}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "rgba(255,255,255,0.9)",
+                      color: "#000",
                     }}
                   />
-                  <Line 
-                    type="monotone" 
-                    dataKey="value" 
+                  <Line
+                    type="monotone"
+                    dataKey="value"
                     stroke="#fff"
                     strokeWidth={2}
-                    dot={{ fill: '#fff', strokeWidth: 2 }}
+                    dot={{ fill: "#fff", strokeWidth: 2 }}
                   />
                 </LineChart>
               ) : (
-                <BarChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                  <XAxis 
-                    dataKey="month" 
-                    stroke="rgba(255,255,255,0.5)"
-                    tick={{ fill: '#fff', fontSize: 12 }}
+                <BarChart
+                  data={chartData}
+                  margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+                >
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="rgba(255,255,255,0.1)"
                   />
-                  <YAxis 
+                  <XAxis
+                    dataKey="month"
                     stroke="rgba(255,255,255,0.5)"
-                    tick={{ fill: '#fff', fontSize: 12 }}
+                    tick={{ fill: "#fff", fontSize: 12 }}
                   />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'rgba(255,255,255,0.9)',
-                      color: '#000'
+                  <YAxis
+                    stroke="rgba(255,255,255,0.5)"
+                    tick={{ fill: "#fff", fontSize: 12 }}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "rgba(255,255,255,0.9)",
+                      color: "#000",
                     }}
                   />
-                  <Bar 
-                    dataKey="value" 
+                  <Bar
+                    dataKey="value"
                     fill="rgba(255,255,255,0.8)"
                     radius={[4, 4, 0, 0]}
                   />
@@ -142,14 +166,14 @@ const StatsMetricCard = ({
 
 // Default Props
 StatsMetricCard.defaultProps = {
-  title: 'Default Title',
+  title: "Default Title",
   mainValue: 0,
-  mainValueLabel: 'N/A',
+  mainValueLabel: "N/A",
   percentageChange: 0,
   breakdownData: [],
   bottomStats: [],
   chartData: [],
-  chartType: 'line'
+  chartType: "line",
 };
 
 export default StatsMetricCard;
