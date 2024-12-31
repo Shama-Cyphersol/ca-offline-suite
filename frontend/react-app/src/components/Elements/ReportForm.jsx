@@ -336,296 +336,296 @@ const GenerateReportForm = () => {
   };
 
   return (
-    <div className="bg-gray-50/50 ">
-      <div className="mx-auto">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 backdrop-blur-sm">
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-              {/* Unit Dropdown */}
-              {forAts && (
-                <div className="relative" ref={dropdownRef}>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Unit
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="w-full px-4 py-2.5 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg shadow-sm hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all flex justify-between items-center group"
-                  >
-                    <span>{unit}</span>
-                    <ChevronDown className="h-4 w-4 text-gray-400 group-hover:text-[#3498db] transition-colors" />
-                  </button>
+    <div className="bg-white dark:bg-black">
+  <div className="mx-auto">
+    <div className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 backdrop-blur-sm">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+          {/* Unit Dropdown */}
+          {forAts && (
+            <div className="relative" ref={dropdownRef}>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Unit
+              </label>
+              <button
+                type="button"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all flex justify-between items-center group"
+              >
+                <span>{unit}</span>
+                <ChevronDown className="h-4 w-4 text-gray-400 dark:text-gray-300 group-hover:text-[#3498db] transition-colors" />
+              </button>
 
-                  {isDropdownOpen && (
-                    <div className="absolute z-10 w-full mt-2 bg-white border border-gray-100 rounded-lg shadow-xl">
-                      <div className="p-3 border-b border-gray-100">
-                        <div className="flex gap-2">
-                          <div className="relative flex-1">
+              {isDropdownOpen && (
+                <div className="absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-600 rounded-lg shadow-xl">
+                  <div className="p-3 border-b border-gray-100 dark:border-gray-600">
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <input
+                          type="text"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          placeholder="Search or add new unit..."
+                          className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+                        />
+                        <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400 dark:text-gray-300" />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleAddUnit}
+                        className="px-4 py-2 text-sm font-medium text-white bg-[#3498db] dark:bg-blue-600 rounded-lg hover:bg-[#2980b9] dark:hover:bg-blue-500 transition-all flex items-center gap-1 shadow-sm"
+                      >
+                        <Plus className="h-4 w-4" />
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                  <div className="max-h-48 overflow-y-auto py-1">
+                    {filteredUnits.map((u, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        onClick={() => {
+                          setUnit(u);
+                          setIsDropdownOpen(false);
+                        }}
+                        className="w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
+                      >
+                        {u}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {/* Serial Number */}
+          {forAts && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Serial Number
+              </label>
+              <input
+                type="text"
+                value={serialNumber}
+                onChange={(e) => setSerialNumber(e.target.value)}
+                placeholder="00009"
+                className="w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+              />
+            </div>
+          )}
+
+          {/* Case ID */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Report Name
+            </label>
+            <input
+              ref={caseIdRef}
+              type="text"
+              value={caseId}
+              className="w-full px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all disabled:bg-gray-50 dark:disabled:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm disabled:cursor-not-allowed"
+            />
+          </div>
+        </div>
+
+        {/* File Upload */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Bank Statements
+          </label>
+          <div
+            className={`relative ${
+              isDragging ? "ring-2 ring-[#3498db] dark:ring-blue-500" : ""
+            }`}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            <div
+              onClick={() => fileInputRef.current?.click()}
+              className="flex cursor-pointer flex-col items-center justify-center p-5 border-2 border-dashed border-gray-200 dark:border-white rounded-lg hover:border-gray-300 dark:hover:border-gray-500 transition-all bg-gray-50 dark:bg-black"
+            >
+              <div className="flex flex-col items-center justify-center w-full">
+                {selectedFiles.length > 0 ? (
+                  <div className="w-full space-y-4">
+                    {fileDetails.map((detail, index) => (
+                      <div
+                        key={index}
+                        className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 p-4 space-y-4"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <FileText className="w-5 h-5 text-[#3498db] dark:text-blue-500" />
+                            <div>
+                              <p className="text-sm text-gray-600 dark:text-gray-300">
+                                {detail.file.name}
+                              </p>
+                              <p className="text-xs text-gray-400 dark:text-gray-500">
+                                {formatFileSize(detail.file.size)}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center space-x-2">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handlePreviewFile(
+                                  detail.previewUrl,
+                                  detail.file.type
+                                )
+                              }
+                              className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-[#3498db] dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                              title="Preview file"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => removeFile(index)}
+                              className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                              title="Remove file"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                          <div>
+                            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                              Password
+                            </label>
+                            <input
+                              type="password"
+                              value={detail.password}
+                              onChange={(e) =>
+                                handleFileDetailChange(
+                                  index,
+                                  "password",
+                                  e.target.value
+                                )
+                              }
+                              placeholder="Enter password"
+                              className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                              Start Date
+                            </label>
+                            <input
+                              type="date"
+                              value={detail.startDate}
+                              onChange={(e) =>
+                                handleFileDetailChange(
+                                  index,
+                                  "startDate",
+                                  e.target.value
+                                )
+                              }
+                              className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                              End Date
+                            </label>
+                            <input
+                              type="date"
+                              value={detail.endDate}
+                              onChange={(e) =>
+                                handleFileDetailChange(
+                                  index,
+                                  "endDate",
+                                  e.target.value
+                                )
+                              }
+                              className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                              Bank Name
+                            </label>
                             <input
                               type="text"
-                              value={searchTerm}
-                              onChange={(e) => setSearchTerm(e.target.value)}
-                              placeholder="Search or add new unit..."
-                              className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
+                              value={detail.bankName}
+                              onChange={(e) =>
+                                handleFileDetailChange(
+                                  index,
+                                  "bankName",
+                                  e.target.value
+                                )
+                              }
+                              placeholder="Enter bank name"
+                              className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
                             />
-                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
                           </div>
-                          <button
-                            type="button"
-                            onClick={handleAddUnit}
-                            className="px-4 py-2 text-sm font-medium text-white bg-[#3498db] rounded-lg hover:bg-[#2980b9] transition-all flex items-center gap-1 shadow-sm"
-                          >
-                            <Plus className="h-4 w-4" />
-                            Add
-                          </button>
                         </div>
                       </div>
-                      <div className="max-h-48 overflow-y-auto py-1">
-                        {filteredUnits.map((u, index) => (
-                          <button
-                            key={index}
-                            type="button"
-                            onClick={() => {
-                              setUnit(u);
-                              setIsDropdownOpen(false);
-                            }}
-                            className="w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left"
-                          >
-                            {u}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-              {/* Serial Number */}
-              {forAts && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Serial Number
-                  </label>
-                  <input
-                    type="text"
-                    value={serialNumber}
-                    onChange={(e) => setSerialNumber(e.target.value)}
-                    placeholder="00009"
-                    className="w-full px-4 py-2.5 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg shadow-sm hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
-                  />
-                </div>
-              )}
-
-              {/* Case ID */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Report Name
-                </label>
-                <input
-                  ref={caseIdRef}
-                  type="text"
-                  value={caseId}
-                  className="w-full px-4 py-2.5 text-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all disabled:bg-gray-50 border border-gray-200 rounded-lg shadow-sm disabled:cursor-not-allowed"
-                />
-              </div>
-            </div>
-
-            {/* File Upload */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Bank Statements
-              </label>
-              <div
-                className={`relative ${
-                  isDragging ? "ring-2 ring-[#3498db]" : ""
-                }`}
-                onDragEnter={handleDragEnter}
-                onDragLeave={handleDragLeave}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-              >
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex cursor-pointer flex-col items-center justify-center p-5 border-2 border-dashed border-gray-200 rounded-lg hover:border-gray-300 transition-all bg-gray-50"
-                >
-                  <div className="flex flex-col items-center justify-center w-full">
-                    {selectedFiles.length > 0 ? (
-                      <div className="w-full space-y-4">
-                        {fileDetails.map((detail, index) => (
-                          <div
-                            key={index}
-                            className="bg-white rounded-lg border border-gray-200 p-4 space-y-4"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-3">
-                                <FileText className="w-5 h-5 text-[#3498db]" />
-                                <div>
-                                  <p className="text-sm text-gray-600">
-                                    {detail.file.name}
-                                  </p>
-                                  <p className="text-xs text-gray-400">
-                                    {formatFileSize(detail.file.size)}
-                                  </p>
-                                </div>
-                              </div>
-
-                              <div className="flex items-center space-x-2">
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    handlePreviewFile(
-                                      detail.previewUrl,
-                                      detail.file.type
-                                    )
-                                  }
-                                  className="p-1.5 text-gray-500 hover:text-[#3498db] hover:bg-gray-100 rounded-lg transition-colors"
-                                  title="Preview file"
-                                >
-                                  <Eye className="w-4 h-4" />
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => removeFile(index)}
-                                  className="p-1.5 text-gray-500 hover:text-red-500 hover:bg-gray-100 rounded-lg transition-colors"
-                                  title="Remove file"
-                                >
-                                  <X className="w-4 h-4" />
-                                </button>
-                              </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                              <div>
-                                <label className="block text-xs font-medium text-gray-700 mb-1">
-                                  Password
-                                </label>
-                                <input
-                                  type="password"
-                                  value={detail.password}
-                                  onChange={(e) =>
-                                    handleFileDetailChange(
-                                      index,
-                                      "password",
-                                      e.target.value
-                                    )
-                                  }
-                                  placeholder="Enter password"
-                                  className="w-full px-3 py-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
-                                />
-                              </div>
-                              <div>
-                                <label className="block text-xs font-medium text-gray-700 mb-1">
-                                  Start Date
-                                </label>
-                                <input
-                                  type="date"
-                                  value={detail.startDate}
-                                  onChange={(e) =>
-                                    handleFileDetailChange(
-                                      index,
-                                      "startDate",
-                                      e.target.value
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
-                                />
-                              </div>
-                              <div>
-                                <label className="block text-xs font-medium text-gray-700 mb-1">
-                                  End Date
-                                </label>
-                                <input
-                                  type="date"
-                                  value={detail.endDate}
-                                  onChange={(e) =>
-                                    handleFileDetailChange(
-                                      index,
-                                      "endDate",
-                                      e.target.value
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
-                                />
-                              </div>
-                              <div>
-                                <label className="block text-xs font-medium text-gray-700 mb-1">
-                                  Bank Name
-                                </label>
-                                <input
-                                  type="text"
-                                  value={detail.bankName}
-                                  onChange={(e) =>
-                                    handleFileDetailChange(
-                                      index,
-                                      "bankName",
-                                      e.target.value
-                                    )
-                                  }
-                                  placeholder="Enter bank name"
-                                  className="w-full px-3 py-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <>
-                        <Upload className="w-8 h-8 text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-500 mb-1 text-center">
-                          Drag and drop your files here, or
-                        </p>
-                      </>
-                    )}
+                    ))}
                   </div>
-
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      fileInputRef.current?.click();
-                    }}
-                    // className="mt-4 px-6 py-2.5 text-sm font-medium text-white bg-[#3498db] rounded-lg hover:bg-[#2980b9] shadow-sm transition-all cursor-pointer flex items-center gap-2"
-                    className="mt-4 px-6 py-2.5 text-sm font-medium "
-                  >
-                    {selectedFiles.length > 0
-                      ? "Add More Files"
-                      : "Browse Files"}
-                  </Button>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    onChange={handleFileChange}
-                    className="hidden"
-                    multiple
-                    accept=".pdf,.xls,.xlsx"
-                  />
-                </div>
-
-                {isDragging && (
-                  <div className="absolute inset-0 bg-[#3498db]/10 rounded-lg pointer-events-none" />
+                ) : (
+                  <>
+                    <Upload className="w-8 h-8 text-gray-400 dark:text-gray-300 mb-2" />
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1 text-center">
+                      Drag and drop your files here, or
+                    </p>
+                  </>
                 )}
               </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  fileInputRef.current?.click();
+                }}
+                className="mt-4 px-6 py-2.5 text-sm font-medium"
+              >
+                {selectedFiles.length > 0
+                  ? "Add More Files"
+                  : "Browse Files"}
+              </Button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                onChange={handleFileChange}
+                className="hidden"
+                multiple
+                accept=".pdf,.xls,.xlsx"
+              />
             </div>
 
-            {/* Submit Button */}
-            <div className="flex justify-center pt-4">
-              <Button type="submit" disabled={loading}>
-                {loading ? (
-                  <>
-                    <Loader2 className="animate-spin mr-2" />
-                    Generating Report...
-                  </>
-                ) : (
-                  "Generate Report"
-                )}
-              </Button>
-            </div>
-          </form>
+            {isDragging && (
+              <div className="absolute inset-0 bg-[#3498db]/10 dark:bg-blue-500/10 rounded-lg pointer-events-none" />
+            )}
+          </div>
         </div>
-      </div>
+
+        {/* Submit Button */}
+        <div className="flex justify-center pt-4">
+          <Button type="submit" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin mr-2" />
+                Generating Report...
+              </>
+            ) : (
+              "Generate Report"
+            )}
+          </Button>
+        </div>
+      </form>
     </div>
+  </div>
+</div>
+
   );
 };
 

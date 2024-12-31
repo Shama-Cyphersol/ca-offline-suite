@@ -1,74 +1,58 @@
-import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card'
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../ui/table'
-import { Button } from '../ui/button'
-import { useToast } from "../../hooks/use-toast";
-import { Badge } from "../ui/badge";
-import { useState } from 'react';
-import { cn } from "../../lib/utils";
-import { useNavigate } from 'react-router-dom';
-import { Eye, Plus, Trash2, Info } from 'lucide-react';
+import React from "react";
+import { Eye } from "lucide-react";
+import { Button } from "../ui/button";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCaption,
+} from "../ui/table";
+
+const reports = [
+  { date: "13-12-2024", name: "Report_ATS_unit_1_00008" },
+  { date: "13-12-2024", name: "Report_ATS_unit_1_00007" },
+  { date: "12-12-2024", name: "Report_ATS_unit_1_00003" },
+  { date: "12-12-2024", name: "Report_ATS_unit_1_00002" },
+  { date: "12-12-2024", name: "Report_ATS_unit_1_00001" },
+];
 
 const Analytics = () => {
-    const { toast } = useToast();
-    const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
+  return (
+    <div className="w-full mx-2 p-4 pr-6">
+      <h1 className="text-4xl font-bold mb-2">Analytics</h1>
+      <p className="text-muted-foreground mb-6">
+        Select a name to view the report
+      </p>
 
-    const [recentReports, setRecentReports] = useState([
-        { id: 1, date: '13-12-2024', caseId: 'ATS_unit_1_00008', reportName: 'Report_ATS_unit_1_00008'},
-        { id: 2, date: '13-12-2024', caseId: 'ATS_unit_1_00007', reportName: 'Report_ATS_unit_1_00007'},
-        { id: 3, date: '12-12-2024', caseId: 'ATS_unit_1_00003', reportName: 'Report_ATS_unit_1_00003'},
-        { id: 4, date: '12-12-2024', caseId: 'ATS_unit_1_00002', reportName: 'Report_ATS_unit_1_00002'},
-        { id: 5, date: '12-12-2024', caseId: 'ATS_unit_1_00001', reportName: 'Report_ATS_unit_1_00001'}
-    ]);
+      <Table className=" rounded-lg p-4 pr-2">
+        
+        <TableHeader>
+          <TableRow>
+            <TableHead>Date</TableHead>
+            <TableHead>Report Name</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {reports.map((report, index) => (
+            <TableRow key={index}>
+              <TableCell>{report.date}</TableCell>
+              <TableCell>{report.name}</TableCell>
+              <TableCell className="text-right">
+                <Button variant="default" size="sm" className="space-x-2">
+                  <Eye className="h-4 w-4" />
+                  <span>View Report</span>
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+};
 
-    
-
-    const handleDownload = () => {
-        console.log('Clicked on dowbload');
-    };
-
-    return (
-        <div className="p-8 space-y-8">
-        <Card>
-            <CardHeader>
-                <CardTitle>Analytics</CardTitle>
-                <CardDescription>
-                    Select a name to view the report
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Report Name</TableHead>
-                            <TableHead>Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {recentReports.map((report) => (
-                            <TableRow key={report.id}>
-                                <TableCell>{report.date}</TableCell>
-                                <TableCell>{report.reportName}</TableCell>
-                                <TableCell>
-                                <Button 
-                                    variant="default" 
-                                    // size="sm" 
-                                    onClick={() => handleDownload()}
-                                >
-                                    <Eye className="w-4 h-4" />
-                                    <span>View Report</span>
-                                </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </CardContent>
-        </Card>
-        </div>
-    )
-}
-
-export default Analytics
+export default Analytics;

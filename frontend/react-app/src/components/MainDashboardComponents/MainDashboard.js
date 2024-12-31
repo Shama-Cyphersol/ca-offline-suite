@@ -150,34 +150,6 @@ const MainDashboard = () => {
                 >
                   {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
                 </Button>
-    
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src="/avatar.png" alt="User" />
-                        <AvatarFallback>U</AvatarFallback>
-                      </Avatar>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <User className="mr-2 h-4 w-4" />
-                      Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Settings className="mr-2 h-4 w-4" />
-                      Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="text-red-600">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Log out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
               </div>
             </div>
     
@@ -230,7 +202,7 @@ const MainDashboard = () => {
                 <StatsMetricCard
                   type="timeSaved"
                   title="Time Saved"
-                  mainValue={1200}
+                  mainValue="1200"
                   mainValueLabel="Minutes Saved"
                   percentageChange={25}
                   breakdownData={[
@@ -249,7 +221,7 @@ const MainDashboard = () => {
     
             {/* Recent reports */}
             <RecentReports/>
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <CardTitle>Analytics Overview</CardTitle>
                 <CardDescription>Report generation trends over time</CardDescription>
@@ -257,7 +229,7 @@ const MainDashboard = () => {
               <CardContent>
                 <ReportChart chartData={dummyChartData} viewType={chartViewType} />
               </CardContent>
-            </Card>
+            </Card> */}
           </div>
         </ScrollArea>
   )
