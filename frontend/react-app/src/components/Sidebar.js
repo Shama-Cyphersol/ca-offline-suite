@@ -44,22 +44,20 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
     return (
       <div className="w-full">
         <button
-          className={`w-full flex items-center justify-between p-2 rounded-md transition-all duration-200 ease-in-out
+          className={`w-full flex items-center justify-start p-2 rounded-md transition-all duration-200 ease-in-out
             ${level > 0 ? "ml-4" : ""} 
             ${activeTab === item.title && !hasSubmenu ? "bg-gray-200 text-black font-semibold" : "text-gray-600 hover:bg-gray-100"}
             ${isCollapsed ? "justify-center" : ""}`}
           onClick={() => !hasSubmenu && setActiveTab(item.title)}
         >
           <div className="flex items-center gap-3">
-            {item.icon && (
-              <item.icon className="h-5 w-5 flex-shrink-0" />
-            )}
+            {item.icon && <item.icon className="h-5 w-5 flex-shrink-0" />}
             {!isCollapsed && <span className="text-sm">{item.title}</span>}
           </div>
         </button>
 
         {hasSubmenu && (
-          <div className="ml-4 mt-1 space-y-1">
+          <div className={`ml-4 mt-1 space-y-1 ${isCollapsed ? "hidden" : ""}`}>
             {item.items.map((subItem) => (
               <MenuItem key={subItem.title} item={subItem} level={level + 1} />
             ))}
