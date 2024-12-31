@@ -214,7 +214,7 @@ const RecentReports = () => {
                 <div className="flex justify-between items-center">
                     <div>
                         <CardTitle>Recent Reports</CardTitle>
-                        <CardDescription>
+                        <CardDescription className="py-3">
                             A list of recent reports from all projects
                         </CardDescription>
                     </div>
@@ -232,7 +232,7 @@ const RecentReports = () => {
             <CardContent>
                 <Table>
                     <TableHeader>
-                        <TableRow>
+                        <TableRow className="align-">
                             <TableHead>Date</TableHead>
                             <TableHead>Report Name</TableHead>
                             <TableHead>Status</TableHead>
@@ -254,16 +254,15 @@ const RecentReports = () => {
                                             variant="outline"
                                             size="icon"
                                             onClick={() => handleView(report.caseId)}
-                                            className="h-8 w-8 text-blue-600  hover:text-blue-800  bg-blue-200 hover:bg-blue-400
-                                                        dark:bg-blue-900 dark:text-blue-200 dark:hover:text-blue-100 dark:hover:bg-blue-600"
+
+                                            className="h-8 w-8"
                                         >
                                             <Eye className="h-4 w-4" />
                                         </Button>
                                         <Button
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 text-green-600 hover:text-green-800 bg-green-200 hover:bg-green-400 
-                                                        dark:bg-green-900 dark:text-green-200 dark:hover:text-green-100 dark:hover:bg-green-600"
+                                            className="h-8 w-8"
                                             onClick={() => handleAddReport()}
                                         >
                                             <Plus className="h-4 w-4" />
@@ -271,8 +270,7 @@ const RecentReports = () => {
                                         <Button
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 text-red-600 hover:text-red-800 bg-red-200 hover:bg-red-400
-                                                        dark:bg-red-900 dark:text-red-200 dark:hover:text-red-100 dark:hover:bg-red-600"
+                                            className="h-8 w-8"
                                             onClick={() => handleDeleteReport(report.id)}
                                         >
                                             <Trash2 className="h-4 w-4" />
@@ -285,8 +283,7 @@ const RecentReports = () => {
                                         <Button
                                             variant="outline"
                                             size="icon"
-                                            className="h-8 w-8 text-black hover:text-black bg-gray-200 hover:bg-gray-400
-                                                    dark:bg-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-600"
+                                            className="h-8 w-8"
                                             onClick={() => handleViewInfo()}
                                         >
                                             <Info className="h-4 w-4" />

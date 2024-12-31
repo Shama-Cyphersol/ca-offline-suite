@@ -6,6 +6,7 @@ import AccountNumNameManager from "../components/CaseDashboardComponents/Account
 import IndividualTable from "../components/CaseDashboardComponents/IndividualTable";
 import CombinedTable from "../components/CaseDashboardComponents/CombinedTable";
 import { useNavigate } from "react-router-dom";
+// import { UserPen } from "lucide-react";
 
 const CaseDashboard = () => {
   const [activeTab, setActiveTab] = useState("Acc No and Acc Name");
@@ -15,11 +16,11 @@ const CaseDashboard = () => {
     {
       title: "Acc No and Acc Name",
       url: "#",
-      icon: null,
+      icon: null ,
       isActive: true,
     },
     {
-      title: "Report",
+      title: "Reports",
       url: "#",
       icon: null,
       items: [
@@ -34,15 +35,9 @@ const CaseDashboard = () => {
           icon: null,
         },
       ],
+      alwaysOpen: true, // Ensures the section remains open
     },
   ];
-
-  const handleView = () => {
-    console.log("View case:");
-    navigate(`/individual-dashboard/${1}/${1}`);
-    console.log("2");
-    console.log(3);
-  };
 
   return (
     <>

@@ -41,6 +41,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import Billing from "./MainDashboardComponents/Billing";
 
 const data = {
   user: {
@@ -60,29 +61,6 @@ const data = {
       url: "#",
       icon: Files,
     },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: Settings2,
-    //   items: [
-    //     {
-    //       title: "General",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Team",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Billing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Limits",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
   ],
 };
 
@@ -103,15 +81,15 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
 
   const NavMain = ({ items, activeTab, setActiveTab }) => {
     return (
-      <SidebarMenu>
+      <SidebarMenu className="space-y-2">
         {items.map((item) => (
-          <SidebarMenuItem key={item.title}>
+          <SidebarMenuItem key={item.title} className="space-y-4">
             <SidebarMenuButton
               defaultOpen
               asChild
               isActive={activeTab === item.title}
               onClick={() => {
-                if (item.items) {
+                if (item.items && !item.alwaysOpen) {
                   toggleSubmenu(item.title);
                 } else {
                   setActiveTab(item.title);
@@ -119,17 +97,18 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
               }}
             >
               <button
-                className={`w-full flex items-center justify-between ${
+                className={`w-full flex items-center justify-between py-5 ${
                   activeTab === item.title
-                    ? "font-bold text-black"
+                    ? "font-extrabold text-black"
                     : "text-gray-600"
                 }`}
               >
-                <div className="flex items-center">
-                  {item.icon && <item.icon className="mr-2  h-4 w-4" />}
+                <div className="flex items-center text-[18px]">
+                  {item.icon && <item.icon className="mr-3 h-6 w-6" />}
                   <span>{item.title}</span>
                 </div>
                 {item.items &&
+                  !item.alwaysOpen &&
                   (expandedItems[item.title] ? (
                     <ChevronDown className="h-4 w-4" />
                   ) : (
@@ -137,35 +116,46 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
                   ))}
               </button>
             </SidebarMenuButton>
-            {item.items && expandedItems[item.title] && (
-              <SidebarMenuSub>
+            {(item.items && expandedItems[item.title]) || item.alwaysOpen ? (
+              <SidebarMenuSub className="pl-6 space-y-2">
                 {item.items.map((subItem) => (
-                  <SidebarMenuSubItem key={subItem.title}>
-                    <SidebarMenuSubButton
-                      asChild
-                      isActive={activeTab === subItem.title}
+                  <div key={subItem.title} className="flex flex-col text-base">
+                    <button
+                      className={`py-2 text-left ${
+                        activeTab === subItem.title
+                          ? "font-bold text-black bg-gray-200 rounded-md p-2"
+                          : "text-gray-600 hover:text-black p-2"
+                      }`}
                       onClick={() => setActiveTab(subItem.title)}
                     >
-                      <button
-                        className={`${
-                          activeTab === subItem.title
-                            ? "font-semibold text-black"
-                            : "text-gray-600"
-                        }`}
-                      >
-                        {subItem.title}
-                      </button>
-                    </SidebarMenuSubButton>
-                  </SidebarMenuSubItem>
+                      {subItem.title}
+                    </button>
+                    {subItem.submenu && (
+                      <div className="pl-4 space-y-1">
+                        {subItem.submenu.map((menu) => (
+                          <div
+                            key={menu.title}
+                            className={`py-1 ${
+                              activeTab === menu.title
+                                ? "font-bold text-black bg-gray-200 rounded-md"
+                                : "text-gray-500 hover:text-black"
+                            }`}
+                          >
+                            {menu.title}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </SidebarMenuSub>
-            )}
+            ) : null}
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
     );
   };
-
+  
   const NavUser = ({ user }) => {
     const { isMobile } = useSidebar();
 
@@ -211,7 +201,7 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
               <DropdownMenuGroup>
                 <DropdownMenuItem>
                   <Sparkles className="mr-2 h-4 w-4" />
-                  <span>Upgrade to Pro</span>
+                  <span>Refer and Earn </span>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />

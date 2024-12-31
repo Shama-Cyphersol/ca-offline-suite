@@ -11,6 +11,7 @@ import { SidebarProvider } from './components/ui/sidebar';
 import {ScrollArea} from './components/ui/scroll-area';
 import { Hash } from 'lucide-react';
 
+
 function App() {
     const [showIntro, setShowIntro] = useState(true);  
     console.log('isDev', process.env.NODE_ENV);
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/case-dashboard/:caseId" element={<CaseDashboard />} />
             <Route path="/individual-dashboard/:caseId/:individualId" element={<IndividualDashboard />} />
+          
           </Routes>
         </HashRouter>
       </SidebarProvider>
