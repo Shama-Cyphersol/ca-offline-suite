@@ -74,11 +74,11 @@ const chartConfig2 = {
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-3))",
   },
   mobile: {
     label: "Mobile",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-5))",
   },
   label: {
     color: "hsl(var(--background))",

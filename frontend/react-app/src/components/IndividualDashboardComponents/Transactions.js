@@ -5,18 +5,18 @@ import {PieCharts} from '../charts/PieCharts';
 import DataTable from './TableData';
 
 const chartData = [
-    { month: "January", balance: 120, debit: 80 },
-    { month: "February", balance: 305, debit: 200 },
-    { month: "March", balance: 237, debit: 120 },
-    { month: "April", balance: 73, debit: 190 },
-    { month: "May", balance: 209, debit: 130 },
-    { month: "June", balance: 214, debit: 140 },
-    { month: "July", balance: 110, debit: 80 },
-    { month: "August", balance: 175, debit: 200 },
-    { month: "September", balance: 237, debit: 120 },
-    { month: "October", balance: 73, debit: 190 },
-    { month: "November", balance: 209, debit: 130 },
-    { month: "December", balance: 100, debit: 140 },
+    { month: "January", balance: 1200, debit: 8000 },
+    { month: "February", balance: 3050, debit: 2000 },
+    { month: "March", balance: 2370, debit: 1200 },
+    { month: "April", balance: 7300, debit: 1900 },
+    { month: "May", balance: 2090, debit: 1300 },
+    { month: "June", balance: 2140, debit: 1400 },
+    { month: "July", balance: 1100, debit: 8000 },
+    { month: "August", balance: 1750, debit: 2000 },
+    { month: "September", balance: 2370, debit: 1200 },
+    { month: "October", balance: 7300, debit: 1900 },
+    { month: "November", balance: 2090, debit: 1300 },
+    { month: "December", balance: 1000, debit: 1400 },
 ];
 
 const transactionData = [
@@ -80,8 +80,8 @@ const Transactions = () => {
                 title="Transactions"
                 xAxis={{ key: 'month'}}
                 yAxis={[
-                    { key: 'debit', type: 'bar', color: 'hsl(var(--chart-3))' },
-                    { key: 'balance', type: 'line', color: 'hsl(var(--chart-5))' },
+                    { key: 'debit', type: 'bar', color: 'hsl(var(--chart-5))' },
+                    { key: 'balance', type: 'line', color: 'hsl(var(--chart-3))' },
                 ]}
             />
             <BarChart

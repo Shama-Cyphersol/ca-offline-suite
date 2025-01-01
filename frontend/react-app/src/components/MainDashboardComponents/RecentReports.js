@@ -246,7 +246,7 @@ const RecentReports = () => {
                             <TableHead>Status</TableHead>
                             <TableHead>Actions</TableHead>
                             <TableHead>Details</TableHead>
-                            <TableHead>Details</TableHead>
+                            {/* <TableHead>Details</TableHead> */}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -301,9 +301,9 @@ const RecentReports = () => {
                                         <Button
                                             variant="ghost"
                                             size="icon"
-                                            className="h-8 w-8 hover:bg-black/5"
+                                            className="h-8 w-8 hover:bg-black/5 "
                                         >
-                                            <Info className="h-4 w-4 text-black/80" />
+                                            <Info className="h-4 w-4 " />
                                         </Button>
                                     </AlertDialogTrigger>
                                     <AlertDialogContent className="max-w-2xl bg-white shadow-lg border-0">
