@@ -1,12 +1,15 @@
 
-import * as React from "react";
+import React,{useEffect} from "react";
 import {
   LayoutDashboard,
   Files,
-  ChevronRight,
-  ChevronDown,
+  BadgeCheck,
+  Bell,
+  CreditCard,
+  LogOut,
+  Sparkles,
 } from "lucide-react";
-import logo from "../data/assets/logo.png";
+import { useNavigate } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -18,19 +21,9 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarMenuSub,
-  SidebarMenuSubItem,
-  SidebarMenuSubButton,
+  // SidebarMenuSubItem,
+  // SidebarMenuSubButton,
 } from "./ui/sidebar";
-
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from "lucide-react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   DropdownMenu,
@@ -41,222 +34,130 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-
-const data = {
-  user: {
-    name: "Harsh",
-    email: "m@example.com",
-    avatar: "#",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "#",
-      icon: LayoutDashboard,
-      isActive: true,
-    },
-    {
-      title: "Generate Report",
-      url: "#",
-      icon: Files,
-    },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: Settings2,
-    //   items: [
-    //     {
-    //       title: "General",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Team",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Billing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Limits",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-  ],
-};
+import logo from "../data/assets/logo.png";
 
 const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
-  const [expandedItems, setExpandedItems] = React.useState({});
-  const [user, setUser] = React.useState({
-    name: "Harsh",
+  const navigate = useNavigate();
+  const { isCollapsed } = useSidebar();
+  const [user] = React.useState({
+    name: "Harsh Jajal",
     email: "m@example.com",
     avatar: "#",
   });
 
-  const toggleSubmenu = (title) => {
-    setExpandedItems((prev) => ({
-      ...prev,
-      [title]: !prev[title],
-    }));
-  };
+  const MenuItem = ({ item, level = 0 }) => {
+    const hasSubmenu = item.items?.length > 0;
 
-  const NavMain = ({ items, activeTab, setActiveTab }) => {
     return (
-      <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton
-              defaultOpen
-              asChild
-              isActive={activeTab === item.title}
-              onClick={() => {
-                if (item.items) {
-                  toggleSubmenu(item.title);
-                } else {
-                  setActiveTab(item.title);
-                }
-              }}
-            >
-              <button
-                className={`w-full flex items-center justify-between ${
-                  activeTab === item.title
-                    ? "font-bold text-black"
-                    : "text-gray-600"
-                }`}
-              >
-                <div className="flex items-center">
-                  {item.icon && <item.icon className="mr-2  h-4 w-4" />}
-                  <span>{item.title}</span>
-                </div>
-                {item.items &&
-                  (expandedItems[item.title] ? (
-                    <ChevronDown className="h-4 w-4" />
-                  ) : (
-                    <ChevronRight className="h-4 w-4" />
-                  ))}
-              </button>
-            </SidebarMenuButton>
-            {item.items && expandedItems[item.title] && (
-              <SidebarMenuSub>
-                {item.items.map((subItem) => (
-                  <SidebarMenuSubItem key={subItem.title}>
-                    <SidebarMenuSubButton
-                      asChild
-                      isActive={activeTab === subItem.title}
-                      onClick={() => setActiveTab(subItem.title)}
-                    >
-                      <button
-                        className={`${
-                          activeTab === subItem.title
-                            ? "font-semibold text-black"
-                            : "text-gray-600"
-                        }`}
-                      >
-                        {subItem.title}
-                      </button>
-                    </SidebarMenuSubButton>
-                  </SidebarMenuSubItem>
-                ))}
-              </SidebarMenuSub>
-            )}
-          </SidebarMenuItem>
-        ))}
-      </SidebarMenu>
+      <div className="w-full">
+        <button
+          className={`w-full flex items-center justify-start p-2 rounded-md transition-all duration-200 ease-in-out
+            ${level > 0 ? "ml-4" : ""} 
+            ${activeTab === item.title && !hasSubmenu ? "bg-gray-200 text-black font-semibold" : "text-gray-600 hover:bg-gray-100"}
+            ${isCollapsed ? "justify-center" : ""}`}
+          onClick={() => !hasSubmenu && setActiveTab(item.title)}
+        >
+          <div className="flex items-center gap-3">
+            {item.icon && <item.icon className="h-5 w-5 flex-shrink-0" />}
+            {!isCollapsed && <span className="text-sm">{item.title}</span>}
+          </div>
+        </button>
+
+        {hasSubmenu && (
+          <div className={`ml-4 mt-1 space-y-1 ${isCollapsed ? "hidden" : ""}`}>
+            {item.items.map((subItem) => (
+              <MenuItem key={subItem.title} item={subItem} level={level + 1} />
+            ))}
+          </div>
+        )}
+      </div>
     );
   };
 
-  const NavUser = ({ user }) => {
-    const { isMobile } = useSidebar();
+  const NavMain = () => (
+    <div className="space-y-2">
+      {navItems.map((item) => (
+        <MenuItem key={item.title} item={item} />
+      ))}
+    </div>
+  );
 
-    return (
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton
-                size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-              >
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">HJ</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
-                </div>
-                <ChevronsUpDown className="ml-auto size-4" />
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-              side="top"
-              align="end"
-              sideOffset={4}
-            >
-              <DropdownMenuLabel className="p-0 font-normal">
-                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback className="rounded-lg">HJ</AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{user.name}</span>
-                    <span className="truncate text-xs">{user.email}</span>
-                  </div>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  <span>Upgrade to Pro</span>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <BadgeCheck className="mr-2 h-4 w-4" />
-                  <span>Account</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  <span>Billing</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Bell className="mr-2 h-4 w-4" />
-                  <span>Notifications</span>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    );
-  };
+  const UserMenu = () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="flex items-center w-full p-2 hover:bg-gray-100 rounded-md transition-all duration-200">
+          <Avatar className="h-8 w-8 rounded-lg">
+            <AvatarImage src={user.avatar} alt={user.name} />
+            <AvatarFallback className="rounded-lg">HJ</AvatarFallback>
+          </Avatar>
+          {!isCollapsed && (
+            <>
+              <div className="ml-3 flex-1 text-left">
+                <p className="text-sm font-medium">{user.name}</p>
+                <p className="text-xs text-gray-500">{user.email}</p>
+              </div>
+            </>
+          )}
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" side="top" align="end">
+        <DropdownMenuLabel>
+          <div className="flex items-center gap-2">
+            <Avatar className="h-8 w-8 rounded-lg">
+              <AvatarImage src={user.avatar} alt={user.name} />
+              <AvatarFallback>HJ</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="text-sm font-medium">{user.name}</p>
+              <p className="text-xs text-gray-500">{user.email}</p>
+            </div>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Sparkles className="mr-2 h-4 w-4" />
+            <span>Refer and Earn</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <BadgeCheck className="mr-2 h-4 w-4" />
+            <span>Account</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <CreditCard className="mr-2 h-4 w-4" />
+            <span>Billing</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Bell className="mr-2 h-4 w-4" />
+            <span>Notifications</span>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <LogOut className="mr-2 h-4 w-4" />
+          <span>Log out</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar className="transition-all duration-300 ease-in-out">
       <SidebarHeader>
-        <div className="h-16 flex items-center px-6 border-b">
-          <img src={logo} alt="Logo" className="h-10" />
+        <div className="h-16 flex items-center px-4 border-b">
+          <img 
+            src={logo} 
+            alt="Logo" 
+            className={`h-12 cursor-pointer transition-all duration-300 ${isCollapsed ? "w-8" : "w-auto"}`}
+            onClick={() => navigate("/")} 
+          />
         </div>
       </SidebarHeader>
-      <SidebarContent className="overflow-y-auto p-4 ">
-        <NavMain
-          items={navItems}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-        />
+      <SidebarContent className="p-3 overflow-x-hidden">
+        <NavMain />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={user} />
+      <SidebarFooter className="border-t p-3">
+        <UserMenu />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

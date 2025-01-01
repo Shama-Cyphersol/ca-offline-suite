@@ -1,74 +1,76 @@
-import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card'
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../ui/table'
-import { Button } from '../ui/button'
-import { useToast } from "../../hooks/use-toast";
-import { Badge } from "../ui/badge";
-import { useState } from 'react';
-import { cn } from "../../lib/utils";
-import { useNavigate } from 'react-router-dom';
-import { Eye, Plus, Trash2, Info } from 'lucide-react';
+import React from "react";
+import { Eye, Download } from "lucide-react";
+import { Button } from "../ui/button";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCaption,
+} from "../ui/table";
+
+const reports = [
+  { date: "13-12-2024", name: "Report_ATS_unit_1_00008" },
+  { date: "13-12-2024", name: "Report_ATS_unit_1_00007" },
+  { date: "12-12-2024", name: "Report_ATS_unit_1_00003" },
+  { date: "12-12-2024", name: "Report_ATS_unit_1_00002" },
+  { date: "12-12-2024", name: "Report_ATS_unit_1_00001" },
+];
 
 const Analytics = () => {
-    const { toast } = useToast();
-    const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
+  return (
+    <div className="w-full p-6 pt-0">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold tracking-tight">Analytics</h1>
+        <p className="text-muted-foreground mt-2">
+          Select a name to view the report
+        </p>
+      </div>
 
-    const [recentReports, setRecentReports] = useState([
-        { id: 1, date: '13-12-2024', caseId: 'ATS_unit_1_00008', reportName: 'Report_ATS_unit_1_00008'},
-        { id: 2, date: '13-12-2024', caseId: 'ATS_unit_1_00007', reportName: 'Report_ATS_unit_1_00007'},
-        { id: 3, date: '12-12-2024', caseId: 'ATS_unit_1_00003', reportName: 'Report_ATS_unit_1_00003'},
-        { id: 4, date: '12-12-2024', caseId: 'ATS_unit_1_00002', reportName: 'Report_ATS_unit_1_00002'},
-        { id: 5, date: '12-12-2024', caseId: 'ATS_unit_1_00001', reportName: 'Report_ATS_unit_1_00001'}
-    ]);
+      <div className="w-full">
+        <Table>
+          <TableHeader>
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="w-[150px] font-semibold">Date</TableHead>
+              <TableHead className="font-semibold">Report Name</TableHead>
+              <TableHead className="w-[280px] text-right font-semibold">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {reports.map((report, index) => (
+              <TableRow 
+                key={index}
+                className="hover:bg-muted/50 transition-colors"
+              >
+                <TableCell className="font-medium">{report.date}</TableCell>
+                <TableCell>{report.name}</TableCell>
+                <TableCell className="text-right space-x-2">
+                  <Button 
+                    variant="secondary" 
+                    size="sm" 
+                    className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    View
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Download
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+};
 
-    
-
-    const handleDownload = () => {
-        console.log('Clicked on dowbload');
-    };
-
-    return (
-        <div className="p-8 space-y-8">
-        <Card>
-            <CardHeader>
-                <CardTitle>Analytics</CardTitle>
-                <CardDescription>
-                    Select a name to view the report
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Report Name</TableHead>
-                            <TableHead>Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {recentReports.map((report) => (
-                            <TableRow key={report.id}>
-                                <TableCell>{report.date}</TableCell>
-                                <TableCell>{report.reportName}</TableCell>
-                                <TableCell>
-                                <Button 
-                                    variant="default" 
-                                    // size="sm" 
-                                    onClick={() => handleDownload()}
-                                >
-                                    <Eye className="w-4 h-4" />
-                                    <span>View Report</span>
-                                </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </CardContent>
-        </Card>
-        </div>
-    )
-}
-
-export default Analytics
+export default Analytics;

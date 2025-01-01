@@ -167,7 +167,7 @@ const IndividualTable = ({ caseId }) => {
   const handleRowClick = async (name, accountNumber, rowId) => {
     setIsLoading(true);
     try {
-      navigate(`/individual-dashboard/${caseId}/${rowId}`, {
+      navigate(`/individual-dashboard/${caseId}/${rowId}/defaultTab`, {
         state: { name, accountNumber },
       });
     } finally {
@@ -222,7 +222,7 @@ const IndividualTable = ({ caseId }) => {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle>Individual Records</CardTitle>
-              <CardDescription>
+              <CardDescription className="py-3">
                 Search and view individual records for this case
               </CardDescription>
             </div>

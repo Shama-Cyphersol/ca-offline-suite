@@ -1,5 +1,6 @@
 import React from 'react';
 import BarLineChart from '../charts/BarLineChart';
+import DataTable from './TableData';
 
 const chartData = [
     { month: "January", balance: 80, credit: 100 },
@@ -28,6 +29,10 @@ const EMI = () => {
                     { key: 'balance', type: 'line', color: 'hsl(var(--chart-5))' },
                 ]}
             />
+
+        <div>
+            <DataTable data={chartData} />
+          </div>
         </div>
     );
 };

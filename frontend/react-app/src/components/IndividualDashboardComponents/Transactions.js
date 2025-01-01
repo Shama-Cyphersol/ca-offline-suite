@@ -2,6 +2,7 @@ import React from 'react';
 import BarChart from '../charts/BarChart';
 import BarLineChart from '../charts/BarLineChart';
 import {PieCharts} from '../charts/PieCharts';
+import DataTable from './TableData';
 
 const chartData = [
     { month: "January", balance: 120, debit: 80 },
@@ -17,6 +18,58 @@ const chartData = [
     { month: "November", balance: 209, debit: 130 },
     { month: "December", balance: 100, debit: 140 },
 ];
+
+const transactionData = [
+    {
+      date: "2024-01-01",
+      description: "Purchase",
+      debit: 100,
+      credit: 0,
+      balance: 900,
+      category: "Shopping",
+      entity: "Store A",
+    },
+    {
+      date: "2024-01-01",
+      description:
+        "hello what ois u doing the i want to tell something to u can i talk to na pata tenu dj fadu song suna raha hu kya kar raha hai tu bata na mujhe",
+      debit: 100,
+      credit: 0,
+      balance: 900,
+      category: "Shopping",
+      entity: "Store A",
+    },
+    {
+      date: "2024-01-05",
+      description: "Purchase",
+      debit: 100,
+      credit: 0,
+      balance: 900,
+      category: "Shopping",
+      entity: "Store A",
+    },
+    {
+      date: "2024-01-03",
+      description: "Purchase",
+      debit: 100,
+      credit: 0,
+      balance: 900,
+      category: "Shopping",
+      entity: "Store A",
+    },
+    {
+      date: "2024-01-04",
+      description: "Purchase",
+      debit: 100,
+      credit: 0,
+      balance: 900,
+      category: "Shopping",
+      entity: "Store A",
+    },
+  
+    // ... more transaction data
+  ];
+  
 
 
 const Transactions = () => {
@@ -41,7 +94,10 @@ const Transactions = () => {
                 ]}
             />
 
-                        <PieCharts />
+            <PieCharts />
+            <div>
+            <DataTable data={transactionData} />
+          </div>
         </div>
     );
 };

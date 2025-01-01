@@ -1,19 +1,20 @@
 import React from 'react'
 import SingleLineChart from '../charts/LineChart'
+import DataTable from './TableData'
 
 const chartData = [
-    { month: "January", desktop: 18},
-    { month: "February", desktop: 300},
-    { month: "March", desktop: 237},
-    { month: "April", desktop: 73},
-    { month: "May", desktop: 209},
-    { month: "June", desktop: 214},
-    { month: "July", desktop: 18},
-    { month: "August", desktop: 280},
-    { month: "September", desktop: 237},
-    { month: "October", desktop: 73},
-    { month: "November", desktop: 209},
-    { month: "December", desktop: 214},
+    { month: "January", balance: 18},
+    { month: "February", balance: 250},
+    { month: "March", balance: 237},
+    { month: "April", balance: 73},
+    { month: "May", balance: 209},
+    { month: "June", balance: 214},
+    { month: "July", balance: 18},
+    { month: "August", balance: 280},
+    { month: "September", balance: 237},
+    { month: "October", balance: 73},
+    { month: "November", balance: 209},
+    { month: "December", balance: 214},
   ]
 
 const EodBalance = () => {
@@ -23,8 +24,11 @@ const EodBalance = () => {
       data={chartData} 
       xAxis={{ key: "month"}}
       />
+      <div>
+            <DataTable data={chartData} />
+          </div>
     </div>
   )
 }
 
-export default EodBalance
+export default EodBalance;

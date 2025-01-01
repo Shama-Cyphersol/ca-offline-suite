@@ -16,7 +16,7 @@ const SingleLineChart = ({
   config = {},
   xAxis = { key: "month", tickFormatter: (value) => (typeof value === "string" ? value.slice(0, 3) : value) },
   yAxis = {
-    key: "desktop",
+    key: "balance",
     type: "line",
     color: "hsl(var(--chart-5))",
   },

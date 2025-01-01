@@ -1,6 +1,7 @@
 import React from 'react'
 import SingleBarChart from '../charts/BarChart'
 import {PieCharts} from '../charts/PieCharts'
+import DataTable from './TableData'
 
 
 const chartData = [
@@ -33,6 +34,9 @@ return (
         <div className="bg-white rounded-lg p-4">
             <PieCharts />
         </div>
+        <div>
+            <DataTable data={chartData} />
+          </div>
         </>
             
 
