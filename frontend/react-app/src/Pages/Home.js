@@ -1,5 +1,5 @@
 import React, { useState,useMemo, useEffect } from "react";
-import {  LayoutDashboard, FilePlus2,Files, Import,ChartNoAxesCombined, ReceiptIndianRupee } from "lucide-react";
+import {  LayoutDashboard, FilePlus2,Files, Import,ChartNoAxesCombined, ReceiptIndianRupee, ReceiptText, IndianRupee } from "lucide-react";
 import ReportGenerator from "../components/MainDashboardComponents/GenerateReport";
 import { cn } from "../lib/utils";
 import { ScrollArea } from "../components/ui/scroll-area";
@@ -54,14 +54,14 @@ const Dashboard = () => {
       icon: Import,
     },
     {
-      title: "Eligibility",
+      title: "Opportunity to Earn",
       url: "#",
-      icon: Files,
+      icon: IndianRupee,
     },
     {
       title: "Billing",
       url: "#",
-      icon: ReceiptIndianRupee,
+      icon:ReceiptText
     },
   ];
   useEffect(() => {
@@ -110,7 +110,7 @@ const Dashboard = () => {
             <main className="flex-1">
               {activeTab === "Dashboard" && <MainDashboard />}
               {activeTab === "Generate Report" && <ReportGenerator />}
-              {activeTab === "Eligibility" && <Eligibility />}
+              {activeTab === "Opportunity to Earn" && <Eligibility />}
               {activeTab === "Billing" && <Billing />}
               {activeTab === "Analytics" && <Analytics />}
             </main>

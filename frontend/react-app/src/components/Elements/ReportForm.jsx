@@ -12,6 +12,7 @@ import {
 import { Button } from "../ui/button";
 import { useToast } from "../../hooks/use-toast";
 import { Progress } from "../ui/progress";
+import axios from "axios";
 
 const GenerateReportForm = () => {
   const [unit, setUnit] = useState("Unit 1");
@@ -33,7 +34,11 @@ const GenerateReportForm = () => {
   const [toastId, setToastId] = useState(null);
   const [progressToastId, setProgressToastId] = useState(null);
   const progressIntervalRef = useRef(null);
-
+  // const [loading, setLoading] = useState(false);
+  // const [progress, setProgress] = useState(0);
+  // const [toastId, setToastId] = useState(null);
+  // const [selectedFiles, setSelectedFiles] = useState([]);
+  // const [fileDetails, setFileDetails] = useState([]);
   const filteredUnits = units.filter((u) =>
     u.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -95,19 +100,19 @@ const GenerateReportForm = () => {
     }
   };
 
-  const simulateProgress = () => {
-    setProgress(0);
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 99) {
-          clearInterval(interval); // Stop at 95%
-          return 99;
-        }
-        return prev + 5; // Increment progress
-      });
-    }, 200); // Adjust interval speed as needed
-    return interval;
-  };
+  // const simulateProgress = () => {
+  //   setProgress(0);
+  //   const interval = setInterval(() => {
+  //     setProgress((prev) => {
+  //       if (prev >= 99) {
+  //         clearInterval(interval); // Stop at 95%
+  //         return 99;
+  //       }
+  //       return prev + 5; // Increment progress
+  //     });
+  //   }, 200); // Adjust interval speed as needed
+  //   return interval;
+  // };
 
   useEffect(() => {
     if (toastId && progress > 0 && progress < 100) {
@@ -129,150 +134,124 @@ const GenerateReportForm = () => {
     }
   }, [progress, toastId]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const simulateProgress = () => {
+    const interval = setInterval(() => {
+      setProgress((prev) => (prev < 100 ? prev + 10 : prev));
+    }, 500);
+    return interval;
+  };
 
-    // Validate: No file selected
-    if (selectedFiles.length === 0) {
-      toast({
-        id: "no-files",
-        title: "Error",
-        description: "No files selected. Please select at least one file.",
-        variant: "destructive",
-        duration: 5000,
-      });
-      setLoading(false);
-      return;
-    }
+  const analyzeBankStatements = async (fileDetails) => {
+  // Construct the payload dynamically from fileDetails
+  const payload = {
+    bank_names: fileDetails.map((detail) => detail.bankName),
+    pdf_paths: fileDetails.map((detail) => `C:/Users/Harsh Jajal/Documents/coding/CypherSol Fintech India Pvt Ltd/clone--fork/ca-offline-suite/frontend/data/${detail.file.name}`),
+    passwords: fileDetails.map((detail) => detail.password || ""),
+    start_date: fileDetails.map((detail) => detail.startDate || ""),
+    end_date: fileDetails.map((detail) => detail.endDate || ""),
+    ca_id: "CASE_00009", // You can make this dynamic as well if needed
+  };
+  
+  // const payload = {
+  //   bank_names: ["HDFC"],
+  //   pdf_paths: fileDetails.map((detail) => `C:/Users/Harsh Jajal/Documents/coding/CypherSol Fintech India Pvt Ltd/clone--fork/ca-offline-suite/frontend/data/${detail.file.name}`),
+  //   passwords: [""],
+  //     start_date: ["26-01-2024"],
+  //     end_date: ["22-02-2024"],
+  //     ca_id: "HDFC",
+  //   };
 
-    // Validate: Duplicate files
-    const fileNames = selectedFiles.map((file) => file.name);
-    const duplicateFiles = fileNames.filter(
-      (name, index) => fileNames.indexOf(name) !== index
-    );
+  try {
+    const response = await axios.post("http://localhost:7500/analyze-statements/", payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    if (duplicateFiles.length > 0) {
-      toast({
-        id: "duplicate-files",
-        title: "Error",
-        description: `Duplicate files selected: ${duplicateFiles.join(", ")}.`,
-        variant: "destructive",
-        duration: 5000,
-      });
-      setLoading(false);
-      return;
-    }
+    console.log("API Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+};
 
-    // Create the initial progress toast
-    const id = toast({
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  const fileNames = selectedFiles.map((file) => file.name);
+  const duplicateFiles = fileNames.filter(
+    (name, index) => fileNames.indexOf(name) !== index
+  );
+
+  if (duplicateFiles.length > 0) {
+    toast({
+      id: "duplicate-files",
+      title: "Error",
+      description: `Duplicate files selected: ${duplicateFiles.join(", ")}.`,
+      variant: "destructive",
+      duration: 5000,
+    });
+    setLoading(false);
+    return;
+  }
+
+  const id = toast({
+    id: "report-progress",
+    title: "Generating Report",
+    description: (
+      <div className="mt-2 w-full flex flex-row gap-5 items-center space-y-2">
+        <Progress value={0} size={38} />
+        <p className="text-sm text-gray-500">
+          Please wait while we generate your report...
+        </p>
+      </div>
+    ),
+    duration: Infinity,
+  });
+  setToastId(id);
+
+  const progressInterval = simulateProgress();
+
+  try {
+    const result = await analyzeBankStatements(fileDetails);
+
+    clearInterval(progressInterval);
+    setProgress(100);
+
+    toast({
       id: "report-progress",
-      title: "Generating Report",
+      title: "Report Generated Successfully",
       description: (
         <div className="mt-2 w-full flex flex-row gap-5 items-center space-y-2">
-          <Progress value={0} size={38} />
+          <Progress value={100} size={38} />
           <p className="text-sm text-gray-500">
-            Please wait while we generate your report...
+            {result.message || "Report generated successfully!"}
           </p>
         </div>
       ),
-      duration: Infinity,
+      duration: 3000,
     });
-    setToastId(id);
 
-    // Simulate progress updates
-    const progressInterval = simulateProgress();
+    setSelectedFiles([]);
+    setFileDetails([]);
+  } catch (error) {
+    clearInterval(progressInterval);
+    toast({
+      id: "report-progress",
+      title: "Error",
+      description: `An error occurred while processing: ${error.message}`,
+      variant: "destructive",
+      duration: 5000,
+    });
+  } finally {
+    setLoading(false);
+    setProgress(0);
+    setToastId(null);
+  }
+};
 
-    try {
-      // Check for already existing reports
-      const alreadyExistingFiles = selectedFiles.filter((file) => {
-        // Simulate checking for existing files - replace with actual API call
-        return file.name.includes("existing"); // Example condition
-      });
-
-      // Display warning for already existing files
-
-      if (alreadyExistingFiles.length > 0) {
-        let message = "";
-        alreadyExistingFiles.forEach((file) => {
-          // Simulate getting account numbers and case IDs - replace with actual data
-          const accNumber = "XXXX" + file.name.slice(-4);
-          const caseIds = ["CASE_001", "CASE_002"];
-          message += `- Bank statement with account number ${accNumber} is already processed earlier, please refer case ID/IDs- ${caseIds.join(
-            ", "
-          )}\n`;
-        });
-
-        toast({
-          id: "existing-files",
-          title: "Warning",
-          description: message,
-          variant: "destructive",
-          duration: 5000,
-        });
-        setLoading(false);
-        return;
-      }
-
-      // Simulate processing files
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-
-      // Simulate failed files
-      const failedFiles = selectedFiles.filter((file) => {
-        // Simulate checking for failed files - replace with actual API call
-        return file.name.includes("fail"); // Example condition
-      });
-
-      if (failedFiles.length > 0) {
-        const failedPaths = failedFiles.map((f) => f.name).join(", ");
-        toast({
-          id: "failed-files",
-          title: "Exception",
-          description: `Following Bank statements are not processed due to some exception - ${failedPaths}`,
-          variant: "warning",
-          duration: 5000,
-        });
-      }
-
-      // Simulate finding similar groups
-      const similarGroups = 3; // Replace with actual count from API
-
-      // Complete progress
-      clearInterval(progressInterval);
-      setProgress(100);
-
-      // Show success message
-      toast({
-        id: "report-progress",
-        title: "Report Generated Successfully",
-        description: (
-          <div className="mt-2 w-full flex flex-row gap-5 items-center space-y-2">
-            <Progress value={100} size={38} />
-            <p className="text-sm text-gray-500">
-              Form submitted and processed successfully! Found ${similarGroups}{" "}
-              similar groups, please check the case dashboard and merge the
-              similar groups.
-            </p>
-          </div>
-        ),
-        duration: 3000,
-      });
-    } catch (error) {
-      // Handle any unexpected errors
-      clearInterval(progressInterval);
-      toast({
-        id: "report-progress",
-        title: "Error",
-        description: `An error occurred while processing: ${error.message}`,
-        variant: "destructive",
-        duration: 5000,
-      });
-    } finally {
-      setLoading(false);
-      setProgress(0);
-      setToastId(null);
-    }
-  };
 
   const formatFileSize = (bytes) => {
     if (bytes < 1024 * 1024) {
@@ -519,14 +498,18 @@ const GenerateReportForm = () => {
                             </label>
                             <input
                               type="date"
-                              value={detail.startDate}
-                              onChange={(e) =>
-                                handleFileDetailChange(
-                                  index,
-                                  "startDate",
-                                  e.target.value
-                                )
+                              value={
+                                detail.startDate
+                                  ? detail.startDate.split("-").reverse().join("-")
+                                  : "" // Ensure correct initial value
                               }
+                              onChange={(e) => {
+                                const date = e.target.value; // Get the date in YYYY-MM-DD format
+                                const [year, month, day] = date.split("-"); // Split into components
+                                const formattedDate = `${day}-${month}-${year}`; // Format to DD-MM-YYYY
+                                handleFileDetailChange(index, "startDate", formattedDate);
+                              }}
+                              placeholder="DD-MM-YYYY"
                               className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
                             />
                           </div>
@@ -536,14 +519,18 @@ const GenerateReportForm = () => {
                             </label>
                             <input
                               type="date"
-                              value={detail.endDate}
-                              onChange={(e) =>
-                                handleFileDetailChange(
-                                  index,
-                                  "endDate",
-                                  e.target.value
-                                )
+                              value={
+                                detail.endDate
+                                  ? detail.endDate.split("-").reverse().join("-")
+                                  : "" // Ensure correct initial value
                               }
+                              onChange={(e) => {
+                                const date = e.target.value; // Get the date in YYYY-MM-DD format
+                                const [year, month, day] = date.split("-"); // Split into components
+                                const formattedDate = `${day}-${month}-${year}`; // Format to DD-MM-YYYY
+                                handleFileDetailChange(index, "endDate", formattedDate);
+                              }}
+                              placeholder="DD-MM-YYYY"
                               className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
                             />
                           </div>
