@@ -18,7 +18,7 @@ const SingleLineChart = ({
   yAxis = {
     key: "balance",
     type: "line",
-    color: "hsl(var(--chart-5))",
+    color: "hsl(var(--chart-3))",
   },
 }) => {
   return (

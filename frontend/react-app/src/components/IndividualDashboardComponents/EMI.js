@@ -25,8 +25,8 @@ const EMI = () => {
                 title="Probable EMI"
                 xAxis={{ key: 'month'}}
                 yAxis={[
-                    { key: 'credit', type: 'bar', color: 'hsl(var(--chart-3))' },
-                    { key: 'balance', type: 'line', color: 'hsl(var(--chart-5))' },
+                    { key: 'credit', type: 'bar', color: 'hsl(var(--chart-5))' },
+                    { key: 'balance', type: 'line', color: 'hsl(var(--chart-3))' },
                 ]}
             />
 

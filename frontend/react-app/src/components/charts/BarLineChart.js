@@ -27,8 +27,8 @@ const BarLineChart = ({
       typeof value === "string" ? value.slice(0, 3) : value,
   },
   yAxis = [
-    { key: "mobile", type: "bar", color: "hsl(var(--chart-3))" },
-    { key: "desktop", type: "line", color: "hsl(var(--chart-5))" },
+    { key: "mobile", type: "bar", color: "hsl(var(--chart-5))" },
+    { key: "desktop", type: "line", color: "hsl(var(--chart-3))" },
   ],
 }) => {
   return (
