@@ -8,6 +8,7 @@ import CombinedTable from "../components/CaseDashboardComponents/CombinedTable";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBreadcrumb } from '../contexts/BreadcrumbContext';
 import {BreadcrumbDynamic}  from '../components/BreadCrumb';
+import { ClipboardPlus, UserPen } from "lucide-react";
 
 const CaseDashboard = () => {
 
@@ -28,13 +29,13 @@ const CaseDashboard = () => {
     {
       title: "Acc No and Acc Name",
       url: "#",
-      icon: null ,
+      icon: UserPen  ,
       isActive: true,
     },
     {
       title: "Reports",
       url: "#",
-      icon: null,
+      icon: ClipboardPlus ,
       items: [
         {
           title: "Individual Table",
