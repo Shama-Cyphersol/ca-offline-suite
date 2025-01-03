@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useToast } from "../../hooks/use-toast";
-import { Progress } from "../ui/progress";
+import { CircularProgress } from "../ui/circularprogress";
 import axios from "axios";
 
 const GenerateReportForm = () => {
@@ -32,17 +32,49 @@ const GenerateReportForm = () => {
   const { toast } = useToast();
   const [progress, setProgress] = useState(0);
   const [toastId, setToastId] = useState(null);
-  const [progressToastId, setProgressToastId] = useState(null);
   const progressIntervalRef = useRef(null);
-  // const [loading, setLoading] = useState(false);
-  // const [progress, setProgress] = useState(0);
-  // const [toastId, setToastId] = useState(null);
-  // const [selectedFiles, setSelectedFiles] = useState([]);
-  // const [fileDetails, setFileDetails] = useState([]);
   const filteredUnits = units.filter((u) =>
     u.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const simulateProgress = () => {
+    setProgress(0);
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 90) {
+          return prev; // Hold at 90% until completion
+        }
+        // Non-linear progress simulation for more realistic feel
+        const increment = Math.max(1, Math.floor((90 - prev) / 10));
+        return Math.min(90, prev + increment);
+      });
+    }, 300);
+    return interval;
+  };
+  useEffect(() => {
+    if (toastId && progress >= 0) {
+      toast({
+        id: toastId,
+        title: loading ? "Generating Report" : "Report Status",
+        description: (
+          <div className="mt-2 w-full flex flex-col gap-2">
+            <div className="flex items-center gap-4">
+              <CircularProgress value={progress} className="w-full" />
+              <span className="text-sm font-medium">{progress}%</span>
+            </div>
+            <p className="text-sm text-gray-500">
+              {progress < 90
+                ? "Processing your bank statements..."
+                : progress < 100
+                ? "Finalizing report generation..."
+                : "Report generated successfully!"}
+            </p>
+          </div>
+        ),
+        duration: progress >= 100 ? 3000 : Infinity,
+      });
+    }
+  }, [progress, toastId, loading, toast]);
   useEffect(() => {
     if (forAts) {
       setCaseId(`ATS_${unit.replace(/\s+/g, "_")}_${serialNumber}`);
@@ -121,7 +153,7 @@ const GenerateReportForm = () => {
         title: "Generating Report",
         description: (
           <div className="mt-2 w-full flex flex-row gap-5 items-center space-y-2">
-            <Progress value={progress} size={38} />
+            <CircularProgress value={progress} size={38} />
             <p className="text-sm text-gray-500">
               {progress < 100
                 ? "Please wait while we generate your report..."
@@ -134,12 +166,12 @@ const GenerateReportForm = () => {
     }
   }, [progress, toastId]);
 
-  const simulateProgress = () => {
-    const interval = setInterval(() => {
-      setProgress((prev) => (prev < 100 ? prev + 10 : prev));
-    }, 500);
-    return interval;
-  };
+  // const simulateProgress = () => {
+  //   const interval = setInterval(() => {
+  //     setProgress((prev) => (prev < 100 ? prev + 10 : prev));
+  //   }, 500);
+  //   return interval;
+  // };
 
   const analyzeBankStatements = async (fileDetails) => {
   // Construct the payload dynamically from fileDetails
@@ -180,32 +212,26 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   setLoading(true);
 
-  const fileNames = selectedFiles.map((file) => file.name);
-  const duplicateFiles = fileNames.filter(
-    (name, index) => fileNames.indexOf(name) !== index
-  );
-
-  if (duplicateFiles.length > 0) {
+  if (selectedFiles.length === 0) {
     toast({
-      id: "duplicate-files",
       title: "Error",
-      description: `Duplicate files selected: ${duplicateFiles.join(", ")}.`,
+      description: "Please select at least one file to generate the report.",
       variant: "destructive",
-      duration: 5000,
     });
     setLoading(false);
     return;
   }
 
+  // Create initial progress toast
   const id = toast({
-    id: "report-progress",
-    title: "Generating Report",
+    title: "Initializing Report Generation",
     description: (
-      <div className="mt-2 w-full flex flex-row gap-5 items-center space-y-2">
-        <Progress value={0} size={38} />
-        <p className="text-sm text-gray-500">
-          Please wait while we generate your report...
-        </p>
+      <div className="mt-2 w-full flex flex-col gap-2">
+        <div className="flex items-center gap-4">
+          <CircularProgress value={0} className="w-full" />
+          <span className="text-sm font-medium">0%</span>
+        </div>
+        <p className="text-sm text-gray-500">Preparing to process files...</p>
       </div>
     ),
     duration: Infinity,
@@ -217,42 +243,36 @@ const handleSubmit = async (e) => {
   try {
     const result = await analyzeBankStatements(fileDetails);
 
+    // Complete the progress
     clearInterval(progressInterval);
     setProgress(100);
 
+    // Show success message
     toast({
-      id: "report-progress",
-      title: "Report Generated Successfully",
-      description: (
-        <div className="mt-2 w-full flex flex-row gap-5 items-center space-y-2">
-          <Progress value={100} size={38} />
-          <p className="text-sm text-gray-500">
-            {result.message || "Report generated successfully!"}
-          </p>
-        </div>
-      ),
+      title: "Success",
+      description: "Report generated successfully!",
       duration: 3000,
     });
 
+    // Reset form state
     setSelectedFiles([]);
     setFileDetails([]);
   } catch (error) {
     clearInterval(progressInterval);
     toast({
-      id: "report-progress",
       title: "Error",
-      description: `An error occurred while processing: ${error.message}`,
+      description: `Failed to generate report: ${error.message}`,
       variant: "destructive",
       duration: 5000,
     });
   } finally {
     setLoading(false);
-    setProgress(0);
-    setToastId(null);
+    setTimeout(() => {
+      setProgress(0);
+      setToastId(null);
+    }, 3000);
   }
 };
-
-
   const formatFileSize = (bytes) => {
     if (bytes < 1024 * 1024) {
       return `${(bytes / 1024).toFixed(2)} KB`;
@@ -597,17 +617,21 @@ const handleSubmit = async (e) => {
 
         {/* Submit Button */}
         <div className="flex justify-center pt-4">
-          <Button type="submit" disabled={loading}>
-            {loading ? (
-              <>
-                <Loader2 className="animate-spin mr-2" />
-                Generating Report...
-              </>
-            ) : (
-              "Generate Report"
-            )}
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          disabled={loading}
+          className="relative inline-flex items-center px-4 py-2"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              <span>Processing...</span>
+            </>
+          ) : (
+            "Generate Report"
+          )}
+        </Button>
+      </div>
       </form>
     </div>
   </div>
