@@ -1,6 +1,6 @@
 {
   "name": "cyphersol-ats-electron-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "frontend/electron/main.js",
   "scripts": {
@@ -26,7 +26,12 @@
     "appId": "com.electron.electronapp",
     "productName": "Cyphersol",
     "directories": {
-      "output": "dist"
+        "output": "dist"
+    },
+    "publish": {
+        "provider": "github",
+        "owner": "Shama-Cyphersol",
+        "repo": "ca-offline-suite"
     },
     "files": [
       "frontend/electron/**/*",
