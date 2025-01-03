@@ -1,7 +1,12 @@
 const { app, BrowserWindow, protocol, ipcMain } = require('electron');
+const { autoUpdater } = require('electron-updater');
+const log = require('electron-log')
 const path = require('path');
 const fs = require('fs');
 const { spawn } = require('child_process');
+
+
+
 
 // Create logs directory
 const logDir = path.join(app.getPath('userData'), 'logs');
@@ -25,6 +30,41 @@ console.error = function(...args) {
   originalConsoleError(...args);
   logStream.write(`[${new Date().toISOString()}] ERROR: ${args.join(' ')}\n`);
 };
+
+
+function setupUpdater() {
+  autoUpdater.on('checking-for-update', () => {
+      log.info('Checking for updates...');
+      mainWindow?.webContents.send('update-status', 'Checking for updates...');
+  });
+
+  autoUpdater.on('update-available', (info) => {
+      log.info('Update available:', info);
+      mainWindow?.webContents.send('update-available', {
+          version: info.version,
+          releaseDate: info.releaseDate
+      });
+  });
+
+  autoUpdater.on('update-not-available', () => {
+      log.info('Update not available');
+      mainWindow?.webContents.send('update-not-available');
+  });
+
+  autoUpdater.on('download-progress', (progressObj) => {
+      mainWindow?.webContents.send('download-progress', progressObj);
+  });
+
+  autoUpdater.on('update-downloaded', (info) => {
+      log.info('Update downloaded');
+      mainWindow?.webContents.send('update-downloaded', info);
+  });
+
+  autoUpdater.on('error', (err) => {
+      log.error('Update error:', err);
+      mainWindow?.webContents.send('update-error', err.message);
+  });
+}
 
 let pythonProcess = null;
 let mainWindow = null;
@@ -70,7 +110,7 @@ function startPythonBackend() {
     });
     return;
   }
-  
+
   // Ensure executable permissions on Unix systems
   if (!isWin) {
     try {
@@ -151,6 +191,18 @@ function startPythonBackend() {
   ipcMain.handle('getBackendPort', () => {
     return currentPort;
   });
+
+  ipcMain.handle('check-for-updates', () => {
+    autoUpdater.checkForUpdates();
+  });
+  
+  ipcMain.handle('download-update', () => {
+    autoUpdater.downloadUpdate();
+  });
+  
+  ipcMain.handle('install-update', () => {
+    autoUpdater.quitAndInstall();
+  });
 }
 
 function stopPythonBackend() {
@@ -212,6 +264,8 @@ app.whenReady().then(() => {
   createProtocol();
   createWindow();
   startPythonBackend();
+  setupUpdater();  // Add this
+  autoUpdater.checkForUpdates();
 });
 
 app.on('window-all-closed', () => {
