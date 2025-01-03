@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cn } from "../lib/utils";
 import { ScrollArea } from "../components/ui/scroll-area";
 import Sidebar from "../components/Sidebar";
@@ -76,13 +76,23 @@ const IndividualDashboard = () => {
     else setActiveTab(defaultTab);
   }, []);
 
+  const handleTabChange = (newTab) => {
+    setActiveTab(newTab);
+    const scrollableNode = document.querySelector(
+      "[data-radix-scroll-area-viewport]"
+    );
+    if (scrollableNode) {
+      scrollableNode.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <div className={cn("w-full flex h-screen bg-background")}>
         <Sidebar
           navItems={navItems}
           activeTab={activeTab}
-          setActiveTab={setActiveTab}
+          setActiveTab={handleTabChange}
         />
         <ScrollArea className="w-full">
           <BreadcrumbDynamic items={breadcrumbs} />

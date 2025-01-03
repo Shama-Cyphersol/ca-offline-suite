@@ -1,0 +1,23 @@
+[
+  {
+    "Value Date": "15-02-2024",
+    "Description": "neftcr-bcbm0000001-balajiinfosystems-balajiinfosystems-bcbmh24045688940",
+    "Credit": 100000,
+    "Balance": 105743.34,
+    "Category": "balajiinfosystems"
+  },
+  {
+    "Value Date": "27-01-2024",
+    "Description": "neftcr-idfb0010201-netmagnetsllp-balajiinfosystems-idfbh24027812463",
+    "Credit": 5150,
+    "Balance": 654656.56,
+    "Category": "netmagnetsllp"
+  },
+  {
+    "Value Date": "20-02-2024",
+    "Description": "imps-405119983082-netmagnetsllp-idfb-xxxxxxx6406-gstjan24",
+    "Credit": 120879,
+    "Balance": 357284.44,
+    "Category": "netmagnetsllp"
+  }
+]

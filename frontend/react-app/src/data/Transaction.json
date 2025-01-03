@@ -1,0 +1,340 @@
+[
+  {
+    "Value Date": "26-01-2024",
+    "Description": "openingbalance",
+    "Debit": 0,
+    "Credit": 0,
+    "Balance": 654796.56,
+    "Category": "Opening Balance"
+  },
+  {
+    "Value Date": "26-01-2024",
+    "Description": "upi-shreedevidosacorn-paytm-61701757@paytm-pytm0123456-439271363551-oid202401",
+    "Debit": 140,
+    "Balance": 654656.56,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "27-01-2024",
+    "Description": "cbdt/bankreferenceno:k2402714017924/cinno:24012700004582hdfc/online",
+    "Debit": 5150,
+    "Balance": 649506.56,
+    "Category": "Suspense"
+  },
+  {
+    "Value Date": "27-01-2024",
+    "Description": "neftcr-idfb0010201-netmagnetsllp-balajiinfosystems-idfbh24027812463",
+    "Credit": 5150,
+    "Balance": 654656.56,
+    "Category": "Debtor"
+  },
+  {
+    "Value Date": "27-01-2024",
+    "Description": "upi-smartbazaar-smartbazaar.27235506@hdfcbank-hdfc0000001-402738729714-na",
+    "Debit": 147,
+    "Balance": 654509.56,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "29-01-2024",
+    "Description": ".impsp2p401712175746#17/01/2024170124-mir2402553372032",
+    "Debit": 17.7,
+    "Balance": 654491.86,
+    "Category": "Creditor"
+  },
+  {
+    "Value Date": "29-01-2024",
+    "Description": "rtgsdr-bcbm0000018-balajiinfosystems-netbank,mum-hdfcr52024012974341785-inte",
+    "Debit": 400000,
+    "Balance": 254491.86,
+    "Category": "Creditor"
+  },
+  {
+    "Value Date": "29-01-2024",
+    "Description": "upi-xxxxxx9300-utib0000018-439511368709-loanprocessingfe",
+    "Debit": 22500,
+    "Balance": 231991.86,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "31-01-2024",
+    "Description": "yhdf2219788226/billdkadanielectrici",
+    "Debit": 4240,
+    "Balance": 227751.86,
+    "Category": "Utility Bills"
+  },
+  {
+    "Value Date": "31-01-2024",
+    "Description": "yhdf2219794064/billdkadanielectrici",
+    "Debit": 3450,
+    "Balance": 224301.86,
+    "Category": "Utility Bills"
+  },
+  {
+    "Value Date": "02-02-2024",
+    "Description": "upi-addmoneytowallet-add-money@paytm-",
+    "Debit": 668.9,
+    "Balance": 223632.96,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "04-02-2024",
+    "Description": "upi-ankityadav-ankit.7095-9@waaxis-ubin0576581-440108443058-sentfrompaytm",
+    "Debit": 20600,
+    "Balance": 203032.96,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "04-02-2024",
+    "Description": "zhdf1726664524/billdkamericanexpres",
+    "Debit": 15441,
+    "Balance": 187591.96,
+    "Category": "Suspense"
+  },
+  {
+    "Value Date": "05-02-2024",
+    "Description": "settlementcharge-jan24-ho4368",
+    "Debit": 1.18,
+    "Balance": 187590.78,
+    "Category": "Suspense"
+  },
+  {
+    "Value Date": "06-02-2024",
+    "Description": "neftdr-bcbm0000018-balajiinfosystems-netbank,mum-n037242868406182-internal",
+    "Debit": 100000,
+    "Balance": 87590.78,
+    "Category": "Creditor"
+  },
+  {
+    "Value Date": "06-02-2024",
+    "Description": "50200032893240-tpt-internal-lalitagarwalhuf",
+    "Debit": 20000,
+    "Balance": 67590.78,
+    "Category": "Suspense"
+  },
+  {
+    "Value Date": "07-02-2024",
+    "Description": "chqdep-transferow1-noidawbo:trchadhaandcoll:hdfcbankltd",
+    "Credit": 3090,
+    "Balance": 70680.78,
+    "Category": "Cash Deposits"
+  },
+  {
+    "Value Date": "08-02-2024",
+    "Description": "upi-addmoneytopytm0123456-440557945355-oid22991701163@",
+    "Debit": 200,
+    "Balance": 70480.78,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "09-02-2024",
+    "Description": "upi-addmoneytopytm0123456-440653083452-oid23021080449@",
+    "Debit": 75,
+    "Balance": 70405.78,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "09-02-2024",
+    "Description": "upi-parthlalitagarwal-8080809997@paytm-utib0004251-404046176045-na",
+    "Debit": 2000,
+    "Balance": 68405.78,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "10-02-2024",
+    "Description": "upi-nirmalsweets-q149276552@ybl-yesb0yblupi-404124524085-na",
+    "Debit": 720,
+    "Balance": 67685.78,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "12-02-2024",
+    "Description": "upi-roshanashokpathak-9503136944@paytm-sbin0017567-440902911007-na",
+    "Debit": 5000,
+    "Balance": 62685.78,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "12-02-2024",
+    "Description": "upi-farhansalimpatel-farhanpatel8425@okhdfcbank-kkbk0001418-440902956505-sent",
+    "Debit": 8000,
+    "Balance": 54685.78,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "13-02-2024",
+    "Description": "upi-directkonnect-directkonnect.99944773@hdfcbank-hdfc0000001-404424695625-na",
+    "Debit": 13500,
+    "Balance": 41185.78,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "14-02-2024",
+    "Description": "achd-pinelabsprivatelimit-np3417078814",
+    "Debit": 649,
+    "Balance": 40536.78,
+    "Category": "Suspense"
+  },
+  {
+    "Value Date": "14-02-2024",
+    "Description": "upi-jamalakhtar-perfectsolver2010@okaxis-barb0miraro-441127932863-sentfrompay",
+    "Debit": 24000,
+    "Balance": 16536.78,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "15-02-2024",
+    "Description": "yhdf2234857572/billdkratnakarbankli",
+    "Debit": 9197.44,
+    "Balance": 7339.34,
+    "Category": "Suspense"
+  },
+  {
+    "Value Date": "15-02-2024",
+    "Description": "zhdf1751769001/billdkamericanexpres",
+    "Debit": 1596,
+    "Balance": 5743.34,
+    "Category": "Suspense"
+  },
+  {
+    "Value Date": "15-02-2024",
+    "Description": "neftcr-bcbm0000001-balajiinfosystems-balajiinfosystems-bcbmh24045688940",
+    "Credit": 100000,
+    "Balance": 105743.34,
+    "Category": "Debtor"
+  },
+  {
+    "Value Date": "15-02-2024",
+    "Description": "upi-addmoneytopytm0123456-404654271345-oid23057240590@",
+    "Debit": 789.12,
+    "Balance": 104954.22,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "15-02-2024",
+    "Description": "upi-parthlalitagarwal-8080809997@paytm-utib0004251-404610844404-na",
+    "Debit": 2000,
+    "Balance": 102954.22,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "17-02-2024",
+    "Description": "42271878terminal1cardssettl.17/02/24",
+    "Credit": 50649.22,
+    "Balance": 153603.44,
+    "Category": "Suspense"
+  },
+  {
+    "Value Date": "17-02-2024",
+    "Description": "upi-azhermujahidkhan-azher.aditinfra-3@okaxis-bkid0009651-404815522563-sentfr",
+    "Debit": 3000,
+    "Balance": 150603.44,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "17-02-2024",
+    "Description": "upi-roshanashokpathak-9503136944@paytm-sbin0017567-404815582494-miscellaneous",
+    "Debit": 530,
+    "Balance": 150073.44,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "17-02-2024",
+    "Description": "upi-roshanashokpathak-9503136944@paytm-sbin0017567-404849293364-na",
+    "Debit": 970,
+    "Balance": 149103.44,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "19-02-2024",
+    "Description": "upi-workindia-cf.workindia@indus-indb0000008-405099561062-2474697424",
+    "Debit": 4718,
+    "Balance": 144385.44,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "20-02-2024",
+    "Description": "chqdep-transferow1-noidawbo:tr",
+    "Credit": 196043,
+    "Balance": 340428.44,
+    "Category": "Cash Deposits"
+  },
+  {
+    "Value Date": "20-02-2024",
+    "Description": "gst/bankreferenceno:r2405151844388/cinno:hdfc24022700538731",
+    "Debit": 120879,
+    "Balance": 219549.44,
+    "Category": "GST Paid"
+  },
+  {
+    "Value Date": "20-02-2024",
+    "Description": "chqdep-transferow1-noidawbo:tr",
+    "Credit": 16856,
+    "Balance": 236405.44,
+    "Category": "Cash Deposits"
+  },
+  {
+    "Value Date": "20-02-2024",
+    "Description": "imps-405119983082-netmagnetsllp-idfb-xxxxxxx6406-gstjan24",
+    "Credit": 120879,
+    "Balance": 357284.44,
+    "Category": "Debtor"
+  },
+  {
+    "Value Date": "21-02-2024",
+    "Description": "chqpaid-micrcts-mu-licofindia",
+    "Debit": 6253,
+    "Balance": 351031.44,
+    "Category": "Creditor"
+  },
+  {
+    "Value Date": "21-02-2024",
+    "Description": "achd-pinelabsprivatelimit-np3417084862",
+    "Debit": 34,
+    "Balance": 350997.44,
+    "Category": "Suspense"
+  },
+  {
+    "Value Date": "21-02-2024",
+    "Description": "upi-addmoneytopytm0123456-441854521814-oid23055937653@",
+    "Debit": 150,
+    "Balance": 350847.44,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "22-02-2024",
+    "Description": "yhdf2242040456/billdkratnakarbankli",
+    "Debit": 27224.72,
+    "Balance": 323622.72,
+    "Category": "Suspense"
+  },
+  {
+    "Value Date": "22-02-2024",
+    "Description": "upi-addmoneytopytm0123456-441955464220-oid23062273685@",
+    "Debit": 50,
+    "Balance": 323572.72,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "22-02-2024",
+    "Description": "upi-roshanashokpathak-9503136944@paytm-sbin0017567-405342051679-na",
+    "Debit": 21584,
+    "Balance": 301988.72,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "22-02-2024",
+    "Description": "upi-gyanvendrasureshmi-9172272590@paytm-hdfc0000358-405342160427-na",
+    "Debit": 17200,
+    "Balance": 284788.72,
+    "Category": "UPI-Dr"
+  },
+  {
+    "Value Date": "22-02-2024",
+    "Description": "closingbalance",
+    "Debit": 0,
+    "Credit": 0,
+    "Balance": 284788.72,
+    "Category": "Closing Balance"
+  }
+]

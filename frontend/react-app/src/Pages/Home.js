@@ -26,13 +26,6 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const { defaultTab } = useParams();
 
-  // const navItems = [
-  //   // { name: 'Dashboard', icon: LayoutDashboard, id: 'Dashboard' },
-  //   // { name: 'Generate Report', icon: Files, id: 'report' }
-  //   {text: 'Dashboard', icon: LayoutDashboard},
-  //   {text: 'Generate Report', icon: Files}
-  // ];
-
   const navItems = [
     {
       title: "Dashboard",
@@ -66,6 +59,7 @@ const Dashboard = () => {
       icon: ReceiptIndianRupee,
     },
   ];
+
   useEffect(() => {
     if (!defaultTab || defaultTab === "defaultTab")
       setActiveTab(navItems[0].title);
@@ -76,28 +70,15 @@ const Dashboard = () => {
     setMainDashboard(activeTab, `/${activeTab}`);
   }, [activeTab]);
 
-  // const breadcrumbItems = [
-  //   {
-  //     label: "Home",
-  //     href: "/"
-  //   },
-  //   {
-  //     label: "...",
-  //     dropdown: [
-  //       { label: "Documentation", href: "/docs" },
-  //       { label: "Themes", href: "/themes" },
-  //       { label: "GitHub", href: "/github" }
-  //     ]
-  //   },
-  //   {
-  //     label: "Components",
-  //     href: "/docs/components"
-  //   },
-  //   {
-  //     label: "Breadcrumb",
-  //     isCurrentPage: true
-  //   }
-  // ];
+  const handleTabChange = (newTab) => {
+    setActiveTab(newTab);
+    const scrollableNode = document.querySelector(
+      "[data-radix-scroll-area-viewport]"
+    );
+    if (scrollableNode) {
+      scrollableNode.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <>
@@ -105,7 +86,7 @@ const Dashboard = () => {
         <Sidebar
           navItems={navItems}
           activeTab={activeTab}
-          setActiveTab={setActiveTab}
+          setActiveTab={handleTabChange} // Changed from setActiveTab to handleTabChange
         />
         <ScrollArea className="w-full">
           <BreadcrumbDynamic items={breadcrumbs} />
