@@ -1,81 +1,88 @@
-"use client"
-
-import { TrendingUp } from "lucide-react"
-import { Pie, PieChart } from "recharts"
-
+import React from "react";
+import { Pie, PieChart } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card"
-import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "../ui/chart"
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-]
+  ChartLegend,
+  ChartLegendContent,
+} from "../ui/chart";
 
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
-}
+const PieCharts = ({
+  data = [],
+  title = "Dynamic Pie Chart",
+  config = {},
+  valueKey = null,
+  nameKey = null,
+}) => {
+  // Get all columns from the first data item
+  const columns = data.length > 0 ? Object.keys(data[0]) : [];
 
-export function PieCharts() {
+  // Determine numeric columns
+  const numericColumns = columns.filter((column) =>
+    data.some((row) => {
+      const value = String(row[column]);
+      return !isNaN(parseFloat(value)) && !value.includes("-");
+    })
+  );
+
+  // If keys are not provided, use Description as nameKey
+  // and automatically detect Credit or Debit as valueKey based on title
+  const defaultNameKey = "Description";
+  const defaultValueKey = title.toLowerCase().includes("credit")
+    ? "Credit"
+    : "Debit";
+
+  const finalNameKey = nameKey || defaultNameKey;
+  const finalValueKey = valueKey || defaultValueKey;
+
+  // Generate colors for pie slices
+  const getColor = (index) => {
+    const colors = [
+      "hsl(var(--chart-1))",
+      "hsl(var(--chart-2))",
+      "hsl(var(--chart-3))",
+      "hsl(var(--chart-4))",
+      "hsl(var(--chart-5))",
+    ];
+    return colors[index % colors.length];
+  };
+
+  // Transform data to include colors
+  const transformedData = data.map((item, index) => ({
+    ...item,
+    fill: getColor(index),
+  }));
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart</CardTitle>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          config={config}
+          className="mx-auto aspect-square max-h-[400px]"
         >
           <PieChart>
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
+            <ChartLegend content={<ChartLegendContent />} />
             <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
+              data={transformedData}
+              dataKey={finalValueKey}
+              nameKey={finalNameKey}
               stroke="0"
+              radius={120}
             />
           </PieChart>
         </ChartContainer>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
+
+export default PieCharts;

@@ -1,0 +1,316 @@
+{
+  "particulars": [
+    {
+      "particulars": "Opening Balance",
+      "jan2024": 654796.56,
+      "feb2024": 224301.86,
+      "total": ""
+    },
+    {
+      "particulars": "Closing Balance",
+      "jan2024": 224301.86,
+      "feb2024": 284788.72,
+      "total": ""
+    },
+    {
+      "particulars": "Total Amount of Credit Transactions",
+      "jan2024": 5150,
+      "feb2024": 487517.22,
+      "total": 492667.22
+    },
+    {
+      "particulars": "Total Amount of Debit Transactions",
+      "jan2024": 435644.7,
+      "feb2024": 427030.36,
+      "total": 862675.06
+    }
+  ],
+  "income": [
+    {
+      "income": "Salary Received",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "Debtors Amount",
+      "jan2024": 5150,
+      "feb2024": 220879,
+      "total": 226029
+    },
+    {
+      "income": "Bank Interest Received",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "Rent Received",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "Redemption, Dividend & Interest",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "Cash Deposits",
+      "jan2024": 0,
+      "feb2024": 215989,
+      "total": 215989
+    },
+    {
+      "income": "Loans Received",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "Income Tax Refund",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "POS Txns - Cr",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "UPI-Cr",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "Bounce Transaction",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "Cash Reversal",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "Probable Claim Settlement",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "Refund/Reversal",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "income": "Suspense - Cr",
+      "jan2024": 0,
+      "feb2024": 50649.22,
+      "total": 50649.22
+    },
+    {
+      "income": "Total Credit",
+      "jan2024": 5150,
+      "feb2024": 487517.22,
+      "total": 492667.22
+    }
+  ],
+  "importantExpenses": [
+    {
+      "importantExpenses": "Creditor Amount",
+      "jan2024": 400017.7,
+      "feb2024": 106253,
+      "total": 506270.7
+    },
+    {
+      "importantExpenses": "Salaries Paid",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Probable EMI",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Investment Details",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Interest Debit",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Insurance Premium",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Rent Paid",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Electricity Bill",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Internet Bill",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Mobile Bill",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Professional Tax",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "PF Payment",
+      "jan2024": 0,
+      "feb2024": 120879,
+      "total": 120879
+    },
+    {
+      "importantExpenses": "TDS Payment",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "GST Payment",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Income Tax Paid",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "Others Bills",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "importantExpenses": "POS Txns - Dr",
+      "jan2024": 400017.7,
+      "feb2024": 227132,
+      "total": 627149.7
+    },
+    {
+      "importantExpenses": "UPI-Dr",
+      "jan2024": "",
+      "feb2024": "",
+      "total": ""
+    }
+  ],
+  "otherExpenses": [
+    {
+      "otherExpenses": "ATM Withdrawal",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "otherExpenses": "Cash Withdrawal",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "otherExpenses": "Bank Charges",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "otherExpenses": "Cheque Return Charges",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "otherExpenses": "Cash Deposit Machine Charges",
+      "jan2024": 7690,
+      "feb2024": 0,
+      "total": 7690
+    },
+    {
+      "otherExpenses": "Probable ATM Charges",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "otherExpenses": "Service Tax",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "otherExpenses": "Cheque Book Charges",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "otherExpenses": "DD Charges",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "otherExpenses": "Bounce Transaction",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "otherExpenses": "Probable Claim Settlement",
+      "jan2024": 22787,
+      "feb2024": 125755.02,
+      "total": 148542.02
+    },
+    {
+      "otherExpenses": "Suspense - Dr",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    },
+    {
+      "otherExpenses": "Total Debit",
+      "jan2024": 0,
+      "feb2024": 0,
+      "total": 0
+    }
+  ]
+}

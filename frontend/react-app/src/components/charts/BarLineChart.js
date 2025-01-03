@@ -1,25 +1,70 @@
-import React from 'react';
-import { Bar, Line, ComposedChart, CartesianGrid, XAxis, YAxis } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import React from "react";
 import {
-  ChartConfig,
+  Bar,
+  Line,
+  ComposedChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
-} from '../ui/chart';
+} from "../ui/chart";
 
 const BarLineChart = ({
-  data,
-  title = "Combined Chart - Line & Bar",
+  data = [],
+  title = "Dynamic Combined Chart",
   config = {},
-  xAxis = { key: "month", tickFormatter: (value) => (typeof value === 'string' ? value.slice(0, 3) : value) },
-  yAxis = [
-    { key: "mobile", type: "bar", color: "hsl(var(--chart-5))" },
-    { key: "desktop", type: "line", color: "hsl(var(--chart-3))" },
-  ],
+  xAxisKey = null,
+  // Optional: Specify which columns should be bars vs lines
+  columnTypes = {}, // e.g., { revenue: 'bar', growth: 'line' }
 }) => {
+  // Get all columns from the first data item
+  const columns = data.length > 0 ? Object.keys(data[0]) : [];
+
+  // Determine numeric columns
+  const numericColumns = columns.filter((column) =>
+    data.some((row) => {
+      const value = String(row[column]);
+      return !isNaN(parseFloat(value)) && !value.includes("-");
+    })
+  );
+
+  // If xAxisKey is not provided, use the first non-numeric column as default
+  const defaultXAxis =
+    columns.find((col) => !numericColumns.includes(col)) || columns[0];
+  const xAxis = xAxisKey || defaultXAxis;
+
+  // Generate colors for visualization
+  const getColor = (index) => {
+    const colors = [
+      "hsl(var(--chart-1))",
+      "hsl(var(--chart-2))",
+      "hsl(var(--chart-3))",
+      "hsl(var(--chart-4))",
+      "hsl(var(--chart-5))",
+    ];
+    return colors[index % colors.length];
+  };
+
+  // Determine visualization type for each numeric column
+  const visualizations = numericColumns
+    .filter((col) => col !== xAxis)
+    .map((column, index) => {
+      // If type is specified in columnTypes, use that, otherwise alternate between bar and line
+      const type = columnTypes[column] || (index % 2 === 0 ? "bar" : "line");
+      return {
+        key: column,
+        type: type,
+        color: getColor(index),
+      };
+    });
+
   return (
     <Card>
       <CardHeader>
@@ -28,50 +73,45 @@ const BarLineChart = ({
       <CardContent>
         <ChartContainer config={config}>
           <ComposedChart
-            accessibilityLayer
             data={data}
             margin={{
-              left: 12,
-              right: 12,
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
             }}
           >
-            <CartesianGrid vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" />
             <XAxis
-              dataKey={xAxis.key}
+              dataKey={xAxis}
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={xAxis.tickFormatter}
+              tickFormatter={(value) =>
+                typeof value === "string" ? value.slice(0, 10) : value
+              }
             />
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              tickMargin={8}
-              tickFormatter={xAxis.tickFormatter || undefined} // Optional tick formatting
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent />}
-            />
+            <YAxis axisLine={false} tickLine={false} tickMargin={8} />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
-            {yAxis.map((yAxisItem) => (
-              yAxisItem.type === "bar" ? (
+            {visualizations.map((viz) =>
+              viz.type === "bar" ? (
                 <Bar
-                  key={yAxisItem.key}
-                  dataKey={yAxisItem.key}
-                  fill={yAxisItem.color}
+                  key={viz.key}
+                  dataKey={viz.key}
+                  fill={viz.color}
                   radius={4}
                   barSize={20}
                 />
               ) : (
                 <Line
-                  key={yAxisItem.key}
-                  dataKey={yAxisItem.key}
+                  key={viz.key}
+                  dataKey={viz.key}
                   type="natural"
-                  stroke={yAxisItem.color}
+                  stroke={viz.color}
                   strokeWidth={2}
                   dot={{
-                    fill: yAxisItem.color,
+                    fill: viz.color,
                     r: 4,
                   }}
                   activeDot={{
@@ -79,7 +119,7 @@ const BarLineChart = ({
                   }}
                 />
               )
-            ))}
+            )}
           </ComposedChart>
         </ChartContainer>
       </CardContent>

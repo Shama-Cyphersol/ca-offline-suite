@@ -2,7 +2,6 @@ import React from "react";
 import { Line, CartesianGrid, XAxis, YAxis, LineChart } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -11,16 +10,32 @@ import {
 } from "../ui/chart";
 
 const SingleLineChart = ({
-  data,
-  title = "Line Chart",
+  data = [],
+  title = "Single Line Chart",
   config = {},
-  xAxis = { key: "month", tickFormatter: (value) => (typeof value === "string" ? value.slice(0, 3) : value) },
-  yAxis = {
-    key: "balance",
-    type: "line",
-    color: "hsl(var(--chart-3))",
-  },
+  xAxisKey = null,
+  yAxisKey = null,
+  selectedColumns = [],
 }) => {
+  const columns = data.length > 0 ? Object.keys(data[0]) : [];
+  const xAxis = xAxisKey || columns[0];
+
+  const getColor = (index) => {
+    const colors = [
+      "hsl(var(--chart-1))",
+      "hsl(var(--chart-2))",
+      "hsl(var(--chart-3))",
+      "hsl(var(--chart-4))",
+      "hsl(var(--chart-5))",
+    ];
+    return colors[index % colors.length];
+  };
+
+  const lines = selectedColumns.map((column, index) => ({
+    key: column,
+    color: getColor(index),
+  }));
+
   return (
     <Card>
       <CardHeader>
@@ -29,45 +44,43 @@ const SingleLineChart = ({
       <CardContent>
         <ChartContainer config={config}>
           <LineChart
-            accessibilityLayer
             data={data}
             margin={{
-              left: 12,
-              right: 12,
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
             }}
           >
-            <CartesianGrid vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" />
             <XAxis
-              dataKey={xAxis.key}
+              dataKey={xAxis}
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={xAxis.tickFormatter}
+              tickFormatter={(value) =>
+                typeof value === "string" ? value.slice(0, 10) : value
+              }
             />
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              tickMargin={8}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent />}
-            />
+            <YAxis axisLine={false} tickLine={false} tickMargin={8} />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
-            <Line
-              key={yAxis.key}
-              dataKey={yAxis.key}
-              type="natural"
-              stroke={yAxis.color}
-              strokeWidth={2}
-              dot={{
-                fill: yAxis.color,
-                r: 4,
-              }}
-              activeDot={{
-                r: 6,
-              }}
-            />
+            {lines.map((line) => (
+              <Line
+                key={line.key}
+                dataKey={line.key}
+                type="natural"
+                stroke={line.color}
+                strokeWidth={2}
+                dot={{
+                  fill: line.color,
+                  r: 4,
+                }}
+                activeDot={{
+                  r: 6,
+                }}
+              />
+            ))}
           </LineChart>
         </ChartContainer>
       </CardContent>

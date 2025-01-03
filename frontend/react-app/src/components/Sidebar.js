@@ -1,5 +1,4 @@
-
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   LayoutDashboard,
   Files,
@@ -40,30 +39,72 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
   const navigate = useNavigate();
   const { isCollapsed } = useSidebar();
   const [user] = React.useState({
-    name: "Harsh Jajal",
-    email: "m@example.com",
+    name: "Raj Singh",
+    email: "rajsingh08471@gmail.com",
     avatar: "#",
   });
+  const [openMenus, setOpenMenus] = React.useState({});
+
+  // const toggleItem = (title) => {
+  //   setOpenItems((prevState) => ({
+  //     ...prevState,
+  //     [title]: !prevState[title], // Toggle the current state
+  //   }));
+  // };
+
+
+  const handleMenuClick = (hasSubmenu, item) => {
+    if (hasSubmenu) {
+      // Toggle open state for this menu item
+      setOpenMenus((prev) => ({
+        ...prev,
+        [item.title]: !prev[item.title],
+      }));
+    } else {
+      // Set active tab for non-submenu items
+      setActiveTab(item.title);
+    }
+  }
 
   const MenuItem = ({ item, level = 0 }) => {
     const hasSubmenu = item.items?.length > 0;
+    const isOpen = openMenus[item.title]; 
+    // const [isOpen, setIsOpen] = React.useState(false); // Local state for submenu toggle
+
+    // const handleMenuClick = () => {
+    //   if (hasSubmenu) {
+    //     setIsOpen((prev) => !prev); // Toggle submenu
+    //   }
+    //   setActiveTab(item.title); // Set active tab if no submenu
+    // };
+  
 
     return (
       <div className="w-full">
         <button
           className={`w-full flex items-center justify-start p-2 rounded-md transition-all duration-200 ease-in-out
             ${level > 0 ? "ml-4" : ""} 
-            ${activeTab === item.title && !hasSubmenu ? "bg-gray-200 text-black font-semibold" : "text-gray-600 hover:bg-gray-100"}
+            ${
+              activeTab === item.title && !hasSubmenu
+                ? "bg-gray-200 text-black font-semibold"
+                : "text-gray-600 hover:bg-gray-100"
+            }
             ${isCollapsed ? "justify-center" : ""}`}
-          onClick={() => !hasSubmenu && setActiveTab(item.title)}
+          // onClick={() => !hasSubmenu && setActiveTab(item.title)}
+            onClick={() => handleMenuClick(hasSubmenu, item)}
         >
           <div className="flex items-center gap-3">
             {item.icon && <item.icon className="h-5 w-5 flex-shrink-0" />}
             {!isCollapsed && <span className="text-sm">{item.title}</span>}
+            {hasSubmenu && (
+            <span className="ml-auto">
+              {isOpen ? "▲" : "▼"} {/* Indicator for submenu toggle */}
+            </span>
+          )}
           </div>
         </button>
 
-        {hasSubmenu && (
+        {hasSubmenu && isOpen && (
           <div className={`ml-4 mt-1 space-y-1 ${isCollapsed ? "hidden" : ""}`}>
             {item.items.map((subItem) => (
               <MenuItem key={subItem.title} item={subItem} level={level + 1} />
@@ -145,11 +186,13 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
     <Sidebar className="transition-all duration-300 ease-in-out">
       <SidebarHeader>
         <div className="h-16 flex items-center px-4 border-b">
-          <img 
-            src={logo} 
-            alt="Logo" 
-            className={`h-12 cursor-pointer transition-all duration-300 ${isCollapsed ? "w-8" : "w-auto"}`}
-            onClick={() => navigate("/")} 
+          <img
+            src={logo}
+            alt="Logo"
+            className={`h-12 cursor-pointer transition-all duration-300 ${
+              isCollapsed ? "w-8" : "w-auto"
+            }`}
+            onClick={() => navigate("/")}
           />
         </div>
       </SidebarHeader>

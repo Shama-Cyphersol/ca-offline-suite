@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import {
   Bar,
@@ -8,18 +6,11 @@ import {
   XAxis,
   YAxis,
   LabelList,
+  Tooltip,
+  Legend,
 } from "recharts";
-
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -27,80 +18,102 @@ import {
   ChartLegendContent,
 } from "../ui/chart";
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-5))",
-  },
-  label: {
-    color: "hsl(var(--background))",
-  },
-};
+const HorizontalBarChart = ({
+  data = [],
+  title = "Dynamic Horizontal Bar Chart",
+  config = {},
+  xAxisKey = null,
+  yAxisKey = null,
+}) => {
+  // Extract all columns from the first data item
+  const columns = data.length > 0 ? Object.keys(data[0]) : [];
 
-export function HorizontalBarChart({
-  data,
-  title = "Combined Chart - Bar",
-  config = chartConfig,
-  xAxisKey = "month",
-  yAxisKey = "desktop", // Change this if needed to the correct key for your data
-}) {
+  // Determine numeric columns
+  const numericColumns = columns.filter((column) =>
+    data.some((row) => {
+      const value = String(row[column]);
+      return !isNaN(parseFloat(value)) && !value.includes("-");
+    })
+  );
+
+  // If xAxisKey is not provided, use the first non-numeric column
+  const defaultXAxis =
+    columns.find((col) => !numericColumns.includes(col)) || columns[0];
+  const xAxis = xAxisKey || defaultXAxis;
+
+  // Generate colors for bars
+  const getColor = (index) => {
+    const colors = [
+      "hsl(var(--chart-1))",
+      "hsl(var(--chart-2))",
+      "hsl(var(--chart-3))",
+      "hsl(var(--chart-4))",
+      "hsl(var(--chart-5))",
+    ];
+    return colors[index % colors.length];
+  };
+
+  // Create bar configurations for numeric columns
+  const bars = numericColumns
+    .filter((col) => col !== xAxis) // Exclude the x-axis column
+    .map((column, index) => ({
+      key: column,
+      color: getColor(index),
+    }));
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={config}>
           <ComposedChart
             data={data}
-            margin={{
-              top: 16,
-              right: 12,
-              bottom: 16,
-              left: 12,
-            }}
             layout="vertical"
+            margin={{
+              top: 20,
+              right: 30,
+              left: 40,
+              bottom: 5,
+            }}
           >
-            <CartesianGrid vertical={false} />
-            <XAxis dataKey={yAxisKey} type="number" hide />
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis type="number" axisLine={false} tickLine={false} />
             <YAxis
-              dataKey={xAxisKey}
+              dataKey={xAxis}
               type="category"
+              axisLine={false}
               tickLine={false}
               tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) =>
+                typeof value === "string" ? value.slice(0, 10) : value
+              }
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Bar
-              dataKey={yAxisKey}
-              fill={config.desktop.color}
-              radius={4}
-              barSize={40} // Increased bar width
-            >
-              <LabelList
-                dataKey={yAxisKey}
-                position="insideRight" // Place the label inside the bar
-                offset={8}
-                fontSize={14} // Adjust font size for readability
-                className="fill-foreground" // Style the label color
-              />
-            </Bar>
+            <Tooltip content={<ChartTooltipContent />} />
+            <Legend content={<ChartLegendContent />} />
+            {bars.map((bar) => (
+              <Bar
+                key={bar.key}
+                dataKey={bar.key}
+                fill={bar.color}
+                radius={4}
+                barSize={20}
+              >
+                <LabelList
+                  dataKey={bar.key}
+                  position="right" // Explicitly position the label outside
+                  offset={10} // Adjust the spacing from the bar
+                  fontSize={12}
+                  className="fill-foreground" // Optional: Adjust label styling
+                />
+              </Bar>
+            ))}
           </ComposedChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   );
-}
+};
 
 export default HorizontalBarChart;

@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useToast } from "../../hooks/use-toast";
-import { CircularProgress } from "../ui/circularprogress";
+import { Progress } from "../ui/progress";
 import axios from "axios";
 
 const GenerateReportForm = () => {
@@ -32,49 +32,12 @@ const GenerateReportForm = () => {
   const { toast } = useToast();
   const [progress, setProgress] = useState(0);
   const [toastId, setToastId] = useState(null);
-  const progressIntervalRef = useRef(null);
+  const [analysisResults, setAnalysisResults] = useState(null);
+
   const filteredUnits = units.filter((u) =>
     u.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const simulateProgress = () => {
-    setProgress(0);
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 90) {
-          return prev; // Hold at 90% until completion
-        }
-        // Non-linear progress simulation for more realistic feel
-        const increment = Math.max(1, Math.floor((90 - prev) / 10));
-        return Math.min(90, prev + increment);
-      });
-    }, 300);
-    return interval;
-  };
-  useEffect(() => {
-    if (toastId && progress >= 0) {
-      toast({
-        id: toastId,
-        title: loading ? "Generating Report" : "Report Status",
-        description: (
-          <div className="mt-2 w-full flex flex-col gap-2">
-            <div className="flex items-center gap-4">
-              <CircularProgress value={progress} className="w-full" />
-              <span className="text-sm font-medium">{progress}%</span>
-            </div>
-            <p className="text-sm text-gray-500">
-              {progress < 90
-                ? "Processing your bank statements..."
-                : progress < 100
-                ? "Finalizing report generation..."
-                : "Report generated successfully!"}
-            </p>
-          </div>
-        ),
-        duration: progress >= 100 ? 3000 : Infinity,
-      });
-    }
-  }, [progress, toastId, loading, toast]);
   useEffect(() => {
     if (forAts) {
       setCaseId(`ATS_${unit.replace(/\s+/g, "_")}_${serialNumber}`);
@@ -128,32 +91,19 @@ const GenerateReportForm = () => {
     }
   };
 
-  // const simulateProgress = () => {
-  //   setProgress(0);
-  //   const interval = setInterval(() => {
-  //     setProgress((prev) => {
-  //       if (prev >= 99) {
-  //         clearInterval(interval); // Stop at 95%
-  //         return 99;
-  //       }
-  //       return prev + 5; // Increment progress
-  //     });
-  //   }, 200); // Adjust interval speed as needed
-  //   return interval;
-  // };
-  // const simulateProgress = () => {
-  //   setProgress(0);
-  //   const interval = setInterval(() => {
-  //     setProgress((prev) => {
-  //       if (prev >= 99) {
-  //         clearInterval(interval); // Stop at 95%
-  //         return 99;
-  //       }
-  //       return prev + 5; // Increment progress
-  //     });
-  //   }, 200); // Adjust interval speed as needed
-  //   return interval;
-  // };
+  const simulateProgress = () => {
+    setProgress(0);
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 99) {
+          clearInterval(interval);
+          return 99;
+        }
+        return prev + 5;
+      });
+    }, 200);
+    return interval;
+  };
 
   useEffect(() => {
     if (toastId && progress > 0 && progress < 100) {
@@ -162,9 +112,11 @@ const GenerateReportForm = () => {
         title: "Processing Files",
         description: (
           <div className="mt-2 w-full flex flex-row gap-5 items-center space-y-2">
-            <CircularProgress value={progress} size={38} />
+            <Progress value={progress} size={38} />
             <p className="text-sm text-gray-500">
-              {progress < 100 ? "Processing your files..." : "Finalizing..."}
+              {progress < 100
+                ? "Processing your files..."
+                : "Finalizing..."}
             </p>
           </div>
         ),
@@ -173,52 +125,71 @@ const GenerateReportForm = () => {
     }
   }, [progress, toastId]);
 
-  // const simulateProgress = () => {
-  //   const interval = setInterval(() => {
-  //     setProgress((prev) => (prev < 100 ? prev + 10 : prev));
-  //   }, 500);
-  //   return interval;
-  // };
-
-  const analyzeBankStatements = async (fileDetails) => {
-    // Construct the payload dynamically from fileDetails
-    const payload = {
-      bank_names: fileDetails.map((detail) => detail.bankName),
-      pdf_paths: fileDetails.map(
-        (detail) =>
-          `C:/Users/Harsh Jajal/Documents/coding/CypherSol Fintech India Pvt Ltd/clone--fork/ca-offline-suite/frontend/data/${detail.file.name}`
-      ),
-      passwords: fileDetails.map((detail) => detail.password || ""),
-      start_date: fileDetails.map((detail) => detail.startDate || ""),
-      end_date: fileDetails.map((detail) => detail.endDate || ""),
-      ca_id: "CASE_00009", // You can make this dynamic as well if needed
-    };
-
-    // const payload = {
-    //   bank_names: ["HDFC"],
-    //   pdf_paths: fileDetails.map((detail) => `C:/Users/Harsh Jajal/Documents/coding/CypherSol Fintech India Pvt Ltd/clone--fork/ca-offline-suite/frontend/data/${detail.file.name}`),
-    //   passwords: [""],
-    //     start_date: ["26-01-2024"],
-    //     end_date: ["22-02-2024"],
-    //     ca_id: "HDFC",
-    //   };
-
+  const processFiles = async (files) => {
     try {
+    
+  
+      // Prepare the payload according to the README format
+      const payload = {
+        bank_names: fileDetails.map(detail => detail.bankName) || [""], // Will be filled with bank names
+        pdf_paths: [], // Will be filled with local paths
+        passwords: fileDetails.map(detail => detail.password || ['']),
+        start_date: fileDetails.map(detail => 
+          new Date(detail.startDate).toLocaleDateString('en-GB').replace(/\//g, '-') || ['']
+        ),
+        end_date: fileDetails.map(detail => 
+          new Date(detail.endDate).toLocaleDateString('en-GB').replace(/\//g, '-') || ['']
+        ),
+        ca_id: caseId
+      };
+  
+    // First, we need to save the files locally d get their paths
+      // This would typically be handled by your Electron main process
+      // For now, we'll use temporary paths as an example
+      const tempPaths = files.map((file, index) => 
+        `C:/Users/qures/Downloads/test_statements/${file.name}`
+      );
+      
+      payload.pdf_paths = tempPaths;
+  
+      // Make the analysis request
       const response = await axios.post(
-        "http://localhost:7500/analyze-statements/",
+        'http://localhost:7500/analyze-statements/',
         payload,
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
           },
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setProgress(percentCompleted);
+          }
         }
       );
-
-      console.log("API Response:", response.data);
+  
+      // Check for valid response
+      if (!response.data) {
+        throw new Error('No response received from server');
+      }
+  
+      // Store the analysis results
+      setAnalysisResults(response.data);
+  
+      // The README mentions the results will be in '_installer/saved_excel/'
+      // You might want to use Electron's IPC to access these files
+  
       return response.data;
+  
     } catch (error) {
-      console.error("Error during API call:", error);
-      throw error;
+      console.error('Error processing files:', error);
+      throw new Error(
+        error.response?.data?.detail || 
+        error.response?.data?.message || 
+        error.message || 
+        'Failed to process files'
+      );
     }
   };
 
@@ -229,23 +200,37 @@ const GenerateReportForm = () => {
     if (selectedFiles.length === 0) {
       toast({
         title: "Error",
-        description: "Please select at least one file to generate the report.",
+        description: "No files selected. Please select at least one file.",
         variant: "destructive",
+        duration: 5000,
       });
       setLoading(false);
       return;
     }
 
-    // Create initial progress toast
+
+    const fileNames = selectedFiles.map((file) => file.name);
+    const duplicateFiles = fileNames.filter(
+      (name, index) => fileNames.indexOf(name) !== index
+    );
+
+    if (duplicateFiles.length > 0) {
+      toast({
+        title: "Error",
+        description: `Duplicate files selected: ${duplicateFiles.join(", ")}.`,
+        variant: "destructive",
+        duration: 5000,
+      });
+      setLoading(false);
+      return;
+    }
+
     const id = toast({
-      title: "Initializing Report Generation",
+      title: "Processing Files",
       description: (
-        <div className="mt-2 w-full flex flex-col gap-2">
-          <div className="flex items-center gap-4">
-            <CircularProgress value={0} className="w-full" />
-            <span className="text-sm font-medium">0%</span>
-          </div>
-          <p className="text-sm text-gray-500">Preparing to process files...</p>
+        <div className="mt-2 w-full flex flex-row gap-5 items-center">
+          <Progress value={0} size={38} />
+          <p className="text-sm text-gray-500">Processing your files...</p>
         </div>
       ),
       duration: Infinity,
@@ -255,38 +240,33 @@ const GenerateReportForm = () => {
     const progressInterval = simulateProgress();
 
     try {
-      const result = await analyzeBankStatements(fileDetails);
+      const results = await processFiles(selectedFiles);
 
-      // Complete the progress
       clearInterval(progressInterval);
       setProgress(100);
 
-      // Show success message
       toast({
-        title: "Success",
-        description: "Report generated successfully!",
+        title: "Analysis Complete",
+        description: "Files have been processed and results saved.",
         duration: 3000,
       });
 
-      // Reset form state
-      setSelectedFiles([]);
-      setFileDetails([]);
+      console.log('Analysis results:', results);
     } catch (error) {
       clearInterval(progressInterval);
       toast({
         title: "Error",
-        description: `Failed to generate report: ${error.message}`,
+        description: `Failed to process files: ${error.message}`,
         variant: "destructive",
         duration: 5000,
       });
     } finally {
       setLoading(false);
-      setTimeout(() => {
-        setProgress(0);
-        setToastId(null);
-      }, 3000);
+      setProgress(0);
+      setToastId(null);
     }
   };
+
   const formatFileSize = (bytes) => {
     if (bytes < 1024 * 1024) {
       return `${(bytes / 1024).toFixed(2)} KB`;
@@ -334,9 +314,9 @@ const GenerateReportForm = () => {
 
   const handleFileChange = (e) => {
     if (e.target.files) {
-      // console.log("Fikles",e.target.get_webkitRelativePath());
+    // console.log("Fikles",e.target.get_webkitRelativePath());
 
-      console.log("Fikles", e.target.files[0]);
+    console.log("Fikles",e.target.files[0]);
 
       const files = Array.from(e.target.files);
       setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
@@ -533,25 +513,14 @@ const GenerateReportForm = () => {
                                 </label>
                                 <input
                                   type="date"
-                                  value={
-                                    detail.startDate
-                                      ? detail.startDate
-                                          .split("-")
-                                          .reverse()
-                                          .join("-")
-                                      : "" // Ensure correct initial value
-                                  }
-                                  onChange={(e) => {
-                                    const date = e.target.value; // Get the date in YYYY-MM-DD format
-                                    const [year, month, day] = date.split("-"); // Split into components
-                                    const formattedDate = `${day}-${month}-${year}`; // Format to DD-MM-YYYY
+                                  value={detail.startDate}
+                                  onChange={(e) =>
                                     handleFileDetailChange(
                                       index,
                                       "startDate",
-                                      formattedDate
-                                    );
-                                  }}
-                                  placeholder="DD-MM-YYYY"
+                                      e.target.value
+                                    )
+                                  }
                                   className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
                                 />
                               </div>
@@ -561,25 +530,14 @@ const GenerateReportForm = () => {
                                 </label>
                                 <input
                                   type="date"
-                                  value={
-                                    detail.endDate
-                                      ? detail.endDate
-                                          .split("-")
-                                          .reverse()
-                                          .join("-")
-                                      : "" // Ensure correct initial value
-                                  }
-                                  onChange={(e) => {
-                                    const date = e.target.value; // Get the date in YYYY-MM-DD format
-                                    const [year, month, day] = date.split("-"); // Split into components
-                                    const formattedDate = `${day}-${month}-${year}`; // Format to DD-MM-YYYY
+                                  value={detail.endDate}
+                                  onChange={(e) =>
                                     handleFileDetailChange(
                                       index,
                                       "endDate",
-                                      formattedDate
-                                    );
-                                  }}
-                                  placeholder="DD-MM-YYYY"
+                                      e.target.value
+                                    )
+                                  }
                                   className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
                                 />
                               </div>
@@ -644,17 +602,12 @@ const GenerateReportForm = () => {
               </div>
             </div>
 
-            {/* Submit Button */}
             <div className="flex justify-center pt-4">
-              <Button
-                type="submit"
-                disabled={loading}
-                className="relative inline-flex items-center px-4 py-2"
-              >
+              <Button type="submit" disabled={loading}>
                 {loading ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    <span>Processing...</span>
+                    <Loader2 className="animate-spin mr-2" />
+                    Processing Files...
                   </>
                 ) : (
                   "Generate Report"

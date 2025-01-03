@@ -32,22 +32,21 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 
-  import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-  } from "../ui/pagination"
-  
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
 
-  const AccountNumNameManager = () => {
-    const navigate = useNavigate();
-    const [searchQuery, setSearchQuery] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
+const AccountNumNameManager = () => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const [reports, setReports] = useState([
     {
@@ -314,35 +313,37 @@ import {
             </Pagination>
           </div>
 
-                    <AlertDialog>
-                        <div className="flex justify-center">
-                            <AlertDialogTrigger asChild>
-                                <Button 
-                                    variant="default" 
-                                    className="mt-12"
-                                    onClick={handleSaveChanges}
-                                >
-                                    Save Changes
-                                </Button>
-                            </AlertDialogTrigger>
-                        </div>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>Confirm</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    Are you sure you want to save these changes?
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={handleSaveChanges}>Save</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-                </CardContent>
-            </Card>
-        </div>
-    );
+          <AlertDialog>
+            <div className="flex justify-center">
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="default"
+                  className="mt-12"
+                  onClick={handleSaveChanges}
+                >
+                  Save Changes
+                </Button>
+              </AlertDialogTrigger>
+            </div>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Confirm</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to save these changes?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleSaveChanges}>
+                  Save
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </CardContent>
+      </Card>
+    </div>
+  );
 };
 
 export default AccountNumNameManager;
