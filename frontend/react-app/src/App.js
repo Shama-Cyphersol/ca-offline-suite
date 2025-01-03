@@ -7,6 +7,7 @@ import CaseDashboard from './Pages/CaseDashboard';
 import IndividualDashboard from './Pages/IndividualDashboard';
 import ElectronIntro from './components/ElectronIntro';
 import BackendTester from './components/BackendTester';
+import UpdateNotification from './components/UpdateNotification';
 import { useState } from 'react';
 import { SidebarProvider } from './components/ui/sidebar';
 import { BreadcrumbProvider ,useBreadcrumb} from './contexts/BreadcrumbContext';
@@ -32,6 +33,7 @@ function App() {
         </BreadcrumbProvider>
         </HashRouter>
       </SidebarProvider>
+      <UpdateNotification />
     </ThemeProvider>
   );
 }
