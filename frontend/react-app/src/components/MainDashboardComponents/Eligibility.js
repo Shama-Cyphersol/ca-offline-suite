@@ -51,8 +51,8 @@ export default function Eligibility() {
         <ScrollArea className="h-full">
             <div className="p-8 pt-0 space-y-8">
                 <div className="text-left">
-                    <h2 className="text-3xl font-extrabold to-blue-400 bg-clip-text ">
-                        Eligibility
+                    <h2 className="text-3xl font-extrabold to-blue-400">
+                        Opportunity to Earn
                     </h2>
                     <p className="text-gray-600 mt-2">
                         Discover the products you're eligible for and the associated benefits.

@@ -15,7 +15,7 @@ import {
 //   TableHeader,
 //   TableRow,
 // } from "../../components/ui/table";
-import Table from "../MainDashboardComponents/Table"
+import CategoryEditTable from "../MainDashboardComponents/CategoryEditTable"
 import {
   Select,
   SelectContent,
@@ -50,7 +50,7 @@ const CategoryEditModal = ({ open, onOpenChange }) => {
   ]);
 
   // Sample entity options
-  const entityOptions = [
+  const categoryOptions = [
     "Bank Charges",
     "Bank Interest Received",
     "Bonus Paid",
@@ -365,7 +365,7 @@ const CategoryEditModal = ({ open, onOpenChange }) => {
               ))}
             </TableBody>
           </Table> */}
-          <Table data={transactionData} />
+          <CategoryEditTable data={transactionData} categoryOptions={categoryOptions}/>
         </div>
       </DialogContent>
     </Dialog>

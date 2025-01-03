@@ -47,16 +47,24 @@ const Dashboard = () => {
       title: "Import to Tally",
       url: "#",
       icon: Import,
+      items: [
+        {
+          title: "Payment Voucher",
+          url: "#",
+          icon: Import,
+        },
+      ],
+      alwaysOpen: false,
     },
     {
-      title: "Eligibility",
+      title: "Opportunity to Earn",
       url: "#",
-      icon: Files,
+      icon: IndianRupee,
     },
     {
       title: "Billing",
       url: "#",
-      icon: ReceiptIndianRupee,
+      icon: ReceiptText,
     },
   ];
 
@@ -94,7 +102,7 @@ const Dashboard = () => {
             <main className="flex-1">
               {activeTab === "Dashboard" && <MainDashboard />}
               {activeTab === "Generate Report" && <ReportGenerator />}
-              {activeTab === "Eligibility" && <Eligibility />}
+              {activeTab === "Opportunity to Earn" && <Eligibility />}
               {activeTab === "Billing" && <Billing />}
               {activeTab === "Analytics" && <Analytics />}
             </main>
