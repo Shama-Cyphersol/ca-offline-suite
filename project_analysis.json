@@ -1,0 +1,266 @@
+{
+  "project_analysis": {
+    "electron": {
+      "frontend/electron/main.js": {
+        "content": "const { app, BrowserWindow, protocol, ipcMain } = require('electron');\nconst path = require('path');\nconst { PythonShell } = require('python-shell');\nlet pythonProcess = null;\n\nfunction startPythonBackend() {\n  const options = {\n    mode: 'text',\n    pythonPath: isDev ? (process.env.PYTHON_PATH || 'python3') : path.join(process.resourcesPath, 'env', 'bin', 'python3'),\n    scriptPath: isDev ? path.join(__dirname, '../../backend') : path.join(process.resourcesPath, 'backend'),\n    args: ['--port', '7500']\n  };\n\n  // Handle port conflicts\n  const maxRetries = 5;\n  let retryCount = 0;\n  \n  const tryStart = () => {\n    pythonProcess = new PythonShell('app.py', options);\n    \n    pythonProcess.on('message', (message) => {\n      console.log('Python:', message);\n      if (message.includes('address already in use')) {\n        if (retryCount < maxRetries) {\n          retryCount++;\n          options.args[1] = String(5000 + retryCount);\n          console.log(`Port conflict detected, trying port ${options.args[1]}...`);\n          tryStart();\n        } else {\n          console.error('Failed to start Python backend after multiple retries');\n          // Notify renderer process of backend failure\n          mainWindow?.webContents.send('backend-status', {\n            status: 'error',\n            message: 'Failed to start backend after multiple retries'\n          });\n        }\n      } else if (message.includes('Application startup complete')) {\n        // Notify renderer process of successful backend start\n        mainWindow?.webContents.send('backend-status', {\n          status: 'success',\n          port: options.args[1]\n        });\n      }\n    });\n\n    pythonProcess.on('stderr', (error) => {\n      console.error('Python Error:', error);\n    });\n\n    pythonProcess.on('close', () => {\n      console.log('Python process closed');\n    });\n  };\n\n  tryStart();\n  \n  // Expose backend port to renderer process\n  ipcMain.handle('getBackendPort', () => {\n    return options.args[1];\n  });\n\n  pythonProcess.on('message', (message) => {\n    console.log('Python:', message);\n  });\n\n  pythonProcess.on('stderr', (error) => {\n    console.error('Python Error:', error);\n  });\n\n  pythonProcess.on('close', () => {\n    console.log('Python process closed');\n  });\n}\n\nfunction stopPythonBackend() {\n  if (pythonProcess) {\n    pythonProcess.end(() => {\n      console.log('Python backend stopped');\n    });\n  }\n}\n\n// Instead of electron-is-dev, we'll use this simple check\nconst isDev = process.env.NODE_ENV === 'development' \nconsole.log('process.env.NODE_ENV', process.env.NODE_ENV);\n\n// Add this function to handle file protocol\nfunction createProtocol() {\n    protocol.registerFileProtocol('app', (request, callback) => {\n      const url = request.url.replace('app://', '');\n      try {\n        return callback(path.normalize(`${__dirname}/../react-app/build/${url}`));\n      } catch (error) {\n        console.error('Protocol error:', error);\n      }\n    });\n}\n\nfunction createWindow() {\n    const win = new BrowserWindow({\n        width: 1800,\n        height: 1000,\n        simpleFullscreen: true,\n        webPreferences: {\n            nodeIntegration: true,\n            contextIsolation: false\n        },\n        icon: path.join(__dirname, './assets/cyphersol-icon.png'),\n        autoHideMenuBar: true,\n        title: 'CypherSol',\n    });\n\n    if (isDev) {\n        win.loadURL('http://localhost:3000');\n    } else {\n        // Use absolute path resolution for production\n        const prodPath = path.resolve(__dirname, '..', 'react-app', 'build', 'index.html');\n        console.log('Production path:', prodPath);\n        win.loadFile(prodPath).catch(err => {\n            console.error('Failed to load production build:', err);\n        });\n    }\n\n    if (isDev) {\n        // win.webContents.openDevTools();\n    }\n}\n\napp.whenReady().then(() => {\n  createProtocol();\n  startPythonBackend();\n  createWindow();\n});\n\napp.on('window-all-closed', () => {\n  if (process.platform !== 'darwin') {\n    stopPythonBackend();\n    app.quit();\n  }\n});\n\napp.on('activate', () => {\n    if (BrowserWindow.getAllWindows().length === 0) {\n        createWindow();\n    }\n});\n",
+        "analysis": {
+          "imports": [],
+          "functions": [
+            "startPythonBackend",
+            "stopPythonBackend",
+            "createProtocol",
+            "createWindow"
+          ],
+          "arrow_functions": [
+            "tryStart"
+          ],
+          "electron_modules": [
+            [
+              "electron",
+              "electron"
+            ]
+          ]
+        }
+      },
+      "frontend/electron/preload.js": {
+        "content": "",
+        "analysis": {
+          "imports": [],
+          "functions": [],
+          "arrow_functions": [],
+          "electron_modules": []
+        }
+      },
+      "frontend/electron/renderer.js": {
+        "content": "",
+        "analysis": {
+          "imports": [],
+          "functions": [],
+          "arrow_functions": [],
+          "electron_modules": []
+        }
+      }
+    },
+    "react": {
+      "frontend/react-app/src/App.js": {
+        "content": "import React, { useEffect } from 'react';\nimport './App.css';\nimport Dashboard from './Pages/Home';\nimport { ThemeProvider } from './components/theme-provider';\nimport { HashRouter, Routes, Route } from \"react-router-dom\";\nimport CaseDashboard from './Pages/CaseDashboard';\nimport IndividualDashboard from './Pages/IndividualDashboard';\nimport ElectronIntro from './components/ElectronIntro';\nimport BackendTester from './components/BackendTester';\nimport { useState } from 'react';\nimport { SidebarProvider } from './components/ui/sidebar';\nimport { BreadcrumbProvider ,useBreadcrumb} from './contexts/BreadcrumbContext';\n\n\nfunction App() {\n  \n    const [showIntro, setShowIntro] = useState(true);  \n\n  return (\n    <ThemeProvider defaultTheme=\"system\" storageKey=\"app-theme\">\n      {showIntro && <ElectronIntro onComplete={() => setShowIntro(false)} />}\n      <SidebarProvider>\n        <HashRouter>\n        <BreadcrumbProvider>\n          <Routes>\n            <Route path=\"/\"  element={<Dashboard />} />\n            <Route path=\"/:defaultTab\" element={<Dashboard />} />\n            <Route path=\"/case-dashboard/:caseId/:defaultTab\" element={<CaseDashboard />} />\n            <Route path=\"/individual-dashboard/:caseId/:individualId/:defaultTab\" element={<IndividualDashboard />} />\n            <Route path=\"/backend-tester\" element={<BackendTester />} />\n          </Routes>\n        </BreadcrumbProvider>\n        </HashRouter>\n      </SidebarProvider>\n    </ThemeProvider>\n  );\n}\n\nexport default App;\n",
+        "analysis": {
+          "imports": [
+            "react",
+            "./Pages/Home",
+            "./components/theme-provider",
+            "react-router-dom",
+            "./Pages/CaseDashboard",
+            "./Pages/IndividualDashboard",
+            "./components/ElectronIntro",
+            "./components/BackendTester",
+            "react",
+            "./components/ui/sidebar",
+            "./contexts/BreadcrumbContext"
+          ],
+          "functions": [
+            "App"
+          ],
+          "arrow_functions": [],
+          "electron_modules": []
+        }
+      },
+      "frontend/react-app/src/index.js": {
+        "content": "import React from 'react';\nimport ReactDOM from 'react-dom/client';\nimport './index.css';\nimport App from './App';\nimport reportWebVitals from './reportWebVitals';\n\nconst root = ReactDOM.createRoot(document.getElementById('root'));\nroot.render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);\n\n// If you want to start measuring performance in your app, pass a function\n// to log results (for example: reportWebVitals(console.log))\n// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals\nreportWebVitals();\n",
+        "analysis": {
+          "imports": [
+            "react",
+            "react-dom/client",
+            "./App",
+            "./reportWebVitals"
+          ],
+          "functions": [],
+          "arrow_functions": [],
+          "electron_modules": []
+        }
+      },
+      "frontend/react-app/package.json": {
+        "content": "{\n  \"name\": \"react-app\",\n  \"version\": \"0.1.0\",\n  \"private\": true,\n  \"homepage\": \"./\",\n  \"dependencies\": {\n    \"@babel/plugin-proposal-private-property-in-object\": \"^7.21.0\",\n    \"@radix-ui/react-accordion\": \"^1.2.2\",\n    \"@radix-ui/react-alert-dialog\": \"^1.1.4\",\n    \"@radix-ui/react-avatar\": \"^1.1.2\",\n    \"@radix-ui/react-checkbox\": \"^1.1.3\",\n    \"@radix-ui/react-collapsible\": \"^1.1.2\",\n    \"@radix-ui/react-dialog\": \"^1.1.4\",\n    \"@radix-ui/react-dropdown-menu\": \"^2.1.4\",\n    \"@radix-ui/react-label\": \"^2.1.1\",\n    \"@radix-ui/react-navigation-menu\": \"^1.2.3\",\n    \"@radix-ui/react-progress\": \"^1.1.1\",\n    \"@radix-ui/react-scroll-area\": \"^1.2.2\",\n    \"@radix-ui/react-select\": \"^2.1.4\",\n    \"@radix-ui/react-separator\": \"^1.1.1\",\n    \"@radix-ui/react-slot\": \"^1.1.1\",\n    \"@radix-ui/react-tabs\": \"^1.1.2\",\n    \"@radix-ui/react-toast\": \"^1.2.4\",\n    \"@radix-ui/react-tooltip\": \"^1.1.6\",\n    \"class-variance-authority\": \"^0.7.1\",\n    \"clsx\": \"^2.1.1\",\n    \"cra-template\": \"1.2.0\",\n    \"framer-motion\": \"^11.15.0\",\n    \"lucide-react\": \"^0.469.0\",\n    \"react\": \"^18.2.0\",\n    \"react-dom\": \"^18.2.0\",\n    \"react-router-dom\": \"^6.21.1\",\n    \"react-scripts\": \"5.0.1\",\n    \"recharts\": \"^2.15.0\",\n    \"tailwind-merge\": \"^2.5.5\",\n    \"tailwindcss-animate\": \"^1.0.7\",\n    \"web-vitals\": \"^4.2.4\"\n  },\n  \"scripts\": {\n    \"start\": \"react-scripts start\",\n    \"build\": \"rm -rf build && react-scripts build\",\n    \"test\": \"react-scripts test\",\n    \"eject\": \"react-scripts eject\"\n  },\n  \"eslintConfig\": {\n    \"extends\": [\n      \"react-app\",\n      \"react-app/jest\"\n    ]\n  },\n  \"browserslist\": {\n    \"production\": [\n      \">0.2%\",\n      \"not dead\",\n      \"not op_mini all\"\n    ],\n    \"development\": [\n      \"last 1 chrome version\",\n      \"last 1 firefox version\",\n      \"last 1 safari version\"\n    ]\n  },\n  \"devDependencies\": {\n    \"tailwindcss\": \"^3.4.17\"\n  }\n}\n",
+        "analysis": {
+          "raw_content": "{\n  \"name\": \"react-app\",\n  \"version\": \"0.1.0\",\n  \"private\": true,\n  \"homepage\": \"./\",\n  \"dependencies\": {\n    \"@babel/plugin-proposal-private-property-in-object\": \"^7.21.0\",\n    \"@radix-ui/react-accordion\": \"^1.2.2\",\n    \"@radix-ui/react-alert-dialog\": \"^1.1.4\",\n    \"@radix-ui/react-avatar\": \"^1.1.2\",\n    \"@radix-ui/react-checkbox\": \"^1.1.3\",\n    \"@radix-ui/react-collapsible\": \"^1.1.2\",\n    \"@radix-ui/react-dialog\": \"^1.1.4\",\n    \"@radix-ui/react-dropdown-menu\": \"^2.1.4\",\n    \"@radix-ui/react-label\": \"^2.1.1\",\n    \"@radix-ui/react-navigation-menu\": \"^1.2.3\",\n    \"@radix-ui/react-progress\": \"^1.1.1\",\n    \"@radix-ui/react-scroll-area\": \"^1.2.2\",\n    \"@radix-ui/react-select\": \"^2.1.4\",\n    \"@radix-ui/react-separator\": \"^1.1.1\",\n    \"@radix-ui/react-slot\": \"^1.1.1\",\n    \"@radix-ui/react-tabs\": \"^1.1.2\",\n    \"@radix-ui/react-toast\": \"^1.2.4\",\n    \"@radix-ui/react-tooltip\": \"^1.1.6\",\n    \"class-variance-authority\": \"^0.7.1\",\n    \"clsx\": \"^2.1.1\",\n    \"cra-template\": \"1.2.0\",\n    \"framer-motion\": \"^11.15.0\",\n    \"lucide-react\": \"^0.469.0\",\n    \"react\": \"^18.2.0\",\n    \"react-dom\": \"^18.2.0\",\n    \"react-router-dom\": \"^6.21.1\",\n    \"react-scripts\": \"5.0.1\",\n    \"recharts\": \"^2.15.0\",\n    \"tailwind-merge\": \"^2.5.5\",\n    \"tailwindcss-animate\": \"^1.0.7\",\n    \"web-vitals\": \"^4.2.4\"\n  },\n  \"scripts\": {\n    \"start\": \"react-scripts start\",\n    \"build\": \"rm -rf build && react-scripts build\",\n    \"test\": \"react-scripts test\",\n    \"eject\": \"react-scripts eject\"\n  },\n  \"eslintConfig\": {\n    \"extends\": [\n      \"react-app\",\n      \"react-app/jest\"\n    ]\n  },\n  \"browserslist\": {\n    \"production\": [\n      \">0.2%\",\n      \"not dead\",\n      \"not op_mini all\"\n    ],\n    \"development\": [\n      \"last 1 chrome version\",\n      \"last 1 firefox version\",\n      \"last 1 safari version\"\n    ]\n  },\n  \"devDependencies\": {\n    \"tailwindcss\": \"^3.4.17\"\n  }\n}\n"
+        }
+      }
+    },
+    "python": {
+      "backend/app.py": {
+        "content": "from fastapi import FastAPI\nfrom fastapi.middleware.cors import CORSMiddleware\nimport uvicorn\n\napp = FastAPI()\n\n# Configure CORS\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],  # Allow all origins\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n    expose_headers=[\"*\"],  # Expose all headers\n)\n\n\n@app.get(\"/api/hello\")\nasync def hello():\n    return {\"greeting\": \"Welcom\", \"status\": \"online\"}\n\n\nif __name__ == \"__main__\":\n    uvicorn.run(app, host=\"0.0.0.0\", port=7500)\n",
+        "analysis": {
+          "imports": [
+            [
+              "",
+              "fastapi"
+            ],
+            [
+              "",
+              "fastapi"
+            ],
+            [
+              "uvicorn",
+              ""
+            ]
+          ],
+          "functions": [
+            "hello"
+          ],
+          "classes": []
+        }
+      },
+      "backend/requirements.txt": {
+        "content": "annotated-types==0.7.0\nanyio==4.7.0\nclick==8.1.7\ncolorama==0.4.6\nexceptiongroup==1.2.2\nfastapi==0.115.6\ngreenlet==3.1.1\nh11==0.14.0\nidna==3.10\npydantic==2.10.4\npydantic_core==2.27.2\npython-dotenv==1.0.1\nsniffio==1.3.1\nSQLAlchemy==2.0.36\nstarlette==0.41.3\ntyping_extensions==4.12.2\nuvicorn==0.34.0\n",
+        "analysis": {
+          "raw_content": "annotated-types==0.7.0\nanyio==4.7.0\nclick==8.1.7\ncolorama==0.4.6\nexceptiongroup==1.2.2\nfastapi==0.115.6\ngreenlet==3.1.1\nh11==0.14.0\nidna==3.10\npydantic==2.10.4\npydantic_core==2.27.2\npython-dotenv==1.0.1\nsniffio==1.3.1\nSQLAlchemy==2.0.36\nstarlette==0.41.3\ntyping_extensions==4.12.2\nuvicorn==0.34.0\n"
+        }
+      }
+    }
+  },
+  "package_info": {
+    "package.json": {
+      "name": "cyphersol-ats-electron-app",
+      "version": "1.0.0",
+      "description": "",
+      "main": "frontend/electron/main.js",
+      "scripts": {
+        "start": "cross-env NODE_ENV=development concurrently \"npm run start:fastapi\" \"npm run start:react\" \"npm run start:electron\"",
+        "start:fastapi": "cd backend && uvicorn app:app --reload --port 7500",
+        "start:react": "cd frontend/react-app && npm start",
+        "start:electron": "cross-env NODE_ENV=development wait-on http://localhost:3000 && electron frontend/electron/main.js",
+        "build": "rm -rf dist && cross-env NODE_ENV=production npm run build:react && npm run build:electron",
+        "build:react": "cd frontend/react-app && npm run build",
+        "build:electron": "electron-builder"
+      },
+      "keywords": [],
+      "author": "",
+      "license": "ISC",
+      "devDependencies": {
+        "concurrently": "^8.2.0",
+        "cross-env": "^7.0.3",
+        "dmg-license": "^1.0.11",
+        "electron": "^33.2.1",
+        "electron-builder": "^24.13.3",
+        "wait-on": "^7.2.0"
+      },
+      "build": {
+        "appId": "com.electron.electronapp",
+        "productName": "Cyphersol",
+        "directories": {
+          "output": "dist"
+        },
+        "files": [
+          "frontend/electron/**/*",
+          "frontend/react-app/build/**/*",
+          "backend/**/*",
+          "env/**/*",
+          "!frontend/react-app/build/static/js/*.map",
+          "!frontend/react-app/node_modules",
+          "!backend/__pycache__",
+          "!env/bin/python3",
+          "package.json"
+        ],
+        "extraResources": [
+          {
+            "from": "env",
+            "to": "env"
+          },
+          {
+            "from": "backend",
+            "to": "backend"
+          }
+        ],
+        "extraMetadata": {
+          "main": "frontend/electron/main.js"
+        },
+        "mac": {
+          "category": "public.app-category.utilities"
+        },
+        "win": {
+          "target": "nsis"
+        },
+        "linux": {
+          "target": "AppImage"
+        }
+      },
+      "dependencies": {
+        "@radix-ui/react-progress": "^1.1.1",
+        "@radix-ui/react-toast": "^1.2.4",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "d3-scale": "^4.0.2",
+        "d3-scale-chromatic": "^3.1.0",
+        "python-shell": "^5.0.0",
+        "tailwind-merge": "^2.6.0",
+        "tailwindcss-animate": "^1.0.7"
+      }
+    },
+    "frontend/react-app/package.json": {
+      "name": "react-app",
+      "version": "0.1.0",
+      "private": true,
+      "homepage": "./",
+      "dependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.0",
+        "@radix-ui/react-accordion": "^1.2.2",
+        "@radix-ui/react-alert-dialog": "^1.1.4",
+        "@radix-ui/react-avatar": "^1.1.2",
+        "@radix-ui/react-checkbox": "^1.1.3",
+        "@radix-ui/react-collapsible": "^1.1.2",
+        "@radix-ui/react-dialog": "^1.1.4",
+        "@radix-ui/react-dropdown-menu": "^2.1.4",
+        "@radix-ui/react-label": "^2.1.1",
+        "@radix-ui/react-navigation-menu": "^1.2.3",
+        "@radix-ui/react-progress": "^1.1.1",
+        "@radix-ui/react-scroll-area": "^1.2.2",
+        "@radix-ui/react-select": "^2.1.4",
+        "@radix-ui/react-separator": "^1.1.1",
+        "@radix-ui/react-slot": "^1.1.1",
+        "@radix-ui/react-tabs": "^1.1.2",
+        "@radix-ui/react-toast": "^1.2.4",
+        "@radix-ui/react-tooltip": "^1.1.6",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "cra-template": "1.2.0",
+        "framer-motion": "^11.15.0",
+        "lucide-react": "^0.469.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.21.1",
+        "react-scripts": "5.0.1",
+        "recharts": "^2.15.0",
+        "tailwind-merge": "^2.5.5",
+        "tailwindcss-animate": "^1.0.7",
+        "web-vitals": "^4.2.4"
+      },
+      "scripts": {
+        "start": "react-scripts start",
+        "build": "rm -rf build && react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+      },
+      "eslintConfig": {
+        "extends": [
+          "react-app",
+          "react-app/jest"
+        ]
+      },
+      "browserslist": {
+        "production": [
+          ">0.2%",
+          "not dead",
+          "not op_mini all"
+        ],
+        "development": [
+          "last 1 chrome version",
+          "last 1 firefox version",
+          "last 1 safari version"
+        ]
+      },
+      "devDependencies": {
+        "tailwindcss": "^3.4.17"
+      }
+    }
+  }
+}

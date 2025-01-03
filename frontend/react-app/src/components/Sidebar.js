@@ -8,6 +8,7 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
+  TestTube2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -115,6 +116,14 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => navigate('/')}>
+            <LayoutDashboard className="mr-2 h-4 w-4" />
+            <span>Dashboard</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate('/backend-tester')}>
+            <TestTube2 className="mr-2 h-4 w-4" />
+            <span>Backend Tester</span>
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <Sparkles className="mr-2 h-4 w-4" />
             <span>Refer and Earn</span>

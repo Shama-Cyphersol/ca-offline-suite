@@ -5,7 +5,7 @@
   "main": "frontend/electron/main.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development concurrently \"npm run start:fastapi\" \"npm run start:react\" \"npm run start:electron\"",
-    "start:fastapi": "cd backend && uvicorn app:app --reload --port 5000",
+    "start:fastapi": "cd backend && uvicorn app:app --reload --port 7500",
     "start:react": "cd frontend/react-app && npm start",
     "start:electron": "cross-env NODE_ENV=development wait-on http://localhost:3000 && electron frontend/electron/main.js",
     "build": "rm -rf dist && cross-env NODE_ENV=production npm run build:react && npm run build:electron",
@@ -17,9 +17,10 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^8.2.0",
+    "cross-env": "^7.0.3",
+    "dmg-license": "^1.0.11",
     "electron": "^33.2.1",
     "electron-builder": "^24.13.3",
-    "cross-env": "^7.0.3",
     "wait-on": "^7.2.0"
   },
   "build": {
@@ -31,15 +32,36 @@
     "files": [
       "frontend/electron/**/*",
       "frontend/react-app/build/**/*",
+      "backend/**/*",
+      "env/**/*",
       "!frontend/react-app/build/static/js/*.map",
       "!frontend/react-app/node_modules",
+      "!backend/__pycache__",
+      "!env/bin/python3",
       "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "env",
+        "to": "env",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "backend",
+        "to": "backend",
+        "filter": [
+          "**/*"
+        ]
+      }
     ],
     "extraMetadata": {
       "main": "frontend/electron/main.js"
     },
     "mac": {
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.utilities",
+      "target": "dmg"
     },
     "win": {
       "target": "nsis"
@@ -55,6 +77,7 @@
     "clsx": "^2.1.1",
     "d3-scale": "^4.0.2",
     "d3-scale-chromatic": "^3.1.0",
+    "python-shell": "^5.0.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   }

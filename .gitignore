@@ -151,5 +151,5 @@ local_settings.py
 *.exe
 *.o
 *.out
-
-/dist/
+env
+dist/

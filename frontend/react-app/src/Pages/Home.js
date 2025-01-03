@@ -1,5 +1,5 @@
 import React, { useState,useMemo, useEffect } from "react";
-import {  LayoutDashboard, FilePlus2,Files, Import,ChartNoAxesCombined, ReceiptIndianRupee } from "lucide-react";
+import {  LayoutDashboard, FilePlus2,Files, Import,ChartNoAxesCombined, ReceiptIndianRupee, TestTube2 } from "lucide-react";
 import ReportGenerator from "../components/MainDashboardComponents/GenerateReport";
 import { cn } from "../lib/utils";
 import { ScrollArea } from "../components/ui/scroll-area";
@@ -9,6 +9,7 @@ import MainDashboard from "../components/MainDashboardComponents/MainDashboard";
 import Eligibility from "../components/MainDashboardComponents/Eligibility";
 import Billing from "../components/MainDashboardComponents/Billing";
 import { Toaster } from "../components/ui/toaster";
+import BackendTester from "../components/BackendTester";
 import Analytics from "../components/MainDashboardComponents/Analytics";
 import { BreadcrumbDynamic } from "../components/BreadCrumb";
 import { useBreadcrumb } from '../contexts/BreadcrumbContext';
@@ -37,6 +38,11 @@ const Dashboard = () => {
       url: "#",
       icon: LayoutDashboard,
       isActive: true,
+    },
+    {
+      title: "Backend Tester",
+      url: "/backend-tester",
+      icon: TestTube2,
     },
     {
       title: "Generate Report",
@@ -113,6 +119,7 @@ const Dashboard = () => {
               {activeTab === "Eligibility" && <Eligibility />}
               {activeTab === "Billing" && <Billing />}
               {activeTab === "Analytics" && <Analytics />}
+              {activeTab === "Backend Tester" && <BackendTester />}
             </main>
           </div>
         </ScrollArea>
