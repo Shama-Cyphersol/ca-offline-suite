@@ -1,7 +1,7 @@
 const { app, BrowserWindow, protocol, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { PythonShell } = require('python-shell');
+const { spawn } = require('child_process');
 
 // Create logs directory
 const logDir = path.join(app.getPath('userData'), 'logs');
@@ -25,148 +25,202 @@ console.error = function(...args) {
   originalConsoleError(...args);
   logStream.write(`[${new Date().toISOString()}] ERROR: ${args.join(' ')}\n`);
 };
+
 let pythonProcess = null;
+let mainWindow = null;
 
 function startPythonBackend() {
-  const options = {
-    mode: 'text',
-    pythonPath: isDev ? (process.env.PYTHON_PATH || 'python3') : path.join(process.resourcesPath, 'env', 'bin', 'python3'),
-    scriptPath: isDev ? path.join(__dirname, '../../backend') : path.join(process.resourcesPath, 'backend'),
-    args: ['--port', '7500']
-  };
+  const isDev = process.env.NODE_ENV === 'development';
+  const isWin = process.platform === 'win32';
+  const execName = isWin ? 'app.exe' : 'app';
+  
+  let execPath;
+  if (isDev) {
+    execPath = path.resolve(__dirname, '../../backend/dist', execName);
+  } else {
+    // For production Mac builds
+    if (process.platform === 'darwin') {
+      execPath = path.join(process.resourcesPath, 'backend', execName);
+      
+      // Double check file existence and permissions
+      if (fs.existsSync(execPath)) {
+        try {
+          // Ensure executable has proper permissions in production
+          fs.chmodSync(execPath, '755');
+        } catch (error) {
+          console.error('Error setting permissions:', error);
+        }
+      }
+    } else {
+      execPath = path.resolve(process.resourcesPath, 'backend', execName);
+    }
+  }
+  
+  console.log('Environment:', process.env.NODE_ENV);
+  console.log('Platform:', process.platform);
+  console.log('Executable path:', execPath);
+  console.log('Resources path:', process.resourcesPath);
+  console.log('File exists:', fs.existsSync(execPath));
+  
+  if (!fs.existsSync(execPath)) {
+    console.error(`Backend executable not found at: ${execPath}`);
+    mainWindow?.webContents.send('backend-status', {
+      status: 'error',
+      message: 'Backend executable not found'
+    });
+    return;
+  }
+  
+  // Ensure executable permissions on Unix systems
+  if (!isWin) {
+    try {
+      fs.chmodSync(execPath, '755');
+    } catch (error) {
+      console.error('Error setting permissions:', error);
+    }
+  }
 
   // Handle port conflicts
   const maxRetries = 5;
   let retryCount = 0;
+  let currentPort = 7500;
   
   const tryStart = () => {
-    pythonProcess = new PythonShell('app.py', options);
-    
-    pythonProcess.on('message', (message) => {
-      console.log('Python Output:', message);
-      if (message.includes('address already in use')) {
-        if (retryCount < maxRetries) {
-          retryCount++;
-          options.args[1] = String(5000 + retryCount);
-          console.log(`Port conflict detected, trying port ${options.args[1]}...`);
-          tryStart();
+    try {
+      pythonProcess = spawn(execPath, ['--port', currentPort.toString()], {
+        cwd: path.dirname(execPath),
+        stdio: 'pipe'
+      });
 
-          
-        } else {
-          console.error('Failed to start Python backend after multiple retries');
-          // Notify renderer process of backend failure
+      console.log('Process started with PID:', pythonProcess.pid);
+
+      pythonProcess.stdout.on('data', (data) => {
+        const message = data.toString();
+        console.log('Backend output:', message);
+        
+        if (message.includes('address already in use')) {
+          if (retryCount < maxRetries) {
+            retryCount++;
+            currentPort = 7500 + retryCount;
+            console.log(`Port conflict detected, trying port ${currentPort}...`);
+            pythonProcess.kill();
+            setTimeout(tryStart, 1000);
+          } else {
+            console.error('Failed to start backend after multiple retries');
+            mainWindow?.webContents.send('backend-status', {
+              status: 'error',
+              message: 'Failed to start backend after multiple retries'
+            });
+          }
+        } else if (message.includes('Application startup complete')) {
+          console.log('Backend started successfully on port:', currentPort);
           mainWindow?.webContents.send('backend-status', {
-            status: 'error',
-            message: 'Failed to start backend after multiple retries'
+            status: 'success',
+            port: currentPort
           });
         }
-      } else if (message.includes('Application startup complete')) {
-        // Notify renderer process of successful backend start
+      });
+
+      pythonProcess.stderr.on('data', (data) => {
+        console.error('Backend error:', data.toString());
+      });
+
+      pythonProcess.on('error', (error) => {
+        console.error('Failed to start backend:', error);
         mainWindow?.webContents.send('backend-status', {
-          status: 'success',
-          port: options.args[1]
+          status: 'error',
+          message: error.message
         });
-      }
-    });
+      });
 
-    pythonProcess.on('stderr', (error) => {
-      console.error('Python Error:', error);
-    });
+      pythonProcess.on('close', (code) => {
+        console.log('Backend process closed with code:', code);
+      });
 
-    pythonProcess.on('close', () => {
-      console.log('Python process closed');
-    });
+    } catch (error) {
+      console.error('Error launching backend:', error);
+      mainWindow?.webContents.send('backend-status', {
+        status: 'error',
+        message: error.message
+      });
+    }
   };
 
   tryStart();
   
-  // Expose backend port to renderer process
   ipcMain.handle('getBackendPort', () => {
-    return options.args[1];
-  });
-
-  pythonProcess.on('message', (message) => {
-    console.log('Python:', message);
-  });
-
-  pythonProcess.on('stderr', (error) => {
-    console.error('Python Error:', error);
-  });
-
-  pythonProcess.on('close', () => {
-    console.log('Python process closed');
+    return currentPort;
   });
 }
 
 function stopPythonBackend() {
   if (pythonProcess) {
-    pythonProcess.end(() => {
-      console.log('Python backend stopped');
-    });
+    pythonProcess.kill();
+    pythonProcess = null;
+    console.log('Backend stopped');
   }
 }
 
-// Instead of electron-is-dev, we'll use this simple check
-const isDev = process.env.NODE_ENV === 'development' 
+const isDev = process.env.NODE_ENV === 'development';
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
-// Add this function to handle file protocol
 function createProtocol() {
-    protocol.registerFileProtocol('app', (request, callback) => {
-      const url = request.url.replace('app://', '');
-      try {
-        return callback(path.normalize(`${__dirname}/../react-app/build/${url}`));
-      } catch (error) {
-        console.error('Protocol error:', error);
-      }
-    });
+  protocol.registerFileProtocol('app', (request, callback) => {
+    const url = request.url.replace('app://', '');
+    try {
+      return callback(path.normalize(`${__dirname}/../react-app/build/${url}`));
+    } catch (error) {
+      console.error('Protocol error:', error);
+    }
+  });
 }
 
 function createWindow() {
-    const win = new BrowserWindow({
-        width: 1800,
-        height: 1000,
-        simpleFullscreen: true,
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false
-        },
-        icon: path.join(__dirname, './assets/cyphersol-icon.png'),
-        autoHideMenuBar: true,
-        title: 'CypherSol',
+  mainWindow = new BrowserWindow({
+    width: 1800,
+    height: 1000,
+    simpleFullscreen: true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    },
+    icon: path.join(__dirname, './assets/cyphersol-icon.png'),
+    autoHideMenuBar: true,
+    title: 'CypherSol',
+  });
+
+  if (isDev) {
+    mainWindow.loadURL('http://localhost:3000');
+  } else {
+    const prodPath = path.resolve(__dirname, '..', 'react-app', 'build', 'index.html');
+    console.log('Production path:', prodPath);
+    mainWindow.loadFile(prodPath).catch(err => {
+      console.error('Failed to load production build:', err);
     });
+  }
 
-    if (isDev) {
-        win.loadURL('http://localhost:3000');
-    } else {
-        // Use absolute path resolution for production
-        const prodPath = path.resolve(__dirname, '..', 'react-app', 'build', 'index.html');
-        console.log('Production path:', prodPath);
-        win.loadFile(prodPath).catch(err => {
-            console.error('Failed to load production build:', err);
-        });
-    }
-
-    if (isDev) {
-        // win.webContents.openDevTools();
-    }
+  if (isDev) {
+    // mainWindow.webContents.openDevTools();
+  }
 }
+
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'app', privileges: { secure: true, standard: true } }
+]);
 
 app.whenReady().then(() => {
   createProtocol();
-  startPythonBackend();
   createWindow();
+  startPythonBackend();
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    stopPythonBackend();
-    app.quit();
-  }
+  stopPythonBackend();
+  app.quit();
 });
 
 app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
-    }
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
 });

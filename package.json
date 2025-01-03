@@ -4,8 +4,7 @@
   "description": "",
   "main": "frontend/electron/main.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development concurrently \"npm run start:fastapi\" \"npm run start:react\" \"npm run start:electron\"",
-    "start:fastapi": "cd backend && uvicorn app:app --reload --port 7500",
+    "start": "cross-env NODE_ENV=development concurrently \"npm run start:react\" \"npm run start:electron\"",
     "start:react": "cd frontend/react-app && npm start",
     "start:electron": "cross-env NODE_ENV=development wait-on http://localhost:3000 && electron frontend/electron/main.js",
     "build": "rm -rf dist && cross-env NODE_ENV=production npm run build:react && npm run build:electron",
@@ -27,49 +26,42 @@
     "appId": "com.electron.electronapp",
     "productName": "Cyphersol",
     "directories": {
-      "output": "dist"
+        "output": "dist"
     },
     "files": [
-      "frontend/electron/**/*",
-      "frontend/react-app/build/**/*",
-      "backend/**/*",
-      "env/**/*",
-      "!frontend/react-app/build/static/js/*.map",
-      "!frontend/react-app/node_modules",
-      "!backend/__pycache__",
-      "!env/bin/python3",
-      "package.json"
+        "frontend/electron/**/*",
+        "frontend/react-app/build/**/*",
+        "backend/**/*",
+        "env/**/*",
+        "!frontend/react-app/build/static/js/*.map",
+        "!frontend/react-app/node_modules",
+        "!backend/__pycache__",
+        "!env/bin/python3",
+        "package.json"
     ],
     "extraResources": [
-      {
-        "from": "env",
-        "to": "env",
-        "filter": [
-          "**/*"
-        ]
-      },
-      {
-        "from": "backend",
-        "to": "backend",
-        "filter": [
-          "**/*"
-        ]
-      }
+        {
+            "from": "backend/dist",
+            "to": "backend",
+            "filter": [
+                "app*"
+            ]
+        }
     ],
     "extraMetadata": {
-      "main": "frontend/electron/main.js"
+        "main": "frontend/electron/main.js"
     },
     "mac": {
-      "category": "public.app-category.utilities",
-      "target": "dmg"
+        "category": "public.app-category.utilities",
+        "target": "dmg"
     },
     "win": {
-      "target": "nsis"
+        "target": "nsis"
     },
     "linux": {
-      "target": "AppImage"
+        "target": "AppImage"
     }
-  },
+},
   "dependencies": {
     "@radix-ui/react-progress": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.4",
