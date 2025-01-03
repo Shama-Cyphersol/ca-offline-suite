@@ -26,7 +26,7 @@ const MainDashboard = () => {
           <div className="p-8 pt-0 space-y-8">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+                <h2 className="text-3xl font-bold tracking-tight">Sanchay</h2>
                 <p className="text-muted-foreground">
                   Overview of your report analytics and recent activities
                 </p>
