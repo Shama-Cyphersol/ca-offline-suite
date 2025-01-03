@@ -1,0 +1,155 @@
+# Python Backend
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+/backend/build/
+develop-eggs/
+/backend/dist/
+/backend/downloads/
+/backend/eggs/
+.eggs/
+/backend/lib/
+/backend/lib64/
+/backend/parts/
+/backend/sdist/
+/backend/var/
+/backend/wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+/backend/.python-version
+/backend/venv/
+/backend/env/
+/backend/ENV/
+/backend/.env
+/backend/.env.*
+
+# FastAPI specific
+/backend/instance/
+/backend/.webassets-cache
+/backend/*.db
+/backend/*.sqlite
+/backend/*.sqlite3
+
+# Node/NPM/Yarn
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm
+.yarn
+.pnp.*
+.yarn-integrity
+
+
+# React Frontend
+/frontend/react-app/.pnp
+/frontend/react-app/.pnp.js
+/frontend/react-app/coverage
+/frontend/react-app/build
+/frontend/react-app/.env
+/frontend/react-app/.env.local
+/frontend/react-app/.env.development.local
+/frontend/react-app/.env.test.local
+/frontend/react-app/.env.production.local
+/frontend/react-app/npm-debug.log*
+/frontend/react-app/yarn-debug.log*
+/frontend/react-app/yarn-error.log*
+/frontend/react-app/node_modules/
+frontend/react-app/package-lock.json
+
+# Electron
+/frontend/electron/dist
+/frontend/electron/build
+.electron-builder.*
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+
+# IDE - JetBrains (PyCharm, WebStorm, etc)
+.idea/
+*.iws
+*.iml
+*.ipr
+.idea_modules/
+
+# IDE - Sublime Text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+
+# System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Testing
+/coverage
+/.nyc_output
+.pytest_cache/
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Distribution / packaging
+.Python
+*.spec
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Misc
+*.bak
+*.swp
+*.tmp
+*~
+tmp/
+temp/
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# Docker
+docker-compose.override.yml
+*.env
+.docker/
+
+# Local development configurations
+.localconfig/
+local_settings.py
+
+# Compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.out
+env
+dist/

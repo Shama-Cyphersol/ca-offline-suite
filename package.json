@@ -1,0 +1,82 @@
+{
+  "name": "cyphersol-ats-electron-app",
+  "version": "1.0.2",
+  "description": "",
+  "main": "frontend/electron/main.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development concurrently \"npm run start:react\" \"npm run start:electron\"",
+    "start:react": "cd frontend/react-app && npm start",
+    "start:electron": "cross-env NODE_ENV=development wait-on http://localhost:3000 && electron frontend/electron/main.js",
+    "build": "rm -rf dist && cross-env NODE_ENV=production npm run build:react && npm run build:electron",
+    "build:react": "cd frontend/react-app && npm run build",
+    "build:electron": "electron-builder"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "cross-env": "^7.0.3",
+    "dmg-license": "^1.0.11",
+    "electron": "^33.2.1",
+    "electron-builder": "^24.13.3",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.electron.electronapp",
+    "productName": "Cyphersol",
+    "directories": {
+        "output": "dist"
+    },
+    "publish": {
+        "provider": "github",
+        "owner": "Shama-Cyphersol",
+        "repo": "ca-offline-suite"
+    },
+    "files": [
+      "frontend/electron/**/*",
+      "frontend/react-app/build/**/*",
+      "backend/**/*",
+      "env/**/*",
+      "!frontend/react-app/build/static/js/*.map",
+      "!frontend/react-app/node_modules",
+      "!backend/__pycache__",
+      "!env/bin/python3",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "backend/dist",
+        "to": "backend",
+        "filter": [
+          "app*"
+        ]
+      }
+    ],
+    "extraMetadata": {
+      "main": "frontend/electron/main.js"
+    },
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "dependencies": {
+    "@radix-ui/react-progress": "^1.1.1",
+    "@radix-ui/react-toast": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "d3-scale": "^4.0.2",
+    "d3-scale-chromatic": "^3.1.0",
+    "electron-updater": "^6.3.9",
+    "python-shell": "^5.0.0",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}
