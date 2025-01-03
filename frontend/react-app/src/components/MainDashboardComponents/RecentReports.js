@@ -29,6 +29,7 @@ import {
     PaginationPrevious,
 } from "../ui/pagination"
 import CategoryEditModal from './CategoryEditModal';
+import GenerateReportForm from './ReportForm';
 
 const RecentReports = () => {
     const { toast } = useToast();
@@ -38,9 +39,10 @@ const RecentReports = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [currentInfoIndex, setCurrentInfoIndex] = useState(0);
     const [isCategoryEditOpen, setIsCategoryEditOpen] = useState(false);
-
+    const [isModalOpen, setModalOpen] = useState(false);
     const itemsPerPage = 10;
     console.log({isLoading})
+
     const [recentReports, setRecentReports] = useState([
 
         { date: '13-12-2024', reportName: 'Report_ATS_unit_1_00008', status: 'Completed' },
@@ -185,9 +187,9 @@ const RecentReports = () => {
         );
     };
 
-    const handleAddReport = () => {
-        console.log('Clicked on add report');
-    };
+    // const handleAddReport = () => {
+    //     console.log('Clicked on add report');
+    // };
 
     const handleDeleteReport = (reportName) => {
         setRecentReports(recentReports.filter(report => report.reportName !== reportName));
@@ -212,7 +214,13 @@ const RecentReports = () => {
         console.log('Clicked on edit');
         setIsCategoryEditOpen(!isCategoryEditOpen);
     }
+    const handleAddReport = () => {
+        setModalOpen(true);
+    };
 
+    const closeModal = () => {
+        setModalOpen(false);
+    };
 
     return (
         <Card>
@@ -401,6 +409,22 @@ const RecentReports = () => {
                     </div>
                 )}
             </CardContent>
+            {/* Modal for GenerateReportForm */}
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+                    <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full p-6">
+                        <header className="flex justify-between items-center">
+                            <h2 className="text-lg font-semibold">Generate Report</h2>
+                            <button onClick={closeModal} className="text-gray-500 hover:text-gray-700">
+                                &times;
+                            </button>
+                        </header>
+                        <div className="mt-4">
+                            <GenerateReportForm />
+                        </div>
+                    </div>
+                </div>
+            )}
         </Card>
     )
 }

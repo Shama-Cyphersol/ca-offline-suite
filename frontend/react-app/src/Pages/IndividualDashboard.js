@@ -8,14 +8,15 @@ import Summary from "../components/IndividualDashboardComponents/Summary";
 import Transactions from "../components/IndividualDashboardComponents/Transactions";
 import Cash from "../components/IndividualDashboardComponents/Cash";
 import Suspense from "../components/IndividualDashboardComponents/Suspense";
-import { useBreadcrumb } from "../contexts/BreadcrumbContext";
-import { useParams } from "react-router-dom";
-import { BreadcrumbDynamic } from "../components/BreadCrumb";
-import Debtors from "../components/IndividualDashboardComponents/Debtors";
-import Creditors from "../components/IndividualDashboardComponents/Creditors";
-import EMI from "../components/IndividualDashboardComponents/EMI";
-import Investment from "../components/IndividualDashboardComponents/Investment";
-import EodBalance from "../components/IndividualDashboardComponents/EodBalance";
+import { useBreadcrumb } from '../contexts/BreadcrumbContext';
+import { useParams } from 'react-router-dom';
+import {BreadcrumbDynamic}  from '../components/BreadCrumb';
+import Debtors from '../components/IndividualDashboardComponents/Debtors';
+import Creditors from '../components/IndividualDashboardComponents/Creditors';
+import EMI from '../components/IndividualDashboardComponents/EMI';
+import Investment from '../components/IndividualDashboardComponents/Investment';
+import EodBalance from '../components/IndividualDashboardComponents/EodBalance';
+import { ArrowDownWideNarrow, ArrowRightLeft, ArrowUpNarrowWide, ChartNoAxesCombined, ClipboardList, FileQuestion, History, IndianRupee, MessageSquareText } from 'lucide-react';
 
 const IndividualDashboard = () => {
   const [activeTab, setActiveTab] = useState("Summary");
@@ -32,42 +33,41 @@ const IndividualDashboard = () => {
   const navItems = [
     {
       title: "Summary",
-      icon: null,
+      icon: ClipboardList,
       isActive: true,
     },
     {
       title: "Transactions",
-      icon: null,
+      icon: ArrowRightLeft,
     },
     {
       title: "EOD",
-      icon: null,
+      icon: History,
     },
     {
       title: "Suspense",
-      icon: null,
+      icon: FileQuestion,
     },
-    {
+    { 
       title: "Cash",
-      icon: null,
-    },
-    {
-      title: "Debtors",
+      icon: IndianRupee,
+    },    {
+      title:"Debtors",
       url: "#",
-      icon: null,
+      icon: ArrowUpNarrowWide,
     },
     {
       title: "Creditors",
-      icon: null,
+      icon: ArrowDownWideNarrow ,
     },
     {
       title: "EMI",
-      icon: null,
+      icon: MessageSquareText,
     },
     {
       title: "Investment",
       url: "#",
-      icon: null,
+      icon: ChartNoAxesCombined,
     },
   ];
 
