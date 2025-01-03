@@ -6,6 +6,8 @@ import {
   Import,
   ChartNoAxesCombined,
   ReceiptIndianRupee,
+  ReceiptText,
+  IndianRupee,
 } from "lucide-react";
 import ReportGenerator from "../components/MainDashboardComponents/GenerateReport";
 import { cn } from "../lib/utils";
