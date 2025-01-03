@@ -1,6 +1,6 @@
 {
   "name": "cyphersol-ats-electron-app",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "frontend/electron/main.js",
   "scripts": {

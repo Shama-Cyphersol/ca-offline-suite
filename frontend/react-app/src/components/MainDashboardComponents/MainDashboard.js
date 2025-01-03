@@ -28,7 +28,7 @@ const MainDashboard = () => {
               <div>
                 <h2 className="text-3xl font-bold tracking-tight">Sanchay</h2>
                 <p className="text-muted-foreground">
-                  Overview of your report analytics and recent activities
+                  Overview of your report analytics and recent activities 1.0.4
                 </p>
               </div>
               <div className="flex items-center space-x-4">
