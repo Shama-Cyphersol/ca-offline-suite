@@ -1,5 +1,4 @@
-
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   LayoutDashboard,
   Files,
@@ -88,7 +87,11 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
         <button
           className={`w-full flex items-center justify-start p-2 rounded-md transition-all duration-200 ease-in-out
             ${level > 0 ? "ml-4" : ""} 
-            ${activeTab === item.title && !hasSubmenu ? "bg-gray-200 text-black font-semibold" : "text-gray-600 hover:bg-gray-100"}
+            ${
+              activeTab === item.title && !hasSubmenu
+                ? "bg-gray-200 text-black font-semibold"
+                : "text-gray-600 hover:bg-gray-100"
+            }
             ${isCollapsed ? "justify-center" : ""}`}
           // onClick={() => !hasSubmenu && setActiveTab(item.title)}
             onClick={() => handleMenuClick(hasSubmenu, item)}
@@ -186,11 +189,13 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
     <Sidebar className="transition-all duration-300 ease-in-out">
       <SidebarHeader>
         <div className="h-16 flex items-center px-4 border-b">
-          <img 
-            src={logo} 
-            alt="Logo" 
-            className={`h-12 cursor-pointer transition-all duration-300 ${isCollapsed ? "w-8" : "w-auto"}`}
-            onClick={() => navigate("/")} 
+          <img
+            src={logo}
+            alt="Logo"
+            className={`h-12 cursor-pointer transition-all duration-300 ${
+              isCollapsed ? "w-8" : "w-auto"
+            }`}
+            onClick={() => navigate("/")}
           />
         </div>
       </SidebarHeader>

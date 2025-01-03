@@ -1,0 +1,23 @@
+[
+  {
+    "Value Date": "07-02-2024",
+    "Description": "chqdep-transferow1-noidawbo:trchadhaandcoll:hdfcbankltd",
+    "Credit": 3090,
+    "Balance": 70680.78,
+    "Category": "Cash Deposits"
+  },
+  {
+    "Value Date": "20-02-2024",
+    "Description": "chqdep-transferow1-noidawbo:tr",
+    "Credit": 196043,
+    "Balance": 340428.44,
+    "Category": "Cash Deposits"
+  },
+  {
+    "Value Date": "20-02-2024",
+    "Description": "chqdep-transferow1-noidawbo:tr",
+    "Credit": 16856,
+    "Balance": 236405.44,
+    "Category": "Cash Deposits"
+  }
+]

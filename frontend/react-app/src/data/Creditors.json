@@ -1,0 +1,30 @@
+[
+  {
+    "Value Date": "29-01-2024",
+    "Description": ".impsp2p401712175746#17/01/2024170124-mir2402553372032",
+    "Debit": 17.7,
+    "Balance": 654491.86,
+    "Category": "Creditor"
+  },
+  {
+    "Value Date": "21-02-2024",
+    "Description": "chqpaid-micrcts-mu-licofindia",
+    "Debit": 6253,
+    "Balance": 351031.44,
+    "Category": "Life insurance"
+  },
+  {
+    "Value Date": "29-01-2024",
+    "Description": "rtgsdr-bcbm0000018-balajiinfosystems-netbank,mum-hdfcr52024012974341785-inte",
+    "Debit": 400000,
+    "Balance": 254491.86,
+    "Category": "balajiinfosystems"
+  },
+  {
+    "Value Date": "06-02-2024",
+    "Description": "neftdr-bcbm0000018-balajiinfosystems-netbank,mum-n037242868406182-internal",
+    "Debit": 100000,
+    "Balance": 87590.78,
+    "Category": "balajiinfosystems"
+  }
+]

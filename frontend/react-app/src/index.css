@@ -96,7 +96,7 @@
 }
 
 @keyframes wave {
-  0% { 
+  0% {
     transform: translateX(-50%) translateY(0) rotate(0deg);
     border-radius: 50%;
   }
@@ -104,19 +104,19 @@
     transform: translateX(-30%) translateY(-2%) rotate(180deg);
     border-radius: 45%;
   }
-  100% { 
+  100% {
     transform: translateX(-50%) translateY(0) rotate(360deg);
     border-radius: 50%;
   }
 }
 @keyframes fadeIn {
-  from { 
-    opacity: 0; 
-    transform: translateY(10px); 
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 .animate-wave {
