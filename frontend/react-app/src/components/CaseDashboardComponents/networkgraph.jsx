@@ -28,9 +28,9 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
   const responsiveNodeSize = useMemo(() => {
     if (typeof window !== 'undefined') {
       const width = window.innerWidth;
-      if (width < 640) return nodeSize * 0.6; // Small screens
-      if (width < 1024) return nodeSize * 0.8; // Medium screens
-      return nodeSize; // Large screens
+      if (width < 640) return nodeSize * 0.6;
+      if (width < 1024) return nodeSize * 0.8;
+      return nodeSize;
     }
     return nodeSize;
   }, [nodeSize]);
@@ -42,7 +42,7 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
 
     // Calculate entity statistics
     transactions.forEach((tx) => {
-      // Update sender stats
+      // ... (previous transaction processing code remains the same)
       const fromStats = entityMap.get(tx.from) || { 
         transactions: 0, 
         totalCredit: 0,
@@ -58,7 +58,6 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
       fromStats.totalAmount += tx.amount;
       entityMap.set(tx.from, fromStats);
 
-      // Update receiver stats
       const toStats = entityMap.get(tx.to) || { 
         transactions: 0, 
         totalCredit: 0,
@@ -74,7 +73,6 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
       toStats.totalAmount += tx.amount;
       entityMap.set(tx.to, toStats);
 
-      // Track edge statistics separately for credit and debit
       const edgeId = `${tx.from}-${tx.to}`;
       const edgeStats = edgeMap.get(edgeId) || { 
         creditAmount: 0, 
@@ -90,8 +88,8 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
       edgeMap.set(edgeId, edgeStats);
     });
 
-    // Create nodes with responsive sizing
-    const nodes = Array.from(entityMap.entries()).map(([id, stats]) => ({
+    // Create nodes with dynamic sizing
+    const nodes = Array.from(entityMap.entries()).map(([id, stats], index) => ({
       id,
       data: { 
         label: id, 
@@ -116,12 +114,11 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
       },
     }));
 
-    // Create separate edges for credit and debit
+    // Create edges (edge creation code remains the same)
     const edges = [];
     edgeMap.forEach((stats, id) => {
       const [source, target] = id.split('-');
       
-      // Create credit edge if there are credit transactions
       if (stats.creditAmount > 0) {
         edges.push({
           id: `${id}-credit`,
@@ -148,7 +145,6 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
         });
       }
 
-      // Create debit edge if there are debit transactions
       if (stats.debitAmount > 0) {
         edges.push({
           id: `${id}-debit`,
@@ -182,6 +178,23 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  // Update node sizes dynamically when slider changes
+  const updateNodeSizes = useCallback((newSize) => {
+    setNodeSize(newSize);
+    setNodes((prevNodes) =>
+      prevNodes.map((node) => ({
+        ...node,
+        style: {
+          ...node.style,
+          width: newSize,
+          height: newSize,
+          fontSize: `${Math.max(10, newSize * 0.15)}px`,
+          transition: 'all 0.3s ease'
+        },
+      }))
+    );
+  }, [setNodes]);
+
   // Filter nodes and edges based on minimum transactions and amount
   const filteredNodes = useMemo(() => {
     return nodes.filter((node) => 
@@ -203,7 +216,7 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
     setIsDialogOpen(true);
   }, []);
 
-  // Transaction Table Component with responsive design
+  // Transaction Table Component (remains the same)
   const TransactionTable = ({ transactions, nodeId }) => {
     const relevantTransactions = transactions.filter(
       tx => tx.from === nodeId || tx.to === nodeId
@@ -212,30 +225,30 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
     return (
       <div className="overflow-x-auto">
         <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold">Network Graph</h1>
-        <div className="flex gap-4 items-center text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <span>Person</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-blue-400"></div>
-            <span>Entity</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-green-400"></div>
-            <span>Common Entity</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="h-0.5 w-6 bg-green-600"></div>
-            <span>Credit</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="h-0.5 w-6 bg-red-600"></div>
-            <span>Debit</span>
+          <h1 className="text-xl font-semibold">Network Graph</h1>
+          <div className="flex gap-4 items-center text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+              <span>Person</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-blue-400"></div>
+              <span>Entity</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-green-400"></div>
+              <span>Common Entity</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="h-0.5 w-6 bg-green-600"></div>
+              <span>Credit</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="h-0.5 w-6 bg-red-600"></div>
+              <span>Debit</span>
+            </div>
           </div>
         </div>
-      </div>
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-50">
@@ -276,12 +289,13 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
             <label className="text-sm font-medium">Node Size</label>
             <Slider
               value={[nodeSize]}
-              onValueChange={([value]) => setNodeSize(value)}
+              onValueChange={([value]) => updateNodeSizes(value)}
               min={50}
               max={150}
               step={10}
               className="mt-2"
             />
+            <span className="text-sm text-gray-600">{nodeSize}</span>
           </div>
           <div>
             <label className="text-sm font-medium">Min Transactions</label>
@@ -289,10 +303,11 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
               value={[minTransactions]}
               onValueChange={([value]) => setMinTransactions(value)}
               min={0}
-              max={100}
+              max={1000}
               step={1}
               className="mt-2"
             />
+            <span className="text-sm text-gray-600">{minTransactions}</span>
           </div>
           <div>
             <label className="text-sm font-medium">Min Amount</label>
@@ -307,7 +322,7 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
         </div>
       </Card>
 
-    <div className="flex w-full h-[100vh]  border rounded-lg bg-white">
+      <div className="flex max-w-full lg:h-[65vh] border rounded-lg bg-white">
         <ReactFlow
           nodes={filteredNodes}
           edges={filteredEdges}
@@ -321,7 +336,7 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
           <Controls className="bg-white" />
           <Background color="#e5e7eb" gap={16} />
         </ReactFlow>
-    
+      </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         {selectedNode && (
@@ -346,7 +361,6 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
           </DialogContent>
         )}
       </Dialog>
-    </div>
     </div>
   );
 };

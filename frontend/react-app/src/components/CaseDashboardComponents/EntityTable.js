@@ -16,6 +16,7 @@ import {
 } from "../ui/pagination"
 import DataTable from '../IndividualDashboardComponents/TableData'
 import { Button, buttonVariants } from '../ui/button'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog'
 
 const EntityTable = () => {
     const [searchQuery, setSearchQuery] = useState("")
@@ -185,26 +186,19 @@ const EntityTable = () => {
                 </CardContent>
             </Card>
 
+                {/* Replace the Card code with this Dialog implementation */}
+            <Dialog open={!!selectedEntity} onOpenChange={(isOpen) => !isOpen && setSelectedEntity(null)}>
             {selectedEntity && entityTransactions[selectedEntity] && (
-                <Card>
-                    <CardHeader>
-                        <div className="flex justify-between items-center">
-                            <CardTitle>Transactions for {selectedEntity}</CardTitle>
-                            <Button
-                                variant="secondary"
-                                onClick={() => setSelectedEntity(null)}
-                                className="hover:bg-primary hover:text-primary-foreground transition-colors"
-                            >
-                                <X className="h-4 w-4" />
-                                Close
-                            </Button>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <DataTable data={entityTransactions[selectedEntity]} />
-                    </CardContent>
-                </Card>
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                    <DialogTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                    <span>Transactions for {selectedEntity}</span>
+                    </DialogTitle>
+                </DialogHeader>
+                <DataTable data={entityTransactions[selectedEntity]} />
+                </DialogContent>
             )}
+            </Dialog>
         </div>
     )
 }
