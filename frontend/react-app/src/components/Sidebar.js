@@ -82,7 +82,7 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
     return (
       <div className="w-full">
         <button
-          className={`w-full flex items-center justify-start p-2 rounded-md transition-all duration-200 ease-in-out  ${level > 0 ? "ml-4" : ""} ${activeTab === item.title && !hasSubmenu? "bg-gray-300 text-black font-semibold":"text-gray-600 hover:bg-gray-100 dark:text-white"} ${isCollapsed ? "justify-center" : ""}`}
+          className={`w-full flex items-center justify-start p-2 rounded-md transition-all duration-200 ease-in-out  ${level > 0 ? "ml-4" : ""} ${activeTab === item.title && !hasSubmenu? "bg-gray-300 text-black font-semibold":"text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"} ${isCollapsed ? "justify-center" : ""}`}
           // onClick={() => !hasSubmenu && setActiveTab(item.title)}
           onClick={() => handleMenuClick(hasSubmenu, item)}
         >

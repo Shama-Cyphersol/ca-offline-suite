@@ -177,7 +177,6 @@ const Cash = () => {
         <TabsList className="grid w-[500px] grid-cols-2 pb-10">
           <TabsTrigger value="withdrawal">Withdrawal</TabsTrigger>
           <TabsTrigger value="debit">Deposit</TabsTrigger>
-          <TabsTrigger value="debit">Deposit</TabsTrigger>
         </TabsList>
 
         <TabsContent value="withdrawal">
