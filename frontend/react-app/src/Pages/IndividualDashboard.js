@@ -16,6 +16,17 @@ import Creditors from "../components/IndividualDashboardComponents/Creditors";
 import EMI from "../components/IndividualDashboardComponents/EMI";
 import Investment from "../components/IndividualDashboardComponents/Investment";
 import EodBalance from "../components/IndividualDashboardComponents/EodBalance";
+import {
+  ArrowDownWideNarrow,
+  ArrowRightLeft,
+  ArrowUpNarrowWide,
+  ChartNoAxesCombined,
+  ClipboardList,
+  FileQuestion,
+  History,
+  IndianRupee,
+  MessageSquareText,
+} from "lucide-react";
 
 const IndividualDashboard = () => {
   const [activeTab, setActiveTab] = useState("Summary");
@@ -32,42 +43,42 @@ const IndividualDashboard = () => {
   const navItems = [
     {
       title: "Summary",
-      icon: null,
+      icon: ClipboardList,
       isActive: true,
     },
     {
       title: "Transactions",
-      icon: null,
+      icon: ArrowRightLeft,
     },
     {
       title: "EOD",
-      icon: null,
+      icon: History,
     },
     {
       title: "Suspense",
-      icon: null,
+      icon: FileQuestion,
     },
     {
       title: "Cash",
-      icon: null,
+      icon: IndianRupee,
     },
     {
       title: "Debtors",
       url: "#",
-      icon: null,
+      icon: ArrowUpNarrowWide,
     },
     {
       title: "Creditors",
-      icon: null,
+      icon: ArrowDownWideNarrow,
     },
     {
       title: "EMI",
-      icon: null,
+      icon: MessageSquareText,
     },
     {
       title: "Investment",
       url: "#",
-      icon: null,
+      icon: ChartNoAxesCombined,
     },
   ];
 

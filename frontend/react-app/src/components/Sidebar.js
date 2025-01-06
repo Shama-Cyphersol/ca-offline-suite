@@ -7,6 +7,9 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
+  ChevronDown,
+  ChevronUp,
+  ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -84,8 +87,8 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
             ${level > 0 ? "ml-4" : ""} 
             ${
               activeTab === item.title && !hasSubmenu
-                ? "bg-gray-200 text-black font-semibold dark:bg-gray-300 dark:text-gray-900"
-                : "text-gray-600 hover:bg-gray-300 dark:hover:text-black"
+                ? "bg-gray-200 text-black font-semibold"
+                : "text-gray-600 hover:bg-gray-100"
             }
             ${isCollapsed ? "justify-center" : ""}`}
           // onClick={() => !hasSubmenu && setActiveTab(item.title)}
@@ -95,8 +98,8 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
             {item.icon && <item.icon className="h-5 w-5 flex-shrink-0" />}
             {!isCollapsed && <span className="text-sm">{item.title}</span>}
             {hasSubmenu && (
-              <span className="ml-auto">
-                {isOpen ? "▲" : "▼"} {/* Indicator for submenu toggle */}
+              <span className="ml-auto mt-1">
+                {isOpen ? <ChevronUp /> : <ChevronDown />}
               </span>
             )}
           </div>

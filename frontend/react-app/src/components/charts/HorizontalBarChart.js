@@ -64,7 +64,7 @@ const HorizontalBarChart = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="dark:text-slate-300">{title}</CardTitle>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={config}>
