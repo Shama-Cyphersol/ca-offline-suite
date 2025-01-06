@@ -22,6 +22,7 @@ import Analytics from "../components/MainDashboardComponents/Analytics";
 import { BreadcrumbDynamic } from "../components/BreadCrumb";
 import { useBreadcrumb } from "../contexts/BreadcrumbContext";
 import { useParams } from "react-router-dom";
+import PdfColumnMarker from "../components/MainDashboardComponents/PdfCanvas";
 
 const Dashboard = () => {
   const { breadcrumbs, setMainDashboard } = useBreadcrumb();
@@ -68,6 +69,11 @@ const Dashboard = () => {
       url: "#",
       icon: ReceiptText,
     },
+    // {
+    //   title:"Marker",
+    //   url:"#",
+    //   icon:Files
+    // }
   ];
 
   useEffect(() => {
@@ -107,6 +113,7 @@ const Dashboard = () => {
               {activeTab === "Opportunity to Earn" && <Eligibility />}
               {activeTab === "Billing" && <Billing />}
               {activeTab === "Analytics" && <Analytics />}
+              {activeTab === "Marker" && <PdfColumnMarker />}
             </main>
           </div>
         </ScrollArea>
