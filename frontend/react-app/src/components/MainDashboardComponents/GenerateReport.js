@@ -177,7 +177,9 @@ export default function GenerateReport() {
   return (
     <div className="p-8 pt-0 space-y-8 bg-white dark:bg-black min-h-screen">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold tracking-tight">Report Generator</h2>
+        <h2 className="text-3xl font-bold tracking-tight dark:text-slate-300">
+          Report Generator
+        </h2>
         <div className="flex items-center space-x-4">
           {/* <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />

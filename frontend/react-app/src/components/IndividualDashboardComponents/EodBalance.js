@@ -3,7 +3,7 @@ import SingleLineChart from "../charts/LineChart";
 import DataTable from "./TableData";
 import { Checkbox } from "../ui/checkbox";
 import eodData from "../../data/eod.json";
-import { Card } from "../ui/card";
+import { Card, CardHeader, CardTitle } from "../ui/card";
 
 const EodBalance = () => {
   const columns = Object.keys(eodData[0] || {});
@@ -36,8 +36,11 @@ const EodBalance = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg space-y-6 m-8">
+    <div className="bg-white dark:bg-slate-950 rounded-lg space-y-6 m-8">
       <Card>
+        <CardHeader>
+          <CardTitle className="dark:text-slate-300">Select Months</CardTitle>
+        </CardHeader>
         <div className="mb-4 flex flex-wrap gap-4 items-center p-4">
           <div className="flex items-center space-x-2">
             <Checkbox

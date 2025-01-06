@@ -91,9 +91,9 @@ const Cash = () => {
 
   // Then modify the return statement to use cashDepositData
   return (
-    <div className="w-full rounded-xl shadow-sm m-8 bg-white dark:bg-gray-800">
+    <div className="rounded-xl shadow-sm m-8 bg-white space-y-6 dark:bg-slate-950">
       <Tabs defaultValue="withdrawal">
-        <TabsList className="grid w-[500px] grid-cols-2">
+        <TabsList className="grid w-[500px] grid-cols-2 pb-10">
           <TabsTrigger value="withdrawal">Withdrawal</TabsTrigger>
           <TabsTrigger value="debit">Deposit</TabsTrigger>
         </TabsList>

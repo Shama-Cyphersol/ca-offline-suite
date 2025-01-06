@@ -68,7 +68,7 @@ const BarLineChart = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="dark:text-slate-300">{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={config}>
