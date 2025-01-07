@@ -1,17 +1,17 @@
-import * as React from "react";
+import  React,{forwardRef,useEffect,useState} from "react";
 import { Check } from "lucide-react";
 import { cn } from "../../lib/utils";
 
-const CircularProgress = React.forwardRef(
+const CircularProgress = forwardRef(
   ({ className, value = 0, size = 40, ...props }, ref) => {
     const isComplete = value >= 100;
     const strokeWidth = 4;
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
     const progressOffset = circumference - (value / 100) * circumference;
-    const [displayValue, setDisplayValue] = React.useState(0);
+    const [displayValue, setDisplayValue] = useState(0);
 
-    React.useEffect(() => {
+    useEffect(() => {
       // Smoothly animate the display value
       const animateValue = (start, end, duration) => {
         const startTime = performance.now();

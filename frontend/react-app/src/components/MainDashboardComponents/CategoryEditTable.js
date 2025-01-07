@@ -334,7 +334,9 @@ const CategoryEditTable = ({ data = [], categoryOptions }) => {
   };
 
   return (
-    <Card className="relative">
+    <div className="relative min-h-screen flex flex-col">
+
+    <Card className="flex-1">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="space-y-2">
@@ -506,33 +508,7 @@ const CategoryEditTable = ({ data = [], categoryOptions }) => {
           </div>
         )}
       </CardContent>
-        {/* Fixed bottom actions bar */}
-        {(hasChanges || globalSelectedRows.size > 0) && (
-          <div className="sticky bottom-0 left-0 right-0 bg-white border-t p-4 shadow-lg flex justify-end gap-2 z-50">
-            {globalSelectedRows.size > 0 && (
-              <Button
-                variant="secondary"
-                onClick={() => setBulkCategoryModalOpen(true)}
-              >
-                Update Selected ({globalSelectedRows.size})
-              </Button>
-            )}
-            {hasChanges && (
-              <Button
-                onClick={handleSaveChanges}
-                disabled={isLoading}
-                className="flex items-center gap-2"
-              >
-                {isLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Save className="h-4 w-4" />
-                )}
-                Save Changes
-              </Button>
-            )}
-          </div>
-        )}
+
 
       {/* Category Filter Modal */}
       {filterModalOpen && (
@@ -712,6 +688,35 @@ const CategoryEditTable = ({ data = [], categoryOptions }) => {
         </div>
       )}
     </Card>
+    
+        {/* Fixed bottom actions bar */}
+        {(hasChanges || globalSelectedRows.size > 0) && (
+        <div className="sticky bottom-0 left-0 right-0 bg-white border-t p-4 shadow-lg flex justify-end gap-2 z-50">
+            {globalSelectedRows.size > 0 && (
+              <Button
+                variant="secondary"
+                onClick={() => setBulkCategoryModalOpen(true)}
+              >
+                Update Selected ({globalSelectedRows.size})
+              </Button>
+            )}
+            {hasChanges && (
+              <Button
+                onClick={handleSaveChanges}
+                disabled={isLoading}
+                className="flex items-center gap-2"
+              >
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Save className="h-4 w-4" />
+                )}
+                Save Changes
+              </Button>
+            )}
+          </div>
+        )}
+    </div>
   );
 };
 

@@ -21,7 +21,7 @@ import { Badge } from "../ui/badge";
 import { useState } from "react";
 import { cn } from "../../lib/utils";
 import { useNavigate } from "react-router-dom";
-import { Eye, Plus, Trash2, Info, Search, Edit, Edit2 } from "lucide-react";
+import { Eye, Plus, Trash2, Info, Search, Edit, Edit2, X } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -52,7 +52,7 @@ const RecentReports = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentInfoIndex, setCurrentInfoIndex] = useState(0);
   const [isCategoryEditOpen, setIsCategoryEditOpen] = useState(false);
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isAddPdfModalOpen, setIsAddPdfModalOpen] = useState(false);
   const itemsPerPage = 10;
   console.log({ isLoading });
 
@@ -281,11 +281,11 @@ const RecentReports = () => {
     setIsCategoryEditOpen(!isCategoryEditOpen);
   };
   const handleAddReport = () => {
-    setModalOpen(true);
+    setIsAddPdfModalOpen(true);
   };
 
   const closeModal = () => {
-    setModalOpen(false);
+    setIsAddPdfModalOpen(false);
   };
 
   return (
@@ -485,20 +485,22 @@ const RecentReports = () => {
         )}
       </CardContent>
       {/* Modal for GenerateReportForm */}
-      {isModalOpen && (
+      {isAddPdfModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full p-6">
+          <div className="bg-white rounded-lg shadow-lg max-w-5xl w-full p-6">
             <header className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Generate Report</h2>
+              <h2 className="text-lg font-semibold">
+                Add Additional Statements
+              </h2>
               <button
                 onClick={closeModal}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-2xl text-gray-500 hover:text-gray-700"
               >
-                &times;
+                <X />
               </button>
             </header>
             <div className="mt-4">
-              <GenerateReportForm />
+              <GenerateReportForm source="add pdf" />
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@ import { useToast } from "../../hooks/use-toast";
 import { Progress } from "../ui/progress";
 import axios from "axios";
 
-const GenerateReportForm = () => {
+const GenerateReportForm = ({source=""}) => {
   const [unit, setUnit] = useState("Unit 1");
   const [units, setUnits] = useState(["Unit 1", "Unit 2"]); // TODO - get units from API
   const [searchTerm, setSearchTerm] = useState("");
