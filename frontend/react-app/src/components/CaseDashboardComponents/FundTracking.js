@@ -1,185 +1,185 @@
-import { useState, useEffect } from 'react';
-import { Calendar, Search } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 import { Input } from '../ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Button } from '../ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../ui/table';
+import DataTable from '../IndividualDashboardComponents/TableData';
 
-const FundTracking = ({ data = [], onFilterChange = () => {} }) => {
-  const [selectedName, setSelectedName] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
-  const [filteredData, setFilteredData] = useState(data);
-  const [searchQuery, setSearchQuery] = useState('');
+const FundTracking = () => {
+  const [linkedTables, setLinkedTables] = useState([]);
+  const [clickedRows, setClickedRows] = useState([]);
+  const [filters, setFilters] = useState({
+    name: '',
+    category: '',
+    date: '',
+  });
 
-  // Get unique names and categories from data
-  const uniqueNames = [...new Set(data.map(item => item.Name))];
-  const uniqueCategories = [...new Set(data.map(item => item.Category))];
+  const allTransactions = [
+    {
+      id: "1",
+      name: "John Smith",
+      date: "2024-01-05",
+      description: "Initial Investment",
+      credit: "100000.00",
+      debit: "",
+      balance: "100000.00",
+      category: "Investment",
+      entity: "HDFC Bank"
+    },
+    {
+      id: "2",
+      name: "Sarah Johnson",
+      date: "2024-01-06",
+      description: "Business Revenue",
+      credit: "150000.00",
+      debit: "",
+      balance: "150000.00",
+      category: "Revenue",
+      entity: "ICICI Bank"
+    }
+  ];
 
-  useEffect(() => {
-    // Apply filters
-    let filtered = data;
-    if (selectedName) {
-      filtered = filtered.filter(item => item.Name === selectedName);
-    }
-    if (selectedCategory) {
-      filtered = filtered.filter(item => item.Category === selectedCategory);
-    }
-    if (selectedDate) {
-      filtered = filtered.filter(item => item.Value_Date === selectedDate);
-    }
-    if (searchQuery) {
-      filtered = filtered.filter(item => 
-        Object.values(item).some(value => 
-          value.toString().toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
-    }
-    setFilteredData(filtered);
-    onFilterChange(filtered);
-  }, [selectedName, selectedCategory, selectedDate, searchQuery, data]);
-
-  const resetFilters = () => {
-    setSelectedName('');
-    setSelectedCategory('');
-    setSelectedDate('');
-    setSearchQuery('');
+  const linkedTransactionsData = {
+    "HDFC Bank-1": [
+      {
+        id: "3",
+        name: "John Smith",
+        date: "2024-01-06",
+        description: "Stock Purchase",
+        credit: "",
+        debit: "30000.00",
+        balance: "70000.00",
+        category: "Stocks",
+        entity: "Zerodha"
+      },
+      {
+        id: "4",
+        name: "John Smith",
+        date: "2024-01-07",
+        description: "Mutual Fund",
+        credit: "",
+        debit: "40000.00",
+        balance: "30000.00",
+        category: "Mutual Funds",
+        entity: "ICICI Direct"
+      }
+    ],
+    "ICICI Bank-2": [
+      {
+        id: "5",
+        name: "Sarah Johnson",
+        date: "2024-01-07",
+        description: "Property Investment",
+        credit: "",
+        debit: "100000.00",
+        balance: "50000.00",
+        category: "Real Estate",
+        entity: "PropFirm"
+      }
+    ]
   };
 
-  return (
-    <div className='p-5'>
-    <Card className="w-full">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6">
-        <CardTitle className="text-xl font-semibold">Fund Tracking</CardTitle>
-        {/* <div className="relative w-72">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-          <Input
-            placeholder="Search reports..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-8"
-          />
-        </div> */}
-      </CardHeader>
+  const uniqueCategories = useMemo(() => 
+    [...new Set(allTransactions.map(item => item.category))], 
+    []
+  );
+
+  const filteredData = useMemo(() => {
+    return allTransactions.filter(item => {
+      const matchesName = !filters.name || item.name === filters.name;
+      const matchesCategory = !filters.category || item.category === filters.category;
+      const matchesDate = !filters.date || item.date === filters.date;
+      return matchesName && matchesCategory && matchesDate;
+    });
+  }, [filters]);
+
+  const handleRowClick = (row) => {
+    const tableKey = `${row.entity}-${row.id}`;
+    const linkedTransactions = linkedTransactionsData[tableKey];
+
+    if (!clickedRows.includes(row.id) && linkedTransactions) {
+      setClickedRows(prev => [...prev, row.id]);
+      setLinkedTables(prev => [
+        ...prev,
+        {
+          id: row.id,
+          data: linkedTransactions,
+          title: `Fund Utilization - ${row.entity} (${row.name})`
+        }
+      ]);
+    }
+  };
+
+  const resetFilters = () => {
+    setFilters({
+      name: '',
+      category: '',
+      date: '',
+    });
+    setLinkedTables([]);
+    setClickedRows([]);
+  };
+
+  const TableData = ({ data, title = "" }) => (
+    <Card className="mt-4">
+      {title && (
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+      )}
       <CardContent>
-        {/* Filters Section */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="relative">
-            <Input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              className="w-full"
-            />
-          </div>
-
-          <Select
-            value={selectedName}
-            onValueChange={setSelectedName}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select name" />
-            </SelectTrigger>
-            <SelectContent>
-              {uniqueNames.map((name) => (
-                <SelectItem key={name} value={name}>
-                  {name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <Select
-            value={selectedCategory}
-            onValueChange={setSelectedCategory}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select category" />
-            </SelectTrigger>
-            <SelectContent>
-              {uniqueCategories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <div className="flex gap-2">
-            <Button 
-              onClick={() => onFilterChange(filteredData)}
-              className="flex-1 hover:bg-blue-600"
-            >
-              Apply Filters
-            </Button>
-            <Button 
-              onClick={resetFilters}
-              variant="ghost"
-              className="flex-1 border-2"
-            >
-              Reset
-            </Button>
-          </div>
-        </div>
-
-        {/* Transactions Table */}
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-slate-50">
-                <TableHead className="font-semibold">Name</TableHead>
-                <TableHead className="font-semibold">Value Date</TableHead>
-                <TableHead className="font-semibold">Description</TableHead>
-                <TableHead className="font-semibold text-right">Debit</TableHead>
-                <TableHead className="font-semibold text-right">Credit</TableHead>
-                <TableHead className="font-semibold text-right">Balance</TableHead>
-                <TableHead className="font-semibold">Category</TableHead>
-                <TableHead className="font-semibold">Entity</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredData.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={8} className="text-center text-gray-500 py-8">
-                    No transactions found
-                  </TableCell>
-                </TableRow>
-              ) : (
-                filteredData.map((item, index) => (
-                  <TableRow 
-                    key={index}
-                    className="hover:bg-slate-50 cursor-pointer"
-                  >
-                    <TableCell>{item.Name}</TableCell>
-                    <TableCell>{item.Value_Date}</TableCell>
-                    <TableCell>{item.Description}</TableCell>
-                    <TableCell className="text-right">{item.Debit}</TableCell>
-                    <TableCell className="text-right">{item.Credit}</TableCell>
-                    <TableCell className="text-right">{item.Balance}</TableCell>
-                    <TableCell>{item.Category}</TableCell>
-                    <TableCell>{item.Entity}</TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
+        <DataTable 
+          data={data}
+          onRowClick={handleRowClick}
+        />
       </CardContent>
     </Card>
+  );
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>Fund Tracking</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <Input
+              type="date"
+              value={filters.date}
+              onChange={e => setFilters(prev => ({ ...prev, date: e.target.value }))}
+              max={new Date().toISOString().split('T')[0]}
+            />
+            <Select
+              value={filters.category}
+              onValueChange={value => setFilters(prev => ({ ...prev, category: value }))}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                {uniqueCategories.map(category => (
+                  <SelectItem key={category} value={category}>{category}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button onClick={resetFilters} variant="outline">Reset Filters</Button>
+          </div>
+
+          <TableData 
+            data={filteredData}
+            title="All Transactions"
+          />
+
+          {linkedTables.map(table => (
+            <TableData
+              key={table.id}
+              data={table.data}
+              title={table.title}
+            />
+          ))}
+        </CardContent>
+      </Card>
     </div>
   );
 };
