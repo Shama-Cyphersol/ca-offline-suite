@@ -4,30 +4,32 @@
   "description": "",
   "main": "frontend/electron/main.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development concurrently \"npm run start:fastapi\" \"npm run start:react\" \"npm run start:electron\"",
+    "start": "cross-env NODE_ENV=development electron electron/main.js",
     "start:fastapi": "cd ../backend && uvicorn app:app --reload --port 5000",
     "start:react": "cd react-app && npm start",
     "start:electron": "cross-env NODE_ENV=development wait-on http://localhost:3000 && electron electron/main.js",
     "build": "rm -rf dist && cross-env NODE_ENV=production npm run build:react && npm run build:electron",
     "build:react": "cd frontend/react-app && npm run build",
     "build:electron": "electron-builder"
+
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+ "devDependencies": {
     "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
     "electron": "^33.2.1",
     "electron-builder": "^24.13.3",
     "wait-on": "^7.2.0"
   },
-  "build": {
+ "build": {
     "appId": "com.electron.electronapp",
     "productName": "Cyphersol",
     "directories": {
       "output": "dist"
     },
+
     "files": [
       "frontend/electron/**/*",
       "frontend/react-app/build/**/*",
@@ -54,8 +56,6 @@
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "d3-scale": "^4.0.2",
-    "d3-scale-chromatic": "^3.1.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   }

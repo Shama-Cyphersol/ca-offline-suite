@@ -5,6 +5,7 @@
   "homepage": "./",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.0",
+    "@microsoft/office-js": "^1.1.101",
     "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-alert-dialog": "^1.1.4",
     "@radix-ui/react-avatar": "^1.1.2",
@@ -29,19 +30,23 @@
     "framer-motion": "^11.15.0",
     "lucide-react": "^0.469.0",
     "pdfjs-dist": "^4.8.69",
+    "multer": "^1.4.5-lts.1",
     "react": "^18.2.0",
+    "react-data-table-component": "^7.6.2",
     "react-dom": "^18.2.0",
     "react-pdf": "^9.2.1",
+    "react-icons": "^5.4.0",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
     "recharts": "^2.15.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "web-vitals": "^4.2.4"
+    "web-vitals": "^4.2.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -rf build && react-scripts build",
+    "build": "npx rimraf build && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
