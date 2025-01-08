@@ -87,9 +87,9 @@ import SuspenseDebitData from "../../data/suspense_debit.json";
 
 const Suspense = () => {
   return (
-    <div className="w-full rounded-xl shadow-sm m-8 bg-white dark:bg-slate-950">
+    <div className="rounded-xl shadow-sm m-8 mt-2 bg-white dark:bg-slate-950">
       <Tabs defaultValue="credit">
-        <TabsList className="grid w-[500px] grid-cols-2">
+        <TabsList className="grid w-[500px] grid-cols-2 pb-10">
           <TabsTrigger value="credit">Credit</TabsTrigger>
           <TabsTrigger value="debit">Debit</TabsTrigger>
         </TabsList>

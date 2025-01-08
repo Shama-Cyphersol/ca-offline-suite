@@ -7,7 +7,7 @@ import {
   Sparkles,
   ChevronDown,
   ChevronUp,
-  ChevronRight,
+  // ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -31,7 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import logo from "../data/assets/logo.png";
-import logoDark from "../data/assets/cyphersol-logo-dark.png";
+// import logoDark from "../data/assets/cyphersol-logo-dark.png";
 
 const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
   const navigate = useNavigate();

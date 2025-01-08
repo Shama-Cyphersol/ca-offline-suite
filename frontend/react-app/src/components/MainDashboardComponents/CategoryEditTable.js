@@ -336,7 +336,7 @@ const CategoryEditTable = ({ data = [], categoryOptions }) => {
   return (
     <div className="relative min-h-screen flex flex-col">
 
-    <Card className="flex-1">
+    <Card className="flex-1 pb-14">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="space-y-2">
@@ -616,7 +616,7 @@ const CategoryEditTable = ({ data = [], categoryOptions }) => {
           <DialogHeader>
             <DialogTitle>Update Multiple Categories</DialogTitle>
             <DialogDescription>
-              Select a new category for the {selectedRows.length} selected transactions
+              Select a new category for the {globalSelectedRows.size} selected transactions
             </DialogDescription>
           </DialogHeader>
           <Select
@@ -661,7 +661,7 @@ const CategoryEditTable = ({ data = [], categoryOptions }) => {
           <DialogHeader>
             <DialogTitle>Confirm Category Update</DialogTitle>
             <DialogDescription>
-              Are you sure you want to update the category to "{selectedBulkCategory}" for {selectedRows.length} transactions?
+              Are you sure you want to update the category to "{selectedBulkCategory}" for {globalSelectedRows.size} transactions?
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -691,7 +691,7 @@ const CategoryEditTable = ({ data = [], categoryOptions }) => {
     
         {/* Fixed bottom actions bar */}
         {(hasChanges || globalSelectedRows.size > 0) && (
-        <div className="sticky bottom-0 left-0 right-0 bg-white border-t p-4 shadow-lg flex justify-end gap-2 z-50">
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4 shadow-lg flex justify-end gap-2 z-50">
             {globalSelectedRows.size > 0 && (
               <Button
                 variant="secondary"

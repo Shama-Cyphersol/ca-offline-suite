@@ -7,17 +7,14 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "../components/ui/breadcrumb"
+} from "./ui/breadcrumb";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../components/ui/dropdown-menu"
+} from "./ui/dropdown-menu"
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft } from "lucide-react";
-import { Button } from "../components/ui/button";
-
 
 export function BreadcrumbDynamic({ items, className = "py-4 px-8" }) {
   const navigate = useNavigate();

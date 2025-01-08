@@ -86,7 +86,7 @@ const Transactions = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-950 rounded-lg space-y-6 m-8">
+    <div className="bg-white dark:bg-slate-950 rounded-lg space-y-6 m-8 mt-2 ">
       <Card>
         <CardHeader>
           <CardTitle className="dark:text-slate-300">Select Months</CardTitle>

@@ -17,15 +17,15 @@ const PieCharts = ({
   nameKey = null,
 }) => {
   // Get all columns from the first data item
-  const columns = data.length > 0 ? Object.keys(data[0]) : [];
+  // const columns = data.length > 0 ? Object.keys(data[0]) : [];
 
-  // Determine numeric columns
-  const numericColumns = columns.filter((column) =>
-    data.some((row) => {
-      const value = String(row[column]);
-      return !isNaN(parseFloat(value)) && !value.includes("-");
-    })
-  );
+  // // Determine numeric columns
+  // const numericColumns = columns.filter((column) =>
+  //   data.some((row) => {
+  //     const value = String(row[column]);
+  //     return !isNaN(parseFloat(value)) && !value.includes("-");
+  //   })
+  // );
 
   // If keys are not provided, use Description as nameKey
   // and automatically detect Credit or Debit as valueKey based on title

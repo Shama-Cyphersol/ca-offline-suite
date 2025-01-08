@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from "../../components/ui/button";
+import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
 import {
@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "../../components/ui/card";
+} from "../ui/card";
 import {
   Table,
   TableHeader,
@@ -17,14 +17,14 @@ import {
   TableBody,
   TableCell,
   TableFooter,
-} from "../../components/ui/table";
+} from "../ui/table";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../components/ui/select";
+} from "../ui/select";
 
 const DataTable = ({ data = [] }) => {
   const [tableData, setTableData] = useState(data);

@@ -281,10 +281,9 @@ const GenerateReportForm = () => {
       });
     } finally {
       setLoading(false);
-      setTimeout(() => {
-        setProgress(0);
-        setToastId(null);
-      }, 3000);
+      setProgress(0);
+      setToastId(null);
+     
     }
   };
   const formatFileSize = (bytes) => {
