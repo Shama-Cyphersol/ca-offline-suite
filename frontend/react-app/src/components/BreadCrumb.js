@@ -7,14 +7,16 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "./ui/breadcrumb";
+} from "../components/ui/breadcrumb";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu"
-import { useNavigate } from 'react-router-dom';
+} from "../components/ui/dropdown-menu";
+import { useNavigate, useLocation, matchPath } from 'react-router-dom';
+import { ChevronLeft } from "lucide-react";
+import { Button } from "../components/ui/button";
 
 export function BreadcrumbDynamic({ items, className = "py-4 px-8" }) {
   const navigate = useNavigate();
@@ -61,7 +63,7 @@ export function BreadcrumbDynamic({ items, className = "py-4 px-8" }) {
         <Button
           variant="ghost"
           size="sm"
-          className="flex items-center gap-2 ml-2"
+          className="flex items-center gap-2"
           onClick={handleBack}
           disabled={isLoading}
         >
