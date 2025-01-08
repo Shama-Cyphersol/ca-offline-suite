@@ -11,7 +11,7 @@ import {
 
 const PieCharts = ({
   data = [],
-  title = "Dynamic Pie Chart",
+  title = "",
   config = {},
   valueKey = null,
   nameKey = null,
@@ -56,7 +56,7 @@ const PieCharts = ({
   }));
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col min-h-[20vw]">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
       </CardHeader>
@@ -70,7 +70,7 @@ const PieCharts = ({
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <ChartLegend content={<ChartLegendContent />} />
+            {/* <ChartLegend content={<ChartLegendContent />} /> */}
             <Pie
               data={transformedData}
               dataKey={finalValueKey}

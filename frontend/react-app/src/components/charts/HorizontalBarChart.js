@@ -20,7 +20,7 @@ import {
 
 const HorizontalBarChart = ({
   data = [],
-  title = "Dynamic Horizontal Bar Chart",
+  title = "",
   config = {},
   xAxisKey = null,
   yAxisKey = null,
