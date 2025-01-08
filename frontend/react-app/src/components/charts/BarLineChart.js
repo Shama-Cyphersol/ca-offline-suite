@@ -19,7 +19,7 @@ import {
 
 const BarLineChart = ({
   data = [],
-  title = "Dynamic Combined Chart",
+  title = "",
   config = {},
   xAxisKey = null,
   columnTypes = {},

@@ -44,7 +44,7 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
   const [openMenus, setOpenMenus] = React.useState({});
 
   useEffect(() => {
-    console.log({isCollapsed});
+    console.log({ isCollapsed });
   }, [isCollapsed]);
 
   // const toggleItem = (title) => {
@@ -82,7 +82,13 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
     return (
       <div className="w-full">
         <button
-          className={`w-full flex items-center justify-start p-2 rounded-md transition-all duration-200 ease-in-out  ${level > 0 ? "ml-4" : ""} ${activeTab === item.title && !hasSubmenu? "bg-gray-300 text-black font-semibold":"text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"} ${isCollapsed ? "justify-center" : ""}`}
+          className={`w-full flex items-center justify-start p-2 rounded-md transition-all duration-200 ease-in-out  ${
+            level > 0 ? "ml-4" : ""
+          } ${
+            activeTab === item.title && !hasSubmenu
+              ? "bg-gray-300 text-black font-semibold"
+              : "text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"
+          } ${isCollapsed ? "justify-center" : ""}`}
           // onClick={() => !hasSubmenu && setActiveTab(item.title)}
           onClick={() => handleMenuClick(hasSubmenu, item)}
         >
@@ -115,7 +121,6 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
       ))}
     </div>
   );
-
 
   const UserMenu = () => (
     <DropdownMenu>
@@ -183,7 +188,7 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
       <SidebarHeader>
         <div className="h-16 flex items-center px-4 border-b">
           <img
-          // handle dark logo too
+            // handle dark logo too
             src={logo}
             alt="Logo"
             className={`h-12 cursor-pointer transition-all duration-300 ${

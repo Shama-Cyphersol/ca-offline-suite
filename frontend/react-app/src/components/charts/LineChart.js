@@ -11,7 +11,10 @@ import {
 
 const SingleLineChart = ({
   data = [],
-  title = "Single Line Chart",
+  title = "",
+  bottom = 5,
+  height = 0,
+  cardheight = 0,
   config = {},
   xAxisKey = null,
   yAxisKey = null,
@@ -37,11 +40,11 @@ const SingleLineChart = ({
   }));
 
   return (
-    <Card>
+    <Card className={`min-h-[20vh] ${cardheight}`}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className={height}>
         <ChartContainer config={config}>
           <LineChart
             data={data}
@@ -49,7 +52,7 @@ const SingleLineChart = ({
               top: 20,
               right: 30,
               left: 20,
-              bottom: 5,
+              bottom: bottom,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
