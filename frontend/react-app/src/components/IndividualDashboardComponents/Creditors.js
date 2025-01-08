@@ -35,7 +35,7 @@ import CreditorData from "../../data/Creditors.json";
 
 const Creditors = () => {
   return (
-    <div className="bg-white dark:bg-slate-950 rounded-lg m-8 space-y-6">
+    <div className="bg-white dark:bg-slate-950 rounded-lg m-8 mt-2 space-y-6">
       <BarLineChart data={CreditorData} title="Creditors" />
       <div>
         <DataTable data={CreditorData} />

@@ -32,7 +32,7 @@ const CircularProgress = forwardRef(
       };
 
       animateValue(displayValue, value, 500); // 500ms duration
-    }, [value]);
+    }, [value, displayValue]);
 
     return (
       <div

@@ -8,7 +8,7 @@ import IndividualDashboard from './Pages/IndividualDashboard';
 import ElectronIntro from './components/ElectronIntro';
 import { useState } from 'react';
 import { SidebarProvider } from './components/ui/sidebar';
-import { BreadcrumbProvider ,useBreadcrumb} from './contexts/BreadcrumbContext';
+import { BreadcrumbProvider } from './contexts/BreadcrumbContext';
 
 
 function App() {

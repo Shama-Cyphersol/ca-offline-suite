@@ -36,7 +36,7 @@ const EodBalance = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg space-y-6 m-8 dark:bg-slate-950">
+    <div className="bg-white rounded-lg space-y-6 m-8 mt-2 dark:bg-slate-950">
       <Card>
         <div className="mb-4 flex flex-wrap gap-4 items-center p-4">
           <div className="flex items-center space-x-2">

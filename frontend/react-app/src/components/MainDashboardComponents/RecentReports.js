@@ -21,7 +21,7 @@ import { Badge } from "../ui/badge";
 import { useState } from "react";
 import { cn } from "../../lib/utils";
 import { useNavigate } from 'react-router-dom';
-import { Eye, Plus, Trash2, Info, Search, Edit, Edit2,X} from 'lucide-react';
+import { Eye, Plus, Trash2, Info, Search, Edit2,X} from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -54,7 +54,6 @@ const RecentReports = () => {
   const [isCategoryEditOpen, setIsCategoryEditOpen] = useState(false);
   const [isAddPdfModalOpen, setIsAddPdfModalOpen] = useState(false);
   const itemsPerPage = 10;
-  console.log({ isLoading });
 
   const [recentReports, setRecentReports] = useState([
     {
@@ -256,9 +255,15 @@ const RecentReports = () => {
   // };
 
   const handleDeleteReport = (reportName) => {
+    
     setRecentReports(
       recentReports.filter((report) => report.reportName !== reportName)
     );
+    if((recentReports.length-1)%10===0){
+      if(currentPage>1){
+        setCurrentPage(currentPage-1);
+      }
+    }
     toast({
       title: "Report Deleted",
       description: "The report has been removed from your list.",
@@ -267,21 +272,19 @@ const RecentReports = () => {
   };
 
   const handleView = (caseId) => {
+    console.log({isLoading})
     setIsLoading(true);
     navigate(`/case-dashboard/${caseId}/defaultTab`);
     setIsLoading(false);
   };
 
-  const handleViewInfo = () => {
-    console.log("Clicked on info");
-  };
 
     const toggleEdit = (id) => {
         console.log('Clicked on edit');
         setIsCategoryEditOpen(!isCategoryEditOpen);
     }
     const handleAddReport = () => {
-        setIsAddPdfModalOpen(true);
+      setIsAddPdfModalOpen(true);
     };
 
     const closeModal = () => {

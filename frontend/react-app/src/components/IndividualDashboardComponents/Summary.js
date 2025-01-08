@@ -3,9 +3,8 @@ import summaryData from "../../data/summary.json";
 import PieCharts from "../charts/PieCharts";
 import TableData from "./TableData";
 import { Checkbox } from "../ui/checkbox";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardHeader, CardTitle } from "../ui/card";
 import BarChart from "../charts/BarChart";
-import { Table } from "lucide-react";
 
 const Summary = () => {
   const { income, importantExpenses, otherExpenses } = summaryData;
@@ -173,7 +172,7 @@ const Summary = () => {
   );
 
   return (
-    <div className="space-y-6 m-8">
+    <div className="space-y-6 m-8 mt-2 ">
       <MonthSelection />
       <BarChart data={filteredData} />
       {selectedMonths.length === 0 ? (

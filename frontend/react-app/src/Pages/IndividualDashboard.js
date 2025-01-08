@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,  useState } from "react";
 import { cn } from "../lib/utils";
 import { ScrollArea } from "../components/ui/scroll-area";
 import Sidebar from "../components/Sidebar";
-import AccountNumNameManager from "../components/CaseDashboardComponents/AccountNumNameManager";
-import IndividualTable from "../components/CaseDashboardComponents/IndividualTable";
 import Summary from "../components/IndividualDashboardComponents/Summary";
 import Transactions from "../components/IndividualDashboardComponents/Transactions";
 import Cash from "../components/IndividualDashboardComponents/Cash";
@@ -16,6 +14,8 @@ import Creditors from "../components/IndividualDashboardComponents/Creditors";
 import EMI from "../components/IndividualDashboardComponents/EMI";
 import Investment from "../components/IndividualDashboardComponents/Investment";
 import EodBalance from "../components/IndividualDashboardComponents/EodBalance";
+import Reversal from "../components/IndividualDashboardComponents/Reversal";
+import ForeignTransactions from "../components/IndividualDashboardComponents/ForeignTransactions";
 import {
   ArrowDownWideNarrow,
   ArrowRightLeft,
@@ -26,6 +26,7 @@ import {
   History,
   IndianRupee,
   MessageSquareText,
+  Undo2
 } from "lucide-react";
 
 const IndividualDashboard = () => {
@@ -79,7 +80,11 @@ const IndividualDashboard = () => {
       title: "Investment",
       url: "#",
       icon: ChartNoAxesCombined,
-    },
+    }, {
+      title: "Reversal",
+      url: "#",
+      icon: Undo2
+  }
   ];
 
   useEffect(() => {
@@ -118,7 +123,9 @@ const IndividualDashboard = () => {
               {activeTab === "EOD" && <EodBalance />}
               {activeTab === "Cash" && <Cash />}
               {activeTab === "Suspense" && <Suspense />}
-            </main>
+              {activeTab === "Reversal" && <Reversal />}
+              {activeTab === "Reversal" && <ForeignTransactions />}
+              </main>
           </div>
         </ScrollArea>
       </div>
