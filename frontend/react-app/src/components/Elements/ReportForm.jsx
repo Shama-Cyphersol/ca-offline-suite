@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useToast } from "../../hooks/use-toast";
-import { Progress } from "../ui/progress";
+import { CircularProgress } from "../ui/circularprogress";
+import axios from "axios";
 
 const GenerateReportForm = () => {
   const [unit, setUnit] = useState("Unit 1");
@@ -31,26 +32,60 @@ const GenerateReportForm = () => {
   const { toast } = useToast();
   const [progress, setProgress] = useState(0);
   const [toastId, setToastId] = useState(null);
-  const [progressToastId, setProgressToastId] = useState(null);
   const progressIntervalRef = useRef(null);
-
   const filteredUnits = units.filter((u) =>
     u.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const simulateProgress = () => {
+    setProgress(0);
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 90) {
+          return prev; // Hold at 90% until completion
+        }
+        // Non-linear progress simulation for more realistic feel
+        const increment = Math.max(1, Math.floor((90 - prev) / 10));
+        return Math.min(90, prev + increment);
+      });
+    }, 300);
+    return interval;
+  };
+  useEffect(() => {
+    if (toastId && progress >= 0) {
+      toast({
+        id: toastId,
+        title: loading ? "Generating Report" : "Report Status",
+        description: (
+          <div className="mt-2 w-full flex flex-col gap-2">
+            <div className="flex items-center gap-4">
+              <CircularProgress value={progress} className="w-full" />
+              <span className="text-sm font-medium">{progress}%</span>
+            </div>
+            <p className="text-sm text-gray-500">
+              {progress < 90
+                ? "Processing your bank statements..."
+                : progress < 100
+                ? "Finalizing report generation..."
+                : "Report generated successfully!"}
+            </p>
+          </div>
+        ),
+        duration: progress >= 100 ? 3000 : Infinity,
+      });
+    }
+  }, [progress, toastId, loading, toast]);
   useEffect(() => {
     if (forAts) {
       setCaseId(`ATS_${unit.replace(/\s+/g, "_")}_${serialNumber}`);
       caseIdRef.current.disabled = true;
     } else {
       setCaseId(`CASE_${serialNumber}`);
-      // enable case id input
       caseIdRef.current.disabled = false;
     }
   }, [unit, serialNumber, forAts]);
 
   useEffect(() => {
-    // Initialize or update fileDetails when files change
     const newFileDetails = selectedFiles.map((file, index) => {
       const existing = fileDetails[index] || {};
       return {
@@ -64,7 +99,6 @@ const GenerateReportForm = () => {
     });
     setFileDetails(newFileDetails);
 
-    // Cleanup function to revoke URLs
     return () => {
       fileDetails.forEach((detail) => {
         if (detail.previewUrl) {
@@ -75,7 +109,6 @@ const GenerateReportForm = () => {
   }, [selectedFiles]);
 
   const handlePreviewFile = (previewUrl, fileType) => {
-    // Open file in new tab
     window.open(previewUrl, "_blank");
   };
 
@@ -95,185 +128,165 @@ const GenerateReportForm = () => {
     }
   };
 
-  const simulateProgress = () => {
-    setProgress(0);
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 99) {
-          clearInterval(interval); // Stop at 95%
-          return 99;
-        }
-        return prev + 5; // Increment progress
-      });
-    }, 200); // Adjust interval speed as needed
-    return interval;
-  };
+  // const simulateProgress = () => {
+  //   setProgress(0);
+  //   const interval = setInterval(() => {
+  //     setProgress((prev) => {
+  //       if (prev >= 99) {
+  //         clearInterval(interval); // Stop at 95%
+  //         return 99;
+  //       }
+  //       return prev + 5; // Increment progress
+  //     });
+  //   }, 200); // Adjust interval speed as needed
+  //   return interval;
+  // };
+  // const simulateProgress = () => {
+  //   setProgress(0);
+  //   const interval = setInterval(() => {
+  //     setProgress((prev) => {
+  //       if (prev >= 99) {
+  //         clearInterval(interval); // Stop at 95%
+  //         return 99;
+  //       }
+  //       return prev + 5; // Increment progress
+  //     });
+  //   }, 200); // Adjust interval speed as needed
+  //   return interval;
+  // };
 
   useEffect(() => {
     if (toastId && progress > 0 && progress < 100) {
       toast({
-        id: toastId, // Same ID ensures the content is updated
-        title: "Generating Report",
+        id: toastId,
+        title: "Processing Files",
         description: (
           <div className="mt-2 w-full flex flex-row gap-5 items-center space-y-2">
-            <Progress value={progress} size={38} />
+            <CircularProgress value={progress} size={38} />
             <p className="text-sm text-gray-500">
-              {progress < 100
-                ? "Please wait while we generate your report..."
-                : "Finalizing..."}
+              {progress < 100 ? "Processing your files..." : "Finalizing..."}
             </p>
           </div>
         ),
-        duration: Infinity, // Keep the toast visible during updates
+        duration: Infinity,
       });
     }
   }, [progress, toastId]);
+
+  // const simulateProgress = () => {
+  //   const interval = setInterval(() => {
+  //     setProgress((prev) => (prev < 100 ? prev + 10 : prev));
+  //   }, 500);
+  //   return interval;
+  // };
+
+  const analyzeBankStatements = async (fileDetails) => {
+    // Construct the payload dynamically from fileDetails
+    const payload = {
+      bank_names: fileDetails.map((detail) => detail.bankName),
+      pdf_paths: fileDetails.map(
+        (detail) =>
+          `C:/Users/Harsh Jajal/Documents/coding/CypherSol Fintech India Pvt Ltd/clone--fork/ca-offline-suite/frontend/data/${detail.file.name}`
+      ),
+      passwords: fileDetails.map((detail) => detail.password || ""),
+      start_date: fileDetails.map((detail) => detail.startDate || ""),
+      end_date: fileDetails.map((detail) => detail.endDate || ""),
+      ca_id: "CASE_00009", // You can make this dynamic as well if needed
+    };
+
+    // const payload = {
+    //   bank_names: ["HDFC"],
+    //   pdf_paths: fileDetails.map((detail) => `C:/Users/Harsh Jajal/Documents/coding/CypherSol Fintech India Pvt Ltd/clone--fork/ca-offline-suite/frontend/data/${detail.file.name}`),
+    //   passwords: [""],
+    //     start_date: ["26-01-2024"],
+    //     end_date: ["22-02-2024"],
+    //     ca_id: "HDFC",
+    //   };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:7500/analyze-statements/",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("API Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error during API call:", error);
+      throw error;
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // Validate: No file selected
     if (selectedFiles.length === 0) {
       toast({
-        id: "no-files",
         title: "Error",
-        description: "No files selected. Please select at least one file.",
+        description: "Please select at least one file to generate the report.",
         variant: "destructive",
-        duration: 5000,
       });
       setLoading(false);
       return;
     }
 
-    // Validate: Duplicate files
-    const fileNames = selectedFiles.map((file) => file.name);
-    const duplicateFiles = fileNames.filter(
-      (name, index) => fileNames.indexOf(name) !== index
-    );
-
-    if (duplicateFiles.length > 0) {
-      toast({
-        id: "duplicate-files",
-        title: "Error",
-        description: `Duplicate files selected: ${duplicateFiles.join(", ")}.`,
-        variant: "destructive",
-        duration: 5000,
-      });
-      setLoading(false);
-      return;
-    }
-
-    // Create the initial progress toast
+    // Create initial progress toast
     const id = toast({
-      id: "report-progress",
-      title: "Generating Report",
+      title: "Initializing Report Generation",
       description: (
-        <div className="mt-2 w-full flex flex-row gap-5 items-center space-y-2">
-          <Progress value={0} size={38} />
-          <p className="text-sm text-gray-500">
-            Please wait while we generate your report...
-          </p>
+        <div className="mt-2 w-full flex flex-col gap-2">
+          <div className="flex items-center gap-4">
+            <CircularProgress value={0} className="w-full" />
+            <span className="text-sm font-medium">0%</span>
+          </div>
+          <p className="text-sm text-gray-500">Preparing to process files...</p>
         </div>
       ),
       duration: Infinity,
     });
     setToastId(id);
 
-    // Simulate progress updates
     const progressInterval = simulateProgress();
 
     try {
-      // Check for already existing reports
-      const alreadyExistingFiles = selectedFiles.filter((file) => {
-        // Simulate checking for existing files - replace with actual API call
-        return file.name.includes("existing"); // Example condition
-      });
+      const result = await analyzeBankStatements(fileDetails);
 
-      // Display warning for already existing files
-
-      if (alreadyExistingFiles.length > 0) {
-        let message = "";
-        alreadyExistingFiles.forEach((file) => {
-          // Simulate getting account numbers and case IDs - replace with actual data
-          const accNumber = "XXXX" + file.name.slice(-4);
-          const caseIds = ["CASE_001", "CASE_002"];
-          message += `- Bank statement with account number ${accNumber} is already processed earlier, please refer case ID/IDs- ${caseIds.join(
-            ", "
-          )}\n`;
-        });
-
-        toast({
-          id: "existing-files",
-          title: "Warning",
-          description: message,
-          variant: "destructive",
-          duration: 5000,
-        });
-        setLoading(false);
-        return;
-      }
-
-      // Simulate processing files
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-
-      // Simulate failed files
-      const failedFiles = selectedFiles.filter((file) => {
-        // Simulate checking for failed files - replace with actual API call
-        return file.name.includes("fail"); // Example condition
-      });
-
-      if (failedFiles.length > 0) {
-        const failedPaths = failedFiles.map((f) => f.name).join(", ");
-        toast({
-          id: "failed-files",
-          title: "Exception",
-          description: `Following Bank statements are not processed due to some exception - ${failedPaths}`,
-          variant: "warning",
-          duration: 5000,
-        });
-      }
-
-      // Simulate finding similar groups
-      const similarGroups = 3; // Replace with actual count from API
-
-      // Complete progress
+      // Complete the progress
       clearInterval(progressInterval);
       setProgress(100);
 
       // Show success message
       toast({
-        id: "report-progress",
-        title: "Report Generated Successfully",
-        description: (
-          <div className="mt-2 w-full flex flex-row gap-5 items-center space-y-2">
-            <Progress value={100} size={38} />
-            <p className="text-sm text-gray-500">
-              Form submitted and processed successfully! Found ${similarGroups}{" "}
-              similar groups, please check the case dashboard and merge the
-              similar groups.
-            </p>
-          </div>
-        ),
+        title: "Success",
+        description: "Report generated successfully!",
         duration: 3000,
       });
+
+      // Reset form state
+      setSelectedFiles([]);
+      setFileDetails([]);
     } catch (error) {
-      // Handle any unexpected errors
       clearInterval(progressInterval);
       toast({
-        id: "report-progress",
         title: "Error",
-        description: `An error occurred while processing: ${error.message}`,
+        description: `Failed to generate report: ${error.message}`,
         variant: "destructive",
         duration: 5000,
       });
     } finally {
       setLoading(false);
-      setProgress(0);
-      setToastId(null);
+      setTimeout(() => {
+        setProgress(0);
+        setToastId(null);
+      }, 3000);
     }
   };
-
   const formatFileSize = (bytes) => {
     if (bytes < 1024 * 1024) {
       return `${(bytes / 1024).toFixed(2)} KB`;
@@ -321,6 +334,10 @@ const GenerateReportForm = () => {
 
   const handleFileChange = (e) => {
     if (e.target.files) {
+      // console.log("Fikles",e.target.get_webkitRelativePath());
+
+      console.log("Fikles", e.target.files[0]);
+
       const files = Array.from(e.target.files);
       setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
     }
@@ -337,295 +354,317 @@ const GenerateReportForm = () => {
 
   return (
     <div className="bg-white dark:bg-black">
-  <div className="mx-auto">
-    <div className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 backdrop-blur-sm">
-      <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-          {/* Unit Dropdown */}
-          {forAts && (
-            <div className="relative" ref={dropdownRef}>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Unit
-              </label>
-              <button
-                type="button"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all flex justify-between items-center group"
-              >
-                <span>{unit}</span>
-                <ChevronDown className="h-4 w-4 text-gray-400 dark:text-gray-300 group-hover:text-[#3498db] transition-colors" />
-              </button>
+      <div className="mx-auto">
+        <div className="bg-white dark:bg-black rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 backdrop-blur-sm">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+              {forAts && (
+                <div className="relative" ref={dropdownRef}>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Unit
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all flex justify-between items-center group"
+                  >
+                    <span>{unit}</span>
+                    <ChevronDown className="h-4 w-4 text-gray-400 dark:text-gray-300 group-hover:text-[#3498db] transition-colors" />
+                  </button>
 
-              {isDropdownOpen && (
-                <div className="absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-600 rounded-lg shadow-xl">
-                  <div className="p-3 border-b border-gray-100 dark:border-gray-600">
-                    <div className="flex gap-2">
-                      <div className="relative flex-1">
-                        <input
-                          type="text"
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          placeholder="Search or add new unit..."
-                          className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
-                        />
-                        <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400 dark:text-gray-300" />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={handleAddUnit}
-                        className="px-4 py-2 text-sm font-medium text-white bg-[#3498db] dark:bg-blue-600 rounded-lg hover:bg-[#2980b9] dark:hover:bg-blue-500 transition-all flex items-center gap-1 shadow-sm"
-                      >
-                        <Plus className="h-4 w-4" />
-                        Add
-                      </button>
-                    </div>
-                  </div>
-                  <div className="max-h-48 overflow-y-auto py-1">
-                    {filteredUnits.map((u, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        onClick={() => {
-                          setUnit(u);
-                          setIsDropdownOpen(false);
-                        }}
-                        className="w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
-                      >
-                        {u}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          {/* Serial Number */}
-          {forAts && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Serial Number
-              </label>
-              <input
-                type="text"
-                value={serialNumber}
-                onChange={(e) => setSerialNumber(e.target.value)}
-                placeholder="00009"
-                className="w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
-              />
-            </div>
-          )}
-
-          {/* Case ID */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Report Name
-            </label>
-            <input
-              ref={caseIdRef}
-              type="text"
-              value={caseId}
-              className="w-full px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all disabled:bg-gray-50 dark:disabled:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm disabled:cursor-not-allowed"
-            />
-          </div>
-        </div>
-
-        {/* File Upload */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Bank Statements
-          </label>
-          <div
-            className={`relative ${
-              isDragging ? "ring-2 ring-[#3498db] dark:ring-blue-500" : ""
-            }`}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
-          >
-            <div
-              onClick={() => fileInputRef.current?.click()}
-              className="flex cursor-pointer flex-col items-center justify-center p-5 border-2 border-dashed border-gray-200 dark:border-white rounded-lg hover:border-gray-300 dark:hover:border-gray-500 transition-all bg-gray-50 dark:bg-black"
-            >
-              <div className="flex flex-col items-center justify-center w-full">
-                {selectedFiles.length > 0 ? (
-                  <div className="w-full space-y-4">
-                    {fileDetails.map((detail, index) => (
-                      <div
-                        key={index}
-                        className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 p-4 space-y-4"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
-                            <FileText className="w-5 h-5 text-[#3498db] dark:text-blue-500" />
-                            <div>
-                              <p className="text-sm text-gray-600 dark:text-gray-300">
-                                {detail.file.name}
-                              </p>
-                              <p className="text-xs text-gray-400 dark:text-gray-500">
-                                {formatFileSize(detail.file.size)}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center space-x-2">
-                            <button
-                              type="button"
-                              onClick={() =>
-                                handlePreviewFile(
-                                  detail.previewUrl,
-                                  detail.file.type
-                                )
-                              }
-                              className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-[#3498db] dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
-                              title="Preview file"
-                            >
-                              <Eye className="w-4 h-4" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => removeFile(index)}
-                              className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
-                              title="Remove file"
-                            >
-                              <X className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                          <div>
-                            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                              Password
-                            </label>
-                            <input
-                              type="password"
-                              value={detail.password}
-                              onChange={(e) =>
-                                handleFileDetailChange(
-                                  index,
-                                  "password",
-                                  e.target.value
-                                )
-                              }
-                              placeholder="Enter password"
-                              className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                              Start Date
-                            </label>
-                            <input
-                              type="date"
-                              value={detail.startDate}
-                              onChange={(e) =>
-                                handleFileDetailChange(
-                                  index,
-                                  "startDate",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                              End Date
-                            </label>
-                            <input
-                              type="date"
-                              value={detail.endDate}
-                              onChange={(e) =>
-                                handleFileDetailChange(
-                                  index,
-                                  "endDate",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                              Bank Name
-                            </label>
+                  {isDropdownOpen && (
+                    <div className="absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-600 rounded-lg shadow-xl">
+                      <div className="p-3 border-b border-gray-100 dark:border-gray-600">
+                        <div className="flex gap-2">
+                          <div className="relative flex-1">
                             <input
                               type="text"
-                              value={detail.bankName}
-                              onChange={(e) =>
-                                handleFileDetailChange(
-                                  index,
-                                  "bankName",
-                                  e.target.value
-                                )
-                              }
-                              placeholder="Enter bank name"
-                              className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+                              value={searchTerm}
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                              placeholder="Search or add new unit..."
+                              className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
                             />
+                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400 dark:text-gray-300" />
                           </div>
+                          <button
+                            type="button"
+                            onClick={handleAddUnit}
+                            className="px-4 py-2 text-sm font-medium text-white bg-[#3498db] dark:bg-blue-600 rounded-lg hover:bg-[#2980b9] dark:hover:bg-blue-500 transition-all flex items-center gap-1 shadow-sm"
+                          >
+                            <Plus className="h-4 w-4" />
+                            Add
+                          </button>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <>
-                    <Upload className="w-8 h-8 text-gray-400 dark:text-gray-300 mb-2" />
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1 text-center">
-                      Drag and drop your files here, or
-                    </p>
-                  </>
-                )}
-              </div>
+                      <div className="max-h-48 overflow-y-auto py-1">
+                        {filteredUnits.map((u, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            onClick={() => {
+                              setUnit(u);
+                              setIsDropdownOpen(false);
+                            }}
+                            className="w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
+                          >
+                            {u}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
-              <Button
-                type="button"
-                variant="outline"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  fileInputRef.current?.click();
-                }}
-                className="mt-4 px-6 py-2.5 text-sm font-medium"
-              >
-                {selectedFiles.length > 0
-                  ? "Add More Files"
-                  : "Browse Files"}
-              </Button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                onChange={handleFileChange}
-                className="hidden"
-                multiple
-                accept=".pdf,.xls,.xlsx"
-              />
+              {forAts && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Serial Number
+                  </label>
+                  <input
+                    type="text"
+                    value={serialNumber}
+                    onChange={(e) => setSerialNumber(e.target.value)}
+                    placeholder="00009"
+                    className="w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+                  />
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Report Name
+                </label>
+                <input
+                  ref={caseIdRef}
+                  type="text"
+                  value={caseId}
+                  className="w-full px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all disabled:bg-gray-50 dark:disabled:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm disabled:cursor-not-allowed"
+                />
+              </div>
             </div>
 
-            {isDragging && (
-              <div className="absolute inset-0 bg-[#3498db]/10 dark:bg-blue-500/10 rounded-lg pointer-events-none" />
-            )}
-          </div>
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Bank Statements
+              </label>
+              <div
+                className={`relative ${
+                  isDragging ? "ring-2 ring-[#3498db] dark:ring-blue-500" : ""
+                }`}
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+              >
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex cursor-pointer flex-col items-center justify-center p-5 border-2 border-dashed border-gray-200 dark:border-white rounded-lg hover:border-gray-300 dark:hover:border-gray-500 transition-all bg-gray-50 dark:bg-black"
+                >
+                  <div className="flex flex-col items-center justify-center w-full">
+                    {selectedFiles.length > 0 ? (
+                      <div className="w-full space-y-4">
+                        {fileDetails.map((detail, index) => (
+                          <div
+                            key={index}
+                            className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 p-4 space-y-4"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-3">
+                                <FileText className="w-5 h-5 text-[#3498db] dark:text-blue-500" />
+                                <div>
+                                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                                    {detail.file.name}
+                                  </p>
+                                  <p className="text-xs text-gray-400 dark:text-gray-500">
+                                    {formatFileSize(detail.file.size)}
+                                  </p>
+                                </div>
+                              </div>
 
-        {/* Submit Button */}
-        <div className="flex justify-center pt-4">
-          <Button type="submit" disabled={loading}>
-            {loading ? (
-              <>
-                <Loader2 className="animate-spin mr-2" />
-                Generating Report...
-              </>
-            ) : (
-              "Generate Report"
-            )}
-          </Button>
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    handlePreviewFile(
+                                      detail.previewUrl,
+                                      detail.file.type
+                                    )
+                                  }
+                                  className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-[#3498db] dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                                  title="Preview file"
+                                >
+                                  <Eye className="w-4 h-4" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => removeFile(index)}
+                                  className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                                  title="Remove file"
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                              <div>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                  Password
+                                </label>
+                                <input
+                                  type="password"
+                                  value={detail.password}
+                                  onChange={(e) =>
+                                    handleFileDetailChange(
+                                      index,
+                                      "password",
+                                      e.target.value
+                                    )
+                                  }
+                                  placeholder="Enter password"
+                                  className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                  Start Date
+                                </label>
+                                <input
+                                  type="date"
+                                  value={
+                                    detail.startDate
+                                      ? detail.startDate
+                                          .split("-")
+                                          .reverse()
+                                          .join("-")
+                                      : "" // Ensure correct initial value
+                                  }
+                                  onChange={(e) => {
+                                    const date = e.target.value; // Get the date in YYYY-MM-DD format
+                                    const [year, month, day] = date.split("-"); // Split into components
+                                    const formattedDate = `${day}-${month}-${year}`; // Format to DD-MM-YYYY
+                                    handleFileDetailChange(
+                                      index,
+                                      "startDate",
+                                      formattedDate
+                                    );
+                                  }}
+                                  placeholder="DD-MM-YYYY"
+                                  className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                  End Date
+                                </label>
+                                <input
+                                  type="date"
+                                  value={
+                                    detail.endDate
+                                      ? detail.endDate
+                                          .split("-")
+                                          .reverse()
+                                          .join("-")
+                                      : "" // Ensure correct initial value
+                                  }
+                                  onChange={(e) => {
+                                    const date = e.target.value; // Get the date in YYYY-MM-DD format
+                                    const [year, month, day] = date.split("-"); // Split into components
+                                    const formattedDate = `${day}-${month}-${year}`; // Format to DD-MM-YYYY
+                                    handleFileDetailChange(
+                                      index,
+                                      "endDate",
+                                      formattedDate
+                                    );
+                                  }}
+                                  placeholder="DD-MM-YYYY"
+                                  className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                  Bank Name
+                                </label>
+                                <input
+                                  type="text"
+                                  value={detail.bankName}
+                                  onChange={(e) =>
+                                    handleFileDetailChange(
+                                      index,
+                                      "bankName",
+                                      e.target.value
+                                    )
+                                  }
+                                  placeholder="Enter bank name"
+                                  className="w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-500 transition-all"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <>
+                        <Upload className="w-8 h-8 text-gray-400 dark:text-gray-300 mb-2" />
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-1 text-center">
+                          Drag and drop your files here, or
+                        </p>
+                      </>
+                    )}
+                  </div>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      fileInputRef.current?.click();
+                    }}
+                    className="mt-4 px-6 py-2.5 text-sm font-medium"
+                  >
+                    {selectedFiles.length > 0
+                      ? "Add More Files"
+                      : "Browse Files"}
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    multiple
+                    accept=".pdf,.xls,.xlsx"
+                  />
+                </div>
+
+                {isDragging && (
+                  <div className="absolute inset-0 bg-[#3498db]/10 dark:bg-blue-500/10 rounded-lg pointer-events-none" />
+                )}
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-center pt-4">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="relative inline-flex items-center px-4 py-2"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <span>Processing...</span>
+                  </>
+                ) : (
+                  "Generate Report"
+                )}
+              </Button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
-  </div>
-</div>
-
   );
 };
 

@@ -20,11 +20,11 @@ source venv/Scripts/activate
 pip install -r requirements.txt
 
 # move to root folder
-cd ..
+cd ../frontend
 
 # Frontend & Electron setup
-npm install  # Install electron and concurrently dependencies in the base directory
-cd frontend/react-app && npm install && cd ..  # Install react dependencies and move back to root
+npm install  # Install electron and concurrently dependencies in the frontend directory
+cd react-app && npm install && cd ..  # Install react dependencies and move back to frontend dir
 
 # Start app, this will automatically start all 3 things at once - FastApi, React and Electron.
 npm start

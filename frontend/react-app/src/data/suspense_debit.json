@@ -1,0 +1,47 @@
+[
+  {
+    "Value Date": "27-01-2024",
+    "Description": "cbdt/bankreferenceno:k2402714017924/cinno:24012700004582hdfc/online",
+    "Debit": 5150
+  },
+  {
+    "Value Date": "04-02-2024",
+    "Description": "zhdf1726664524/billdkamericanexpres",
+    "Debit": 15441
+  },
+  {
+    "Value Date": "05-02-2024",
+    "Description": "settlementcharge-jan24-ho4368",
+    "Debit": 1.18
+  },
+  {
+    "Value Date": "06-02-2024",
+    "Description": "50200032893240-tpt-internal-lalitagarwalhuf",
+    "Debit": 20000
+  },
+  {
+    "Value Date": "14-02-2024",
+    "Description": "achd-pinelabsprivatelimit-np3417078814",
+    "Debit": 649
+  },
+  {
+    "Value Date": "15-02-2024",
+    "Description": "yhdf2234857572/billdkratnakarbankli",
+    "Debit": 9197.44
+  },
+  {
+    "Value Date": "15-02-2024",
+    "Description": "zhdf1751769001/billdkamericanexpres",
+    "Debit": 1596
+  },
+  {
+    "Value Date": "21-02-2024",
+    "Description": "achd-pinelabsprivatelimit-np3417084862",
+    "Debit": 34
+  },
+  {
+    "Value Date": "22-02-2024",
+    "Description": "yhdf2242040456/billdkratnakarbankli",
+    "Debit": 27224.72
+  }
+]

@@ -230,43 +230,37 @@ const ChartLegendContent = React.forwardRef(
     { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey },
     ref
   ) => {
-    const { config } = useChart();
-
     if (!payload?.length) {
-      return null;
+      return null; // No data, no legend
     }
 
     return (
       <div
         ref={ref}
         className={cn(
-          "flex items-center justify-center gap-4",
+          "flex flex-wrap items-center justify-center gap-4",
           verticalAlign === "top" ? "pb-3" : "pt-3",
           className
         )}
       >
         {payload.map((item) => {
-          const key = `${nameKey || item.dataKey || "value"}`;
-          const itemConfig = getPayloadConfigFromPayload(config, item, key);
+          const label = item.payload?.[nameKey] || item.value; // Extract the label from data
+          const color = item.color || item.payload?.fill; // Use the color from payload or default
 
           return (
             <div
-              key={item.value}
-              className={cn(
-                "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground"
-              )}
+              key={item.dataKey || item.value}
+              className="flex items-center gap-2"
             >
-              {itemConfig?.icon && !hideIcon ? (
-                <itemConfig.icon />
-              ) : (
+              {!hideIcon && (
                 <div
-                  className="h-2 w-2 shrink-0 rounded-[2px]"
+                  className="h-3 w-3 rounded-sm"
                   style={{
-                    backgroundColor: item.color,
+                    backgroundColor: color,
                   }}
                 />
               )}
-              {itemConfig?.label}
+              <span className="text-sm text-muted-foreground">{label}</span>
             </div>
           );
         })}
@@ -274,7 +268,7 @@ const ChartLegendContent = React.forwardRef(
     );
   }
 );
-ChartLegendContent.displayName = "ChartLegend";
+ChartLegendContent.displayName = "ChartLegendContent";
 
 // Helper to extract item config from a payload.
 function getPayloadConfigFromPayload(config, payload, key) {

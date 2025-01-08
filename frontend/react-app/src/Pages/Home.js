@@ -1,27 +1,35 @@
-import React, { useState } from "react";
-import { LayoutDashboard, FilePlus2,Files, Import,ChartNoAxesCombined, ReceiptIndianRupee } from "lucide-react";
+import React, { useState, useMemo, useEffect } from "react";
+import {
+  LayoutDashboard,
+  FilePlus2,
+  Files,
+  Import,
+  ChartNoAxesCombined,
+  ReceiptIndianRupee,
+  ReceiptText,
+  IndianRupee,
+} from "lucide-react";
 import ReportGenerator from "../components/MainDashboardComponents/GenerateReport";
 import { cn } from "../lib/utils";
 import { ScrollArea } from "../components/ui/scroll-area";
 
-import Sidebar from '../components/Sidebar';
-import MainDashboard from '../components/MainDashboardComponents/MainDashboard';
+import Sidebar from "../components/Sidebar";
+import MainDashboard from "../components/MainDashboardComponents/MainDashboard";
 import Eligibility from "../components/MainDashboardComponents/Eligibility";
 import Billing from "../components/MainDashboardComponents/Billing";
 import { Toaster } from "../components/ui/toaster";
-import Analytics from '../components/MainDashboardComponents/Analytics';
-import {BreadcrumbDynamic}  from '../components/BreadCrumb';
+import Analytics from "../components/MainDashboardComponents/Analytics";
+import ExcelViewer from "../components/MainDashboardComponents/TallyVoucher";
+import ExcelERP from '../components/ImortTally/TallyERP'; 
+import { BreadcrumbDynamic } from "../components/BreadCrumb";
+import { useBreadcrumb } from "../contexts/BreadcrumbContext";
+import { useParams } from "react-router-dom";
+import PdfColumnMarker from "../components/MainDashboardComponents/PdfCanvas";
 
 const Dashboard = () => {
-
+  const { breadcrumbs, setMainDashboard } = useBreadcrumb();
   const [activeTab, setActiveTab] = useState("Dashboard");
-
-  // const navItems = [
-  //   // { name: 'Dashboard', icon: LayoutDashboard, id: 'Dashboard' },
-  //   // { name: 'Generate Report', icon: Files, id: 'report' }
-  //   {text: 'Dashboard', icon: LayoutDashboard},
-  //   {text: 'Generate Report', icon: Files}
-  // ];
+  const { defaultTab } = useParams();
 
   const navItems = [
     {
@@ -33,7 +41,7 @@ const Dashboard = () => {
     {
       title: "Generate Report",
       url: "#",
-      icon: FilePlus2 ,
+      icon: FilePlus2,
     },
     {
       title: "Analytics",
@@ -44,41 +52,79 @@ const Dashboard = () => {
       title: "Import to Tally",
       url: "#",
       icon: Import,
+      items: [
+        {
+          title: "TallyPrime",
+          url: "#",
+          icon: null,
+        },
+        {
+          title: "TallyERP",
+          url: "#",
+          icon: null,
+        },
+      ],
+      alwaysOpen: true, // Ensures the section remains open
     },
     {
-      title: "Eligibility",
+      title: "Opportunity to Earn",
       url: "#",
-      icon: Files,
+      icon: IndianRupee,
     },
     {
       title: "Billing",
       url: "#",
-      icon: ReceiptIndianRupee,
+      icon: ReceiptText,
     },
-  ]
+    // {
+    //   title:"Marker",
+    //   url:"#",
+    //   icon:Files
+    // }
+  ];
 
+  useEffect(() => {
+    if (!defaultTab || defaultTab === "defaultTab")
+      setActiveTab(navItems[0].title);
+    else setActiveTab(defaultTab);
+  }, []);
 
-  const handleOnNavigate = (selectedNav) => {
-    console.log("Navigating to:", selectedNav);
-    setActiveTab(selectedNav);
+  useEffect(() => {
+    setMainDashboard(activeTab, `/${activeTab}`);
+  }, [activeTab]);
+
+  const handleTabChange = (newTab) => {
+    setActiveTab(newTab);
+    const scrollableNode = document.querySelector(
+      "[data-radix-scroll-area-viewport]"
+    );
+    if (scrollableNode) {
+      scrollableNode.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
     <>
-
       <div className={cn("h-full w-full flex h-screen bg-background")}>
-        <Sidebar navItems={navItems} activeTab={activeTab} setActiveTab={setActiveTab} />
+        <Sidebar
+          navItems={navItems}
+          activeTab={activeTab}
+          setActiveTab={handleTabChange} // Changed from setActiveTab to handleTabChange
+        />
         <ScrollArea className="w-full">
-        <BreadcrumbDynamic/>
+          <BreadcrumbDynamic items={breadcrumbs} />
           <div className="flex-1 flex flex-col overflow-hidden">
             <main className="flex-1">
-              {activeTab === 'Dashboard' && <MainDashboard />}
-              {activeTab === 'Generate Report' && <ReportGenerator />}
-              {activeTab === 'Eligibility' && <Eligibility />}
-              {activeTab === 'Billing' && <Billing />}
-              {activeTab === 'Analytics' && <Analytics />}
-              
+              {activeTab === "Dashboard" && <MainDashboard />}
+              {activeTab === "Generate Report" && <ReportGenerator />}
+              {activeTab === "Opportunity to Earn" && <Eligibility />}
+              {activeTab === "Billing" && <Billing />}
 
+              {activeTab === "Analytics" && <Analytics />}
+              {activeTab === "Marker" && <PdfColumnMarker />}
+              {/* {activeTab === "Import to Tally" && <ImportToTally />} */}
+              {activeTab === "TallyPrime" && <ExcelViewer />}
+              {activeTab === "TallyERP" && <ExcelERP />}
             </main>
           </div>
         </ScrollArea>

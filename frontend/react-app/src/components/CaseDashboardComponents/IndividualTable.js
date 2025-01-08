@@ -167,7 +167,7 @@ const IndividualTable = ({ caseId }) => {
   const handleRowClick = async (name, accountNumber, rowId) => {
     setIsLoading(true);
     try {
-      navigate(`/individual-dashboard/${caseId}/${rowId}`, {
+      navigate(`/individual-dashboard/${caseId}/${rowId}/defaultTab`, {
         state: { name, accountNumber },
       });
     } finally {

@@ -1,0 +1,23 @@
+[
+    {
+        "Value Date": "07-02-2024",
+        "Description": "chqdep-transferow1-noidawbo:trchadhaandcoll:hdfcbankltd",
+        "Debit": 2000,
+        "Balance": 8680.78,
+        "Category": "Cash Withdrawal"
+    },
+    {
+        "Value Date": "20-02-2024",
+        "Description": "chqdep-transferow1-noidawbo:tr",
+        "Debit": 25000,
+        "Balance": 35428.44,
+        "Category": "Cash Withdrawal"
+    },
+    {
+        "Value Date": "20-02-2024",
+        "Description": "chqdep-transferow1-noidawbo:tr",
+        "Debit": 25000,
+        "Balance": 20428.44,
+        "Category": "Cash Withdrawal"
+    }
+]
