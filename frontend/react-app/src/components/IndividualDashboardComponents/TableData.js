@@ -211,7 +211,7 @@ const DataTable = ({ data = [] }) => {
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="space-y-2">
-            <CardTitle>Data Table</CardTitle>
+            <CardTitle className="dark:text-slate-300">Data Table</CardTitle>
             <CardDescription>View and manage your data</CardDescription>
           </div>
           <div className="relative flex items-center gap-2">
@@ -358,7 +358,9 @@ const DataTable = ({ data = [] }) => {
         <Dialog open={filterModalOpen} onOpenChange={setFilterModalOpen}>
           <DialogContent className="sm:max-w-[400px]">
             <DialogHeader>
-              <DialogTitle>Filter {currentFilterColumn}</DialogTitle>
+              <DialogTitle className="dark:text-slate-300">
+                Filter {currentFilterColumn}
+              </DialogTitle>
               <p className="text-sm text-gray-600">
                 Make changes to your filter here. Click save when you're done.
               </p>
@@ -374,13 +376,13 @@ const DataTable = ({ data = [] }) => {
               {getFilteredUniqueValues(currentFilterColumn).map((value) => (
                 <label
                   key={value}
-                  className="flex items-center gap-1 p-2 hover:bg-gray-50 rounded-md cursor-pointer"
+                  className="flex items-center gap-1 p-2 hover:bg-gray-50 rounded-md cursor-pointer dark:hover:bg-gray-700"
                 >
                   <Checkbox
                     checked={selectedCategories.includes(value)}
                     onCheckedChange={() => handleCategorySelect(value)}
                   />
-                  <span className="text-gray-700">{value}</span>
+                  <span className="text-gray-700 dark:text-white">{value}</span>
                 </label>
               ))}
             </div>
@@ -390,7 +392,7 @@ const DataTable = ({ data = [] }) => {
               </Button>
               <Button
                 variant="default"
-                className="bg-black hover:bg-gray-800"
+                className="bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
                 onClick={handleColumnFilter}
               >
                 Save changes
@@ -439,7 +441,7 @@ const DataTable = ({ data = [] }) => {
               </Button>
               <Button
                 variant="default"
-                className="bg-black hover:bg-gray-800"
+                className="bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
                 onClick={() => {
                   handleNumericFilter(currentNumericColumn, minValue, maxValue);
                   setNumericFilterModalOpen(false);

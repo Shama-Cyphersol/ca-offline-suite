@@ -5,7 +5,7 @@ import PieCharts from "../charts/PieCharts";
 import DataTable from "./TableData";
 import { Checkbox } from "../ui/checkbox";
 import transactionData from "../../data/Transaction.json";
-import { Card } from "../ui/card";
+import { Card, CardHeader, CardTitle } from "../ui/card";
 
 const Transactions = () => {
   // Group data by months for initial selection
@@ -86,40 +86,43 @@ const Transactions = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg space-y-6 m-8">
+    <div className="bg-white dark:bg-slate-950 rounded-lg space-y-6 m-8 mt-2 ">
       <Card>
-        <div className="p-4">
-          <h3 className="text-lg font-medium mb-2">Select Months</h3>
-          <div className="flex flex-wrap gap-4 items-center">
-            <div className="flex items-center space-x-2 mb-4">
+        <CardHeader>
+          <CardTitle className="dark:text-slate-300">Select Months</CardTitle>
+        </CardHeader>
+        <div className="mb-4 flex flex-wrap gap-4 items-center p-4">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="select-all-months"
+              checked={selectAllMonths}
+              onCheckedChange={handleSelectAllMonths}
+            />
+            <label
+              htmlFor="select-all-months"
+              className="text-sm font-medium leading-none whitespace-nowrap"
+            >
+              Select All
+            </label>
+          </div>
+          {availableMonths.map((month) => (
+            <div key={month} className="flex items-center space-x-2">
               <Checkbox
-                id="select-all-months"
-                checked={selectAllMonths}
-                onCheckedChange={handleSelectAllMonths}
+                id={month}
+                checked={selectedMonths.includes(month)}
+                onCheckedChange={() => handleMonthSelect(month)}
               />
               <label
-                htmlFor="select-all-months"
-                className="text-sm font-medium"
+                htmlFor={month}
+                className="text-sm font-medium leading-none whitespace-nowrap"
               >
-                Select All
+                {new Date(month).toLocaleString("default", {
+                  month: "long",
+                  year: "numeric",
+                })}
               </label>
             </div>
-            {availableMonths.map((month) => (
-              <div key={month} className="flex items-center space-x-2">
-                <Checkbox
-                  id={month}
-                  checked={selectedMonths.includes(month)}
-                  onCheckedChange={() => handleMonthSelect(month)}
-                />
-                <label htmlFor={month} className="text-sm font-medium">
-                  {new Date(month).toLocaleString("default", {
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </label>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </Card>
 

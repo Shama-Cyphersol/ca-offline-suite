@@ -8,13 +8,14 @@ import CombinedTable from "../components/CaseDashboardComponents/CombinedTable";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBreadcrumb } from "../contexts/BreadcrumbContext";
 import { BreadcrumbDynamic } from "../components/BreadCrumb";
-import { ClipboardPlus, UserPen } from "lucide-react";
+import { ClipboardPlus, UserPen,Merge,Waypoints,TableProperties,Cable,ArrowRightLeft,ArrowDownUp,Banknote} from "lucide-react";
 import EntityDistribution from "../components/CaseDashboardComponents/EntityDistribution";
 import NetworkGraph from "../components/CaseDashboardComponents/NetworkGraph";
 import LinkAnalysis from "../components/CaseDashboardComponents/LinkAnalysis";
 import BiDirectionalAnalysis from "../components/CaseDashboardComponents/BiDirectionalAnalysis";
 import FIFOLIFO from "../components/CaseDashboardComponents/FIFOLIFO";
 import FundTracking from "../components/CaseDashboardComponents/FundTracking";
+import NameManager from "../components/CaseDashboardComponents/NameManager";
 
 // Dummy data structure matching the expected format
 const dummyResult = {
@@ -249,35 +250,41 @@ const CaseDashboard = () => {
       alwaysOpen: true,
     },
     {
+      title: "Name Manager",
+      url: "#",
+      icon: Merge,
+      isActive: true,
+    },
+    {
       title: "Network Graph",
       url: "#",
-      icon: null,
+      icon: Waypoints,
     },
     {
       title: "Entity Distribution",
       url: "#",
-      icon: null,
+      icon: TableProperties,
     },
     
     {
       title: "Link Analysis",
       url: "#",
-      icon: null,
+      icon: Cable,
     },
     {
       title: "Bi-Directional Analysis",
       url: "#",
-      icon: null,
+      icon: ArrowRightLeft,
     },
     {
       title: "FIFO LIFO",
       url: "#",
-      icon: null,
+      icon: ArrowDownUp,
     },
     {
       title: "Fund Tracking",
       url: "#",
-      icon: null,
+      icon: Banknote,
     },
   ];
 
@@ -325,6 +332,13 @@ const CaseDashboard = () => {
               )}
               {activeTab === "FIFO LIFO" && <FIFOLIFO />}
               {activeTab === "Fund Tracking" && <FundTracking />}
+              {activeTab === "Name Manager" && <NameManager
+              caseId="123"
+              initialGroups={[['John', 'Jon'], ['Elizabeth', 'Beth']]}
+              onRefreshDashboard={(source) => {
+                console.log('Refresh dashboard from', source);
+              }}
+              />}
             </main>
           </div>
         </ScrollArea>

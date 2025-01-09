@@ -95,6 +95,8 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
   const [selectedNames, setSelectedNames] = useState([]);
   const [selectedEntities, setSelectedEntities] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pendingNames, setPendingNames] = useState([]);
+  const [pendingEntities, setPendingEntities] = useState([]);
   const rowsPerPage = 10;
 
   // Filter valid transactions
@@ -148,6 +150,14 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
   const resetFilters = () => {
     setSelectedNames([]);
     setSelectedEntities([]);
+    setPendingNames([]);
+    setPendingEntities([]);
+    setCurrentPage(1);
+  };
+
+  const applyFilters = () => {
+    setSelectedNames(pendingNames);
+    setSelectedEntities(pendingEntities);
     setCurrentPage(1);
   };
 
@@ -170,19 +180,19 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
         <CardTitle>Link Analysis</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Names</label>
               <Select
                 onValueChange={(value) =>
-                  setSelectedNames((prev) =>
+                  setPendingNames((prev) =>
                     prev.includes(value)
                       ? prev.filter((v) => v !== value)
                       : [...prev, value]
                   )
                 }
-                value={selectedNames[0] || ""}
+                value={pendingNames[0] || ""}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select names..." />
@@ -194,7 +204,7 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
                         key={name}
                         value={name}
                         className={
-                          selectedNames.includes(name) ? "bg-accent" : ""
+                          pendingNames.includes(name) ? "bg-accent" : ""
                         }
                       >
                         {name}
@@ -203,9 +213,9 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              {selectedNames.length > 0 && (
+              {pendingNames.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {selectedNames.map((name) => (
+                  {pendingNames.map((name) => (
                     <div
                       key={name}
                       className="bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-sm flex items-center gap-2"
@@ -213,7 +223,7 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
                       {name}
                       <button
                         onClick={() =>
-                          setSelectedNames((prev) =>
+                          setPendingNames((prev) =>
                             prev.filter((n) => n !== name)
                           )
                         }
@@ -227,40 +237,52 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
               )}
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Entities</label>
-              <Select
-                onValueChange={(value) =>
-                  setSelectedEntities((prev) =>
-                    prev.includes(value)
-                      ? prev.filter((v) => v !== value)
-                      : [...prev, value]
-                  )
-                }
-                value={selectedEntities[0] || ""}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select entities..." />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {uniqueEntities.map((entity) => (
-                      <SelectItem
-                        key={entity}
-                        value={entity}
-                        className={
-                          selectedEntities.includes(entity) ? "bg-accent" : ""
-                        }
-                      >
-                        {entity}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              {selectedEntities.length > 0 && (
+            <div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Entities</label>
+                <div className="flex gap-2 items-start">
+                  <div className="flex-1">
+                    <Select
+                      onValueChange={(value) =>
+                        setPendingEntities((prev) =>
+                          prev.includes(value)
+                            ? prev.filter((v) => v !== value)
+                            : [...prev, value]
+                        )
+                      }
+                      value={pendingEntities[0] || ""}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select entities..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {uniqueEntities.map((entity) => (
+                            <SelectItem
+                              key={entity}
+                              value={entity}
+                              className={
+                                pendingEntities.includes(entity)
+                                  ? "bg-accent"
+                                  : ""
+                              }
+                            >
+                              {entity}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button variant="outline" onClick={resetFilters}>
+                    Reset Filters
+                  </Button>
+                  <Button onClick={applyFilters}>Apply Filters</Button>
+                </div>
+              </div>
+              {pendingEntities.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {selectedEntities.map((entity) => (
+                  {pendingEntities.map((entity) => (
                     <div
                       key={entity}
                       className="bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-sm flex items-center gap-2"
@@ -268,7 +290,7 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
                       {entity}
                       <button
                         onClick={() =>
-                          setSelectedEntities((prev) =>
+                          setPendingEntities((prev) =>
                             prev.filter((e) => e !== entity)
                           )
                         }
@@ -281,12 +303,6 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
                 </div>
               )}
             </div>
-          </div>
-
-          <div className="flex justify-end space-x-2">
-            <Button variant="outline" onClick={resetFilters}>
-              Reset Filters
-            </Button>
           </div>
 
           <div className="rounded-md border">

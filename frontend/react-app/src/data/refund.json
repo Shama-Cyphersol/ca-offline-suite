@@ -1,0 +1,134 @@
+[
+    {
+        "Value Date": "03-04-2023",
+        "Description": "upi-amazonindia-amazon.refunds@yapl-yesb0aplupi-349655002034-refundforyouram",
+        "Credit": 1299.0,
+        "Balance": 3437.74,
+        "Category": "Refund/reversal"
+    },
+    {
+        "Value Date": "25-04-2023",
+        "Description": "upi-amazonpayindiapvt-amazon.refunds@axisbank-utib0000100-315132491755-refund",
+        "Credit": 244.0,
+        "Balance": 926.2,
+        "Category": "Refund/reversal"
+    },
+    {
+        "Value Date": "02-05-2023",
+        "Description": "upi-amazonpayindiapvt-amazon.refunds@axisbank-utib0000100-315132518465-refund",
+        "Credit": 360.0,
+        "Balance": 1286.2,
+        "Category": "Refund/reversal"
+    },
+    {
+        "Value Date": "25-05-2023",
+        "Description": "upi-amazonpayindiapvt-amazon.refunds@axisbank-utib0000100-315132535498-refund",
+        "Credit": 217.0,
+        "Balance": 1503.2,
+        "Category": "Refund/reversal"
+    },
+    {
+        "Value Date": "02-06-2023",
+        "Description": "crvpos-416021******3604--amazon",
+        "Credit": 2.0,
+        "Balance": 7055.28,
+        "Category": "Refund/reversal",
+        "Month": "Jun-2023"
+    },
+    {
+        "Value Date": "02-08-2023",
+        "Description": "upi-quadrillionslice-quadrillion.slice@yespay-yesb0yesupi-352914081218-refundfo",
+        "Credit": 1.0,
+        "Balance": 5903.28,
+        "Category": "Refund/reversal",
+        "Month": "Jun-2023"
+    },
+    {
+        "Value Date": "25-08-2023",
+        "Description": "upi-myntradesignspriva-myntra.payu@icici-icic0dc0099-318323181891-refundfor1",
+        "Credit": 358.96,
+        "Balance": 5246.93,
+        "Category": "Refund/reversal",
+        "Month": "Jul-2023"
+    },
+    {
+        "Value Date": "02-09-2023",
+        "Description": "upi-amazonpayindiapvt-amazon.refunds@axisbank-utib0000100-319677281955-refund",
+        "Credit": 2.0,
+        "Balance": 19189.93,
+        "Category": "Refund/reversal",
+        "Month": "Jul-2023"
+    },
+    {
+        "Value Date": "25-09-2023",
+        "Description": "upi-amazonindia-amazon.refunds@yapl-yesb0aplupi-319722733858-refundforyouram",
+        "Credit": 40.0,
+        "Balance": 7657.93,
+        "Category": "Refund/reversal",
+        "Month": "Jul-2023"
+    },
+    {
+        "Value Date": "03-10-2023",
+        "Description": "crvpos-416021******3604--wwwamazon",
+        "Credit": 1479.0,
+        "Balance": 8885.93,
+        "Category": "Refund/reversal",
+        "Month": "Jul-2023"
+    },
+    {
+        "Value Date": "25-10-2023",
+        "Description": "crvpos-416021******3604--amazon",
+        "Credit": 2.0,
+        "Balance": 8887.93,
+        "Category": "Refund/reversal",
+        "Month": "Jul-2023"
+    },
+    {
+        "Value Date": "02-11-2023",
+        "Description": "upi-amazonpayindiapvt-amazon.refunds@axisbank-utib0000100-321990330944-refund",
+        "Credit": 540.0,
+        "Balance": 10080.76,
+        "Category": "Refund/reversal",
+        "Month": "Aug-2023"
+    },
+    {
+        "Value Date": "25-11-2023",
+        "Description": "upi-myntracom-myntra.payu@axisbank-utib0000000-324453018274-rrr9phwcy8b2unrm45",
+        "Credit": 272.96,
+        "Balance": 330.67,
+        "Category": "Refund/reversal",
+        "Month": "Sep-2023"
+    },
+    {
+        "Value Date": "02-12-2023",
+        "Description": "upi-amazonindia-amazon.refunds@yapl-yesb0aplupi-332036624004-refundforyouram",
+        "Credit": 108.86,
+        "Balance": 9722.74,
+        "Category": "Refund/reversal",
+        "Month": "Nov-2023"
+    },
+    {
+        "Value Date": "25-12-2023",
+        "Description": "upi-irctcc-razorpay.irctc@hdfcbank-hdfc0000240-332745373822-refundforirctct",
+        "Credit": 237.15,
+        "Balance": 27032.12,
+        "Category": "Refund/reversal",
+        "Month": "Nov-2023"
+    },
+    {
+        "Value Date": "25-01-2024",
+        "Description": "upi-irctcc-razorpay.irctc@hdfcbank-hdfc0000240-332848335803-refundforirctct",
+        "Credit": 1633.9,
+        "Balance": 31128.97,
+        "Category": "Refund/reversal",
+        "Month": "Nov-2023"
+    },
+    {
+        "Value Date": "02-02-2024",
+        "Description": "upi-irctcc-razorpay.irctc@hdfcbank-hdfc0000240-332951063907-refundforirctct",
+        "Credit": 237.15,
+        "Balance": 16195.42,
+        "Category": "Refund/reversal",
+        "Month": "Nov-2023"
+    }
+]

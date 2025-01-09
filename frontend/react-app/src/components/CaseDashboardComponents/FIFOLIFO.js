@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ScrollArea } from "../ui/scroll-area";
+import React, { useState, useMemo } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   Select,
   SelectContent,
@@ -7,21 +7,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Button } from "../ui/button";
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
-  TableCell,
 } from "../ui/table";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-// Properly structured dummy data
-const dummy_data = {
+const dummyData = {
   "Utilization of Credit (10000) received by Gamma from Alpha on 2024-04-03": {
     LIFO: {
       "Value Date": ["2024-04-01"],
@@ -89,28 +86,41 @@ const DataTable = ({ data }) => {
   const rowCount = data[columns[0]]?.length || 0;
   if (!rowCount) return null;
 
+  // Calculate totals for numeric columns
+  const numericColumns = columns.filter((col) =>
+    data[col].every((value) => typeof value === "number")
+  );
+
+  const totals = numericColumns.reduce((acc, column) => {
+    acc[column] = data[column].reduce((sum, value) => sum + value, 0);
+    return acc;
+  }, {});
+
   return (
     <div className="w-full overflow-x-auto">
       <Table>
+        {/* Table Header */}
         <TableHeader>
           <TableRow>
-            {columns.map((column, index) => (
-              <TableHead key={index} className=" text-black p-2 text-sm">
+            {columns.map((column) => (
+              <TableHead
+                key={column}
+                className="text-gray-500 p-3 text-sm text-center"
+              >
                 {column}
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
+
+        {/* Table Body */}
         <TableBody>
           {Array.from({ length: rowCount }).map((_, rowIndex) => (
-            <TableRow
-              key={rowIndex}
-              className={rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"}
-            >
-              {columns.map((column, colIndex) => (
+            <TableRow key={rowIndex} className="bg-white">
+              {columns.map((column) => (
                 <TableCell
-                  key={colIndex}
-                  className="p-2 text-sm text-center border-b"
+                  key={`${rowIndex}-${column}`}
+                  className="p-3 text-sm text-center border-b"
                 >
                   {data[column][rowIndex]}
                 </TableCell>
@@ -123,36 +133,35 @@ const DataTable = ({ data }) => {
   );
 };
 
-const AccordionItem = ({ title, lifoData, fifoData }) => {
+const TransactionGroup = ({ title, lifoData, fifoData }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Card className="my-2">
-      <CardHeader className="p-0">
-        <Button
-          variant="ghost"
-          className="w-full flex justify-between items-center p-4"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span>{title}</span>
-          {isOpen ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
-        </Button>
+    <Card className="mb-4">
+      <CardHeader
+        className="cursor-pointer p-2"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <div className="flex justify-between items-center">
+          <CardTitle className="text-sm">{title}</CardTitle>
+          <Button variant="ghost" size="sm">
+            {isOpen ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
       </CardHeader>
       {isOpen && (
-        <CardContent>
-          <div className="space-y-4">
-            <div>
-              <CardTitle className="text-sm mb-2">LIFO Table</CardTitle>
-              <DataTable data={lifoData} />
-            </div>
-            <div>
-              <CardTitle className="text-sm mb-2">FIFO Table</CardTitle>
-              <DataTable data={fifoData} />
-            </div>
+        <CardContent className="space-y-6">
+          <div>
+            <h3 className="text-sm font-semibold mb-2">LIFO Transactions</h3>
+            <DataTable data={lifoData} />
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold mb-2">FIFO Transactions</h3>
+            <DataTable data={fifoData} />
           </div>
         </CardContent>
       )}
@@ -160,139 +169,131 @@ const AccordionItem = ({ title, lifoData, fifoData }) => {
   );
 };
 
-const getUniqueEntities = (data) => {
-  if (!data) return [];
-
-  const entities = new Set();
-  Object.values(data).forEach(({ FIFO, LIFO }) => {
-    if (FIFO?.Entity) {
-      FIFO.Entity.forEach((entity) => {
-        if (entity) entities.add(entity);
-      });
-    }
-    if (LIFO?.Entity) {
-      LIFO.Entity.forEach((entity) => {
-        if (entity) entities.add(entity);
-      });
-    }
-  });
-  return Array.from(entities).sort();
-};
-
-export default function LIFOFIFO() {
+const LIFOFIFO = () => {
   const [selectedEntities, setSelectedEntities] = useState([]);
-  const [filteredData, setFilteredData] = useState(dummy_data);
-  const entities = getUniqueEntities(dummy_data);
+  const [appliedEntities, setAppliedEntities] = useState([]);
   const [currentValue, setCurrentValue] = useState("");
 
-  const handleFilter = (entities) => {
-    if (!entities.length) {
-      setFilteredData(dummy_data);
-      return;
-    }
+  // Get unique entities for the dropdown
+  const entities = useMemo(() => {
+    const entitySet = new Set();
+    Object.values(dummyData).forEach(({ LIFO, FIFO }) => {
+      LIFO.Entity.forEach((entity) => entitySet.add(entity));
+      FIFO.Entity.forEach((entity) => entitySet.add(entity));
+    });
+    return [...entitySet].sort();
+  }, []);
 
-    const filtered = Object.entries(dummy_data).reduce((acc, [key, value]) => {
-      const hasFIFOMatch = value.FIFO.Entity.some((entity) =>
-        entities.includes(entity)
-      );
-      const hasLIFOMatch = value.LIFO.Entity.some((entity) =>
-        entities.includes(entity)
-      );
+  // Filter data based on applied entities
+  const filteredData = useMemo(() => {
+    if (appliedEntities.length === 0) return dummyData;
 
-      if (hasFIFOMatch || hasLIFOMatch) {
+    return Object.entries(dummyData).reduce((acc, [key, value]) => {
+      const hasMatchingEntity =
+        value.LIFO.Entity.some((entity) => appliedEntities.includes(entity)) ||
+        value.FIFO.Entity.some((entity) => appliedEntities.includes(entity));
+
+      if (hasMatchingEntity) {
         acc[key] = value;
       }
       return acc;
     }, {});
-
-    setFilteredData(filtered);
-  };
+  }, [appliedEntities]);
 
   const handleEntitySelect = (value) => {
     setCurrentValue(value);
-    if (!selectedEntities.includes(value)) {
-      const newSelectedEntities = [...selectedEntities, value];
-      setSelectedEntities(newSelectedEntities);
-      handleFilter(newSelectedEntities);
-    }
+    setSelectedEntities((prev) => {
+      if (prev.includes(value)) {
+        return prev.filter((e) => e !== value);
+      }
+      return [...prev, value];
+    });
   };
 
-  const handleRemoveEntity = (entityToRemove) => {
-    const newSelectedEntities = selectedEntities.filter(
-      (entity) => entity !== entityToRemove
-    );
-    setSelectedEntities(newSelectedEntities);
-    handleFilter(newSelectedEntities);
+  const applyFilters = () => {
+    setAppliedEntities(selectedEntities);
   };
 
-  const handleReset = () => {
+  const resetFilters = () => {
     setSelectedEntities([]);
+    setAppliedEntities([]);
     setCurrentValue("");
-    setFilteredData(dummy_data);
   };
 
   return (
-    <div className="p-4 max-w-6xl mx-auto">
-      <div className="mb-4 space-y-4">
-        <div className="flex flex-col gap-4">
-          <div className="flex gap-4 items-center">
-            <Select value={currentValue} onValueChange={handleEntitySelect}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select entities..." />
-              </SelectTrigger>
-              <SelectContent>
-                {entities
-                  .filter((entity) => !selectedEntities.includes(entity))
-                  .map((entity) => (
-                    <SelectItem key={entity} value={entity}>
-                      {entity}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
-            <Button
-              variant="outline"
-              onClick={handleReset}
-              className="whitespace-nowrap"
-            >
-              Reset Filters
-            </Button>
+    <Card className="m-8">
+      <CardHeader>
+        <CardTitle>LIFO FIFO Analysis</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-6">
+          {/* Filters Section */}
+          <div className="flex gap-4 items-end">
+            <div className="flex-1">
+              <label className="block text-sm font-medium mb-2">
+                Filter by Entity
+              </label>
+              <div className="flex flex-row items-center gap-2">
+                <Select value={currentValue} onValueChange={handleEntitySelect}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select an entity" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {entities.map((entity) => (
+                      <SelectItem
+                        key={entity}
+                        value={entity}
+                        className={
+                          selectedEntities.includes(entity) ? "bg-accent" : ""
+                        }
+                      >
+                        {entity}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Button onClick={applyFilters} variant="default">
+                  Apply Filters
+                </Button>
+                <Button onClick={resetFilters} variant="outline">
+                  Reset Filters
+                </Button>
+              </div>
+              {/* Selected Entities Tags */}
+              <div className="flex flex-wrap gap-2 mt-2">
+                {selectedEntities.map((entity) => (
+                  <div
+                    key={entity}
+                    className="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm flex items-center gap-2"
+                  >
+                    {entity}
+                    <button
+                      onClick={() => handleEntitySelect(entity)}
+                      className="hover:text-destructive"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {selectedEntities.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {selectedEntities.map((entity) => (
-                <Badge
-                  key={entity}
-                  variant="secondary"
-                  className="flex items-center gap-1"
-                >
-                  {entity}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-4 w-4 p-0 hover:bg-transparent"
-                    onClick={() => handleRemoveEntity(entity)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </Badge>
-              ))}
-            </div>
-          )}
+          {/* Transaction Groups */}
+          <div className="space-y-4">
+            {Object.entries(filteredData).map(([title, data], index) => (
+              <TransactionGroup
+                key={index}
+                title={title}
+                lifoData={data.LIFO}
+                fifoData={data.FIFO}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-
-      <ScrollArea className="h-[600px] rounded-md border p-4">
-        {Object.entries(filteredData).map(([key, value], index) => (
-          <AccordionItem
-            key={index}
-            title={key}
-            lifoData={value.LIFO}
-            fifoData={value.FIFO}
-          />
-        ))}
-      </ScrollArea>
-    </div>
+      </CardContent>
+    </Card>
   );
-}
+};
+
+export default LIFOFIFO;

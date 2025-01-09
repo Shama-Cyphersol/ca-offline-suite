@@ -5,50 +5,11 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../ui/dialog";
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableHead,
-//   TableHeader,
-//   TableRow,
-// } from "../../components/ui/table";
-import CategoryEditTable from "./CategoryEditTable"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import CategoryEditTable from "../MainDashboardComponents/CategoryEditTable"
+
 
 const CategoryEditModal = ({ open, onOpenChange }) => {
-  // Sample data - replace with your actual data
-  const [transactions, setTransactions] = useState([
-    {
-      id: 1,
-      date: "2024-01-01",
-      transaction: "Purchase",
-      debit: 500,
-      credit: 0,
-      balance: 1500,
-      category: "Shopping",
-      entity: "Bank Charges"
-    },
-    {
-      id: 2,
-      date: "2024-01-02",
-      transaction: "Salary",
-      debit: 0,
-      credit: 3000,
-      balance: 4500,
-      category: "Income",
-      entity: "Debtor List"
-    },
-  ]);
-
   // Sample entity options
   const categoryOptions = [
     "Bank Charges",
@@ -314,59 +275,13 @@ const CategoryEditModal = ({ open, onOpenChange }) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-6xl max-h-[80vh] overflow-auto">
+      <DialogContent className="max-w-6xl h-[95vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>Transactions</DialogTitle>
         </DialogHeader>
-        <div className="overflow-auto p-0">
-          {/* <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Transaction</TableHead>
-                <TableHead className="text-right">Debit</TableHead>
-                <TableHead className="text-right">Credit</TableHead>
-                <TableHead className="text-right">Balance</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Entity</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {transactions.map((transaction) => (
-                <TableRow key={transaction.id}>
-                  <TableCell>{transaction.date}</TableCell>
-                  <TableCell>{transaction.transaction}</TableCell>
-                  <TableCell className="text-right">
-                    {transaction.debit > 0 ? `$${transaction.debit}` : '-'}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {transaction.credit > 0 ? `$${transaction.credit}` : '-'}
-                  </TableCell>
-                  <TableCell className="text-right">${transaction.balance}</TableCell>
-                  <TableCell>{transaction.category}</TableCell>
-                  <TableCell>
-                    <Select
-                      defaultValue={transaction.entity}
-                      onValueChange={(value) => handleEntityChange(transaction.id, value)}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue>{transaction.entity}</SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {entityOptions.map((entity) => (
-                          <SelectItem key={entity} value={entity}>
-                            {entity}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table> */}
-          <CategoryEditTable data={transactionData} categoryOptions={categoryOptions}/>
-        </div>
+          <div className="overflow-auto flex-1">
+            <CategoryEditTable data={transactionData} categoryOptions={categoryOptions}/>
+          </div>
       </DialogContent>
     </Dialog>
   );

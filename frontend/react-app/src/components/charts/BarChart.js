@@ -5,8 +5,8 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  Legend,
-  Tooltip,
+  // Legend,
+  // Tooltip,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {

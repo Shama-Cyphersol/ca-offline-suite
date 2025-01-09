@@ -19,8 +19,8 @@ import {
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { cn } from "../../lib/utils";
-import { Checkbox } from "../ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Checkbox } from "../../components/ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../components/ui/dialog";
 import {
   Pagination,
   PaginationContent,

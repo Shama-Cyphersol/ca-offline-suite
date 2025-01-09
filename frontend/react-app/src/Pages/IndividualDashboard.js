@@ -1,22 +1,33 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,  useState } from "react";
 import { cn } from "../lib/utils";
 import { ScrollArea } from "../components/ui/scroll-area";
 import Sidebar from "../components/Sidebar";
-import AccountNumNameManager from "../components/CaseDashboardComponents/AccountNumNameManager";
-import IndividualTable from "../components/CaseDashboardComponents/IndividualTable";
 import Summary from "../components/IndividualDashboardComponents/Summary";
 import Transactions from "../components/IndividualDashboardComponents/Transactions";
 import Cash from "../components/IndividualDashboardComponents/Cash";
 import Suspense from "../components/IndividualDashboardComponents/Suspense";
-import { useBreadcrumb } from '../contexts/BreadcrumbContext';
-import { useParams } from 'react-router-dom';
-import {BreadcrumbDynamic}  from '../components/BreadCrumb';
-import Debtors from '../components/IndividualDashboardComponents/Debtors';
-import Creditors from '../components/IndividualDashboardComponents/Creditors';
-import EMI from '../components/IndividualDashboardComponents/EMI';
-import Investment from '../components/IndividualDashboardComponents/Investment';
-import EodBalance from '../components/IndividualDashboardComponents/EodBalance';
-import { ArrowDownWideNarrow, ArrowRightLeft, ArrowUpNarrowWide, ChartNoAxesCombined, ClipboardList, FileQuestion, History, IndianRupee, MessageSquareText } from 'lucide-react';
+import { useBreadcrumb } from "../contexts/BreadcrumbContext";
+import { useParams } from "react-router-dom";
+import { BreadcrumbDynamic } from "../components/BreadCrumb";
+import Debtors from "../components/IndividualDashboardComponents/Debtors";
+import Creditors from "../components/IndividualDashboardComponents/Creditors";
+import EMI from "../components/IndividualDashboardComponents/EMI";
+import Investment from "../components/IndividualDashboardComponents/Investment";
+import EodBalance from "../components/IndividualDashboardComponents/EodBalance";
+import Reversal from "../components/IndividualDashboardComponents/Reversal";
+import ForeignTransactions from "../components/IndividualDashboardComponents/ForeignTransactions";
+import {
+  ArrowDownWideNarrow,
+  ArrowRightLeft,
+  ArrowUpNarrowWide,
+  ChartNoAxesCombined,
+  ClipboardList,
+  FileQuestion,
+  History,
+  IndianRupee,
+  MessageSquareText,
+  Undo2
+} from "lucide-react";
 
 const IndividualDashboard = () => {
   const [activeTab, setActiveTab] = useState("Summary");
@@ -48,17 +59,18 @@ const IndividualDashboard = () => {
       title: "Suspense",
       icon: FileQuestion,
     },
-    { 
+    {
       title: "Cash",
       icon: IndianRupee,
-    },    {
-      title:"Debtors",
+    },
+    {
+      title: "Debtors",
       url: "#",
       icon: ArrowUpNarrowWide,
     },
     {
       title: "Creditors",
-      icon: ArrowDownWideNarrow ,
+      icon: ArrowDownWideNarrow,
     },
     {
       title: "EMI",
@@ -68,7 +80,11 @@ const IndividualDashboard = () => {
       title: "Investment",
       url: "#",
       icon: ChartNoAxesCombined,
-    },
+    }, {
+      title: "Reversal",
+      url: "#",
+      icon: Undo2
+  }
   ];
 
   useEffect(() => {
@@ -107,7 +123,9 @@ const IndividualDashboard = () => {
               {activeTab === "EOD" && <EodBalance />}
               {activeTab === "Cash" && <Cash />}
               {activeTab === "Suspense" && <Suspense />}
-            </main>
+              {activeTab === "Reversal" && <Reversal />}
+              {activeTab === "Reversal" && <ForeignTransactions />}
+              </main>
           </div>
         </ScrollArea>
       </div>

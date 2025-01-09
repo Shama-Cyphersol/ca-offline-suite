@@ -44,6 +44,9 @@ const Bidirectional = () => {
   const [selectedEntities, setSelectedEntities] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentValue, setCurrentValue] = useState("");
+  const [appliedFiltersData, setAppliedFiltersData] = useState(
+    dummyData.bidirectional_analysis
+  );
   const rowsPerPage = 10;
 
   // Get unique entities for the dropdown
@@ -65,8 +68,8 @@ const Bidirectional = () => {
   }, [selectedEntities]);
 
   // Pagination
-  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-  const currentData = filteredData.slice(
+  const totalPages = Math.ceil(appliedFiltersData.length / rowsPerPage);
+  const currentData = appliedFiltersData.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
@@ -81,9 +84,15 @@ const Bidirectional = () => {
     });
   };
 
+  const applyFilters = () => {
+    setAppliedFiltersData(filteredData);
+    setCurrentPage(1);
+  };
+
   const resetFilters = () => {
     setSelectedEntities([]);
     setCurrentValue("");
+    setAppliedFiltersData(dummyData.bidirectional_analysis);
     setCurrentPage(1);
   };
 
@@ -96,28 +105,48 @@ const Bidirectional = () => {
         <div className="space-y-4">
           {/* Filters Section */}
           <div className="flex gap-4 items-end">
+            {/* Dropdown Section */}
             <div className="flex-1">
               <label className="block text-sm font-medium mb-2">
                 Interest Entities
               </label>
-              <Select value={currentValue} onValueChange={handleEntitySelect}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select an entity" />
-                </SelectTrigger>
-                <SelectContent>
-                  {entities.map((entity) => (
-                    <SelectItem
-                      key={entity}
-                      value={entity}
-                      className={
-                        selectedEntities.includes(entity) ? "bg-accent" : ""
-                      }
-                    >
-                      {entity}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="flex flex-row gap-4 items-center">
+                <Select value={currentValue} onValueChange={handleEntitySelect}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select an entity" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {entities.map((entity) => (
+                      <SelectItem
+                        key={entity}
+                        value={entity}
+                        className={
+                          selectedEntities.includes(entity) ? "bg-accent" : ""
+                        }
+                      >
+                        {entity}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {/* Apply Filters Button */}
+                <Button
+                  onClick={applyFilters}
+                  variant="default"
+                  className="self-center"
+                >
+                  Apply Filters
+                </Button>
+
+                {/* Reset Filters Button */}
+                <Button
+                  onClick={resetFilters}
+                  variant="outline"
+                  className="self-center"
+                >
+                  Reset Filters
+                </Button>
+              </div>
               {/* Selected Entities Tags */}
               <div className="flex flex-wrap gap-2 mt-2">
                 {selectedEntities.map((entity) => (
@@ -136,34 +165,11 @@ const Bidirectional = () => {
                 ))}
               </div>
             </div>
-            <Button onClick={resetFilters} variant="outline">
-              Reset Filters
-            </Button>
           </div>
 
           {/* Table Section */}
           <div className="border rounded-lg">
-            <DataTable data={filteredData} />
-          </div>
-
-          {/* Pagination */}
-          <div className="flex justify-end gap-2">
-            <Button
-              variant="outline"
-              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(totalPages, prev + 1))
-              }
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </Button>
+            <DataTable data={currentData} />
           </div>
         </div>
       </CardContent>
