@@ -11,21 +11,21 @@ import {
 
 const PieCharts = ({
   data = [],
-  title = "Dynamic Pie Chart",
+  title = "",
   config = {},
   valueKey = null,
   nameKey = null,
 }) => {
   // Get all columns from the first data item
-  const columns = data.length > 0 ? Object.keys(data[0]) : [];
+  // const columns = data.length > 0 ? Object.keys(data[0]) : [];
 
-  // Determine numeric columns
-  const numericColumns = columns.filter((column) =>
-    data.some((row) => {
-      const value = String(row[column]);
-      return !isNaN(parseFloat(value)) && !value.includes("-");
-    })
-  );
+  // // Determine numeric columns
+  // const numericColumns = columns.filter((column) =>
+  //   data.some((row) => {
+  //     const value = String(row[column]);
+  //     return !isNaN(parseFloat(value)) && !value.includes("-");
+  //   })
+  // );
 
   // If keys are not provided, use Description as nameKey
   // and automatically detect Credit or Debit as valueKey based on title
@@ -56,21 +56,21 @@ const PieCharts = ({
   }));
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col min-h-[20vw]">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={config}
-          className="mx-auto aspect-square max-h-[400px]"
+      <ChartContainer 
+          config={config} 
+          className="w-full min-h-[300px] h-[calc(100vh-20rem)] max-h-[460px]"
         >
           <PieChart>
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <ChartLegend content={<ChartLegendContent />} />
+            {/* <ChartLegend content={<ChartLegendContent />} /> */}
             <Pie
               data={transformedData}
               dataKey={finalValueKey}

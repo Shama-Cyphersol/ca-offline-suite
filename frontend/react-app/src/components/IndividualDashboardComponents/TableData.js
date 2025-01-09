@@ -33,7 +33,7 @@ import {
 } from "../ui/pagination";
 import { Label } from "../ui/label";
 
-const DataTable = ({ data = [] }) => {
+const DataTable = ({ data = [], title = "Data Table" }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState(data);
   const [searchTerm, setSearchTerm] = useState("");
@@ -211,7 +211,7 @@ const DataTable = ({ data = [] }) => {
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="space-y-2">
-            <CardTitle className="dark:text-slate-300">Data Table</CardTitle>
+            <CardTitle className="dark:text-slate-300">{title}</CardTitle>
             <CardDescription>View and manage your data</CardDescription>
           </div>
           <div className="relative flex items-center gap-2">

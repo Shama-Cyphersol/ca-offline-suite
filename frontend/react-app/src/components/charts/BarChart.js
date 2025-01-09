@@ -5,8 +5,8 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  Legend,
-  Tooltip,
+  // Legend,
+  // Tooltip,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
@@ -19,7 +19,7 @@ import {
 
 const SingleBarChart = ({
   data = [],
-  title = "Dynamic Bar Chart",
+  title = "",
   config = {},
   xAxisKey = null,
   yAxisKey = null,
@@ -61,7 +61,7 @@ const SingleBarChart = ({
     }));
 
   return (
-    <Card>
+    <Card className="min-h-[20vw]">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>

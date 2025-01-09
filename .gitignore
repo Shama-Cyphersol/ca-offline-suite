@@ -152,4 +152,5 @@ local_settings.py
 *.o
 *.out
 
-/dist/
+/frontend/dist/
+

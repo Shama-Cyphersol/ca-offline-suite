@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "../../components/ui/card";
+} from "../ui/card";
 import {
   Table,
   TableHeader,
@@ -15,12 +15,12 @@ import {
   TableBody,
   TableCell,
   TableFooter,
-} from "../../components/ui/table";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
+} from "../ui/table";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import { cn } from "../../lib/utils";
-import { Checkbox } from "../../components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../components/ui/dialog";
+import { Checkbox } from "..ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import {
   Pagination,
   PaginationContent,
@@ -29,15 +29,15 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../../components/ui/pagination";
-import { Label } from "../../components/ui/label";
+} from "../ui/pagination";
+import { Label } from "../ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../components/ui/select";
+} from "../ui/select";
 import { useToast } from "../../hooks/use-toast";
 
 

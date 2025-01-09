@@ -12,15 +12,15 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   ChartContainer,
-  ChartTooltip,
+  // ChartTooltip,
   ChartTooltipContent,
-  ChartLegend,
+  // ChartLegend,
   ChartLegendContent,
 } from "../ui/chart";
 
 const HorizontalBarChart = ({
   data = [],
-  title = "Dynamic Horizontal Bar Chart",
+  title = "",
   config = {},
   xAxisKey = null,
   yAxisKey = null,
@@ -62,7 +62,7 @@ const HorizontalBarChart = ({
     }));
 
   return (
-    <Card>
+    <Card className="max-w-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>

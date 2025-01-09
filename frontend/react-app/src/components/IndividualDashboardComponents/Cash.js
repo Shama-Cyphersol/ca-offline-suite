@@ -172,7 +172,7 @@ const Cash = () => {
 
   // Then modify the return statement to use cashDepositData
   return (
-    <div className="rounded-xl shadow-sm m-8 bg-white space-y-6 dark:bg-slate-950">
+    <div className="rounded-xl shadow-sm m-8 mt-2 bg-white space-y-6 dark:bg-slate-950">
       <Tabs defaultValue="withdrawal">
         <TabsList className="grid w-[500px] grid-cols-2 pb-10">
           <TabsTrigger value="withdrawal">Withdrawal</TabsTrigger>
@@ -180,24 +180,21 @@ const Cash = () => {
         </TabsList>
 
         <TabsContent value="withdrawal">
-          <div className="mb-6">
-            <BarLineChart data={cashWithdrawalData} title="Withdrawal" />
-            <BarLineChart data={cashWithdrawalData} title="Withdrawal" />
+          
+          <div className="mb-6 w-full h-[60vh]">
+            <BarLineChart data={cashWithdrawalData} title="Withdrawal"/>
           </div>
           <div>
-            <DataTable data={cashWithdrawalData} />
             <DataTable data={cashWithdrawalData} />
           </div>
         </TabsContent>
 
+
         <TabsContent value="debit">
-          <div className="mb-6">
-            <BarLineChart data={cashDepositData} title="Deposit" />
+        <div className="mb-6 w-full h-[60vh]">
             <BarLineChart data={cashDepositData} title="Deposit" />
           </div>
-
           <div>
-            <DataTable data={cashDepositData} />
             <DataTable data={cashDepositData} />
           </div>
         </TabsContent>
