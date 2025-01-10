@@ -33,7 +33,7 @@ import {
 } from "../ui/pagination";
 import { Label } from "../ui/label";
 
-const DataTable = ({ data = [], title = "Data Table" }) => {
+const DataTable = ({ data = [], title = "Data Table", excludeTotalsFor = []}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState(data);
   const [searchTerm, setSearchTerm] = useState("");
@@ -222,7 +222,7 @@ const DataTable = ({ data = [], title = "Data Table" }) => {
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
             />
-            <Button variant="default" onClick={() => clearFilters()}>
+            <Button className="dark:bg-slate-300 dark:hover:bg-slate-200" variant="default" onClick={() => clearFilters()}>
               Clear Filters
             </Button>
           </div>

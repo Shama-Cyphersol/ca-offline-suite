@@ -124,7 +124,7 @@ const IndividualDashboard = () => {
               {activeTab === "Cash" && <Cash />}
               {activeTab === "Suspense" && <Suspense />}
               {activeTab === "Reversal" && <Reversal />}
-              {activeTab === "Reversal" && <ForeignTransactions />}
+              {/* {activeTab === "Reversal" && <ForeignTransactions />} */}
               </main>
           </div>
         </ScrollArea>

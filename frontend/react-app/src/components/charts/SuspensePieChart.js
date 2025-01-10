@@ -9,7 +9,7 @@ import {
   ChartLegendContent,
 } from "../ui/chart";
 
-const PieCharts = ({
+const SuspensePieChart = ({
   data = [],
   title = "",
   config = {},
@@ -63,7 +63,7 @@ const PieCharts = ({
       <CardContent className="flex-1 pb-0">
       <ChartContainer 
           config={config}
-          className="w-full min-h-[30vh]"
+          className="w-full min-h-[50vh]"
         >
           <PieChart>
             <ChartTooltip
@@ -85,4 +85,4 @@ const PieCharts = ({
   );
 };
 
-export default PieCharts;
+export default SuspensePieChart;

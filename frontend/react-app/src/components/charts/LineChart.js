@@ -1,5 +1,5 @@
 import React from "react";
-import { Line, CartesianGrid, XAxis, YAxis, LineChart } from "recharts";
+import { Line, CartesianGrid, XAxis, YAxis, LineChart, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   ChartContainer,
@@ -12,9 +12,6 @@ import {
 const SingleLineChart = ({
   data = [],
   title = "",
-  bottom = 5,
-  height = 0,
-  cardheight = 0,
   config = {},
   xAxisKey = null,
   yAxisKey = null,
@@ -40,19 +37,20 @@ const SingleLineChart = ({
   }));
 
   return (
-    <Card className={`min-h-[20vh] ${cardheight}`}>
+    <Card className="w-full h-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent className={height}>
-        <ChartContainer config={config}>
+      <CardContent className="h-[calc(100%-4rem)]">
+        <ChartContainer className="w-full h-full" config={config}>
+            <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={data}
             margin={{
               top: 20,
               right: 30,
               left: 20,
-              bottom: bottom,
+              bottom: 5,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
@@ -85,6 +83,7 @@ const SingleLineChart = ({
               />
             ))}
           </LineChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
     </Card>
