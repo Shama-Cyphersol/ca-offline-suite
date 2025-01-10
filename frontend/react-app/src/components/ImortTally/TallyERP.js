@@ -1,22 +1,27 @@
 import React from "react";
 import { AiFillFileExcel } from "react-icons/ai"; // Install react-icons using npm install react-icons
-const { shell } = window.require("electron");
 
 function ExcelERP() {
-  const handleOpenFile = (filePath) => {
-    shell.openPath(filePath).then((result) => {
-      if (result) {
-        console.error("Error opening the file:", result);
+
+  const handleOpenFile = async (filePath) => {
+    console.log('filePath', filePath);
+    try {
+      const response = await window.electron.openFile(filePath);
+      if (response.error) {
+        throw new Error(response.error); // If there's an error, throw it
       }
-    });
+      console.log('File opened successfully:', response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const files = [
-    { label: "Ledgers Voucher", path: "C:/Users/admin/Desktop/CA_OFFLINE/ca-offline-suite/frontend/react-app/public/TallyVoucher/ledgers.xlsx" },
-    { label: "PaymentERP Voucher", path: "../../../public/TallyVoucher/payment.xlsm" },
-    { label: "ReceiptERP Voucher", path: "C:/Users/admin/Downloads/Prime/Receipt Voucher.xlsm" },
-    { label: "Purchase Voucher", path: "C:/Users/admin/Downloads/Prime/Purchase Voucher.xlsm" },
-    { label: "Sale Voucher", path: "C:/Users/admin/Downloads/Prime/Sale Voucher.xlsm" },
+    { label: "Ledgers Voucher", path: "tallyerp/Ledgers Voucher Final.xlsm" },
+    { label: "PaymentERP Voucher", path: "tallyerp/Payment Voucher ERP.xlsm" },
+    { label: "ReceiptERP Voucher", path: "tallyerp/Receipt Voucher ERP.xlsm" },
+    { label: "Purchase Voucher", path: "tallyerp/Purchase Voucher.xlsm" },
+    { label: "Sale Voucher", path: "tallyerp/Sale Voucher final.xlsm" },
   ];
 
   return (
@@ -37,7 +42,7 @@ function ExcelERP() {
           fontWeight: "700",
         }}
       >
-       
+
       </h1>
       <div
         style={{

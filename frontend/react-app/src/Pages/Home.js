@@ -19,7 +19,7 @@ import Eligibility from "../components/MainDashboardComponents/Eligibility";
 import Billing from "../components/MainDashboardComponents/Billing";
 import { Toaster } from "../components/ui/toaster";
 import Analytics from "../components/MainDashboardComponents/Analytics";
-import ExcelViewer from "../components/MainDashboardComponents/TallyVoucher";
+import ExcelViewer from "../components/ImortTally/TallyPrime";
 import ExcelERP from '../components/ImortTally/TallyERP'; 
 import { BreadcrumbDynamic } from "../components/BreadCrumb";
 import { useBreadcrumb } from "../contexts/BreadcrumbContext";

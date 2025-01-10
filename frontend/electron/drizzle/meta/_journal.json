@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1736336129260,
+      "tag": "0000_spicy_jane_foster",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1736338591912,
+      "tag": "0001_adorable_mysterio",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1736341215558,
+      "tag": "0002_rich_human_torch",
+      "breakpoints": true
+    }
+  ]
+}

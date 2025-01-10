@@ -4,7 +4,7 @@
   "description": "",
   "main": "electron/main.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development concurrently \"npm run start:fastapi\" \"npm run start:react\" \"npm run start:electron\"",
+    "start": "electron electron/main.js",
     "start:fastapi": "cd ../backend && uvicorn app:app --reload --port 5000",
     "start:react": "cd react-app && npm start",
     "start:electron": "cross-env NODE_ENV=development wait-on http://localhost:3000 && electron electron/main.js",
@@ -19,9 +19,10 @@
     "dmg-license": "^1.0.11"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0",
+    "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
-    "electron": "^33.2.1",
+    "drizzle-kit": "^0.30.1",
+    "electron": "^33.3.1",
     "electron-builder": "^24.13.3",
     "wait-on": "^7.2.0"
   },
@@ -29,30 +30,38 @@
     "appId": "com.electron.electronapp",
     "productName": "Cyphersol",
     "directories": {
-        "output": "dist"
+      "output": "dist"
     },
     "publish": {
-        "provider": "github",
-        "owner": "Shama-Cyphersol",
-        "repo": "ca-offline-suite"
+      "provider": "github",
+      "owner": "Shama-Cyphersol",
+      "repo": "ca-offline-suite"
     },
     "files": [
       "electron/**/*",
       "react-app/build/**/*",
-      "backend/**/*",
+      "../backend/**/*",
       "env/**/*",
       "!react-app/build/static/js/*.map",
       "!react-app/node_modules",
       "!backend/__pycache__",
       "!env/bin/python3",
-      "package.json"
+      "package.json",
+      "electron/media/**/*"
     ],
     "extraResources": [
       {
-        "from": "backend/dist",
+        "from": "../backend/dist",
         "to": "backend",
         "filter": [
           "app*"
+        ]
+      },
+      {
+        "from": "electron/media",
+        "to": "media",
+        "filter": [
+          "**/*"
         ]
       }
     ],
@@ -71,14 +80,21 @@
     }
   },
   "dependencies": {
+    "@libsql/client": "^0.14.0",
     "@radix-ui/react-progress": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "d3-scale": "^4.0.2",
     "d3-scale-chromatic": "^3.1.0",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.38.3",
+    "electron-log": "^5.2.4",
     "electron-updater": "^6.3.9",
+    "pg": "^8.13.1",
     "python-shell": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   }
