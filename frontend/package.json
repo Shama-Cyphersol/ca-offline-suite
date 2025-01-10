@@ -2,12 +2,12 @@
   "name": "cyphersol-ats-electron-app",
   "version": "1.0.3",
   "description": "",
-  "main": "electron/main.js",
+  "main": "main.js",
   "scripts": {
-    "start": "electron electron/main.js",
+    "start": "electron main.js",
     "start:fastapi": "cd ../backend && uvicorn app:app --reload --port 5000",
     "start:react": "cd react-app && npm start",
-    "start:electron": "cross-env NODE_ENV=development wait-on http://localhost:3000 && electron electron/main.js",
+    "start:electron": "cross-env NODE_ENV=development wait-on http://localhost:3000 && electron main.js",
     "build": "npx rimraf dist && cross-env NODE_ENV=production npm run build:react && npm run build:electron",
     "build:react": "cd react-app && npm run build",
     "build:electron": "electron-builder"
@@ -38,7 +38,7 @@
       "repo": "ca-offline-suite"
     },
     "files": [
-      "electron/**/*",
+      "**/*",
       "react-app/build/**/*",
       "../backend/**/*",
       "env/**/*",
@@ -47,7 +47,7 @@
       "!backend/__pycache__",
       "!env/bin/python3",
       "package.json",
-      "electron/media/**/*"
+      "media/**/*"
     ],
     "extraResources": [
       {
@@ -58,7 +58,7 @@
         ]
       },
       {
-        "from": "electron/media",
+        "from": "media",
         "to": "media",
         "filter": [
           "**/*"
@@ -66,7 +66,7 @@
       }
     ],
     "extraMetadata": {
-      "main": "electron/main.js"
+      "main": "main.js"
     },
     "mac": {
       "category": "public.app-category.utilities",
