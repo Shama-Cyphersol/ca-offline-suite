@@ -63,7 +63,7 @@ export function BreadcrumbDynamic({ items, className = "py-4 px-8" }) {
         <Button
           variant="ghost"
           size="sm"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 ml-2"
           onClick={handleBack}
           disabled={isLoading}
         >

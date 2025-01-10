@@ -20,26 +20,15 @@ const chartData = [
 
 const Investment = () => {
   return (
-    <div className="bg-white dark:bg-slate-950 rounded-lg m-8 mt-2 space-y-6">
-      {/* <div className="w-full h-[60vh]">
-      <BarLineChart
-        data={chartData}
-        title="Investment"
-        xAxis={{ key: "month" }}
-        yAxis={[
-          { key: "debit", type: "bar", color: "hsl(var(--chart-5))" },
-          { key: "balance", type: "line", color: "hsl(var(--chart-3))" },
-        ]}
-      />
-      </div> */}
-      <div className="bg-white rounded-lg space-y-6 m-8">
+    <div className="rounded-lg m-8 mt-2 space-y-6">
                 {chartData.length === 0 ? (
-                        <div className="flex justify-center items-center p-6">
                                 <div className="bg-gray-100 p-4 rounded-md w-full h-[10vh]">
                                     <p className="text-gray-800 text-center mt-3 font-medium text-lg">No Data Available</p>
                                 </div>
-                        </div>
                 ) : (
+                
+                <>
+                <div className="w-full h-[60vh]">
                   <BarLineChart
                   data={chartData}
                   title="Investment"
@@ -48,12 +37,15 @@ const Investment = () => {
                     { key: "debit", type: "bar", color: "hsl(var(--chart-5))" },
                     { key: "balance", type: "line", color: "hsl(var(--chart-3))" },
                   ]}
-                />
+                    />
+                </div>
+                
+                <div>
+                    <DataTable data={chartData} />
+                </div>
+                </>
                 )}
-        </div>
-      <div>
-        <DataTable data={chartData} />
-      </div>
+      
     </div>
   );
 };

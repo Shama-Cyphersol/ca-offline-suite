@@ -8,6 +8,7 @@ import {
   LabelList,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
@@ -62,12 +63,13 @@ const HorizontalBarChart = ({
     }));
 
   return (
-    <Card className="max-w-full">
+    <Card className="w-full h-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={config}>
+      <CardContent className="h-[calc(100%-4rem)]">
+              <ChartContainer className="w-full h-full" config={config}>
+          <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
             layout="vertical"
@@ -110,6 +112,7 @@ const HorizontalBarChart = ({
               </Bar>
             ))}
           </ComposedChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
     </Card>

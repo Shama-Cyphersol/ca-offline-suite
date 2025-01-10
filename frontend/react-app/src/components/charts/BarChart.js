@@ -5,6 +5,7 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
+  ResponsiveContainer,
   // Legend,
   // Tooltip,
 } from "recharts";
@@ -61,12 +62,13 @@ const SingleBarChart = ({
     }));
 
   return (
-    <Card className="min-h-[20vw]">
+    <Card className="w-full h-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={config}>
+      <CardContent className="h-[calc(100%-4rem)]">
+        <ChartContainer className="w-full h-full" config={config}>
+            <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             margin={{
@@ -99,6 +101,7 @@ const SingleBarChart = ({
               />
             ))}
           </BarChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
     </Card>

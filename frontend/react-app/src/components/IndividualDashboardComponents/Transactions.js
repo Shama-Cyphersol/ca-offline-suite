@@ -50,6 +50,7 @@ const MaximizableChart = ({ children, title }) => {
 };
 
 const Transactions = () => {
+
   const monthsData = transactionData.reduce((acc, transaction) => {
     const date = new Date(transaction["Value Date"]);
     const monthKey = `${date.getFullYear()}-${String(
@@ -97,6 +98,18 @@ const Transactions = () => {
   const availableMonths = Object.keys(monthsData).sort();
   const [selectedMonths, setSelectedMonths] = useState(availableMonths);
 
+  if(transactionData.length === 0)
+    {
+        return (
+            <div className="rounded-lg space-y-6 m-8 mt-2">
+            <div className="bg-gray-100 p-4 rounded-md w-full h-[10vh]">
+                <p className="text-gray-800 text-center mt-3 font-medium text-lg">No Data Available</p>
+            </div>
+            </div>
+        )
+    }
+
+
   const filteredData = selectedMonths
     .flatMap((month) => {
       const dailyData = processDailyData(monthsData[month]);
@@ -109,7 +122,7 @@ const Transactions = () => {
   );
 
   return (
-    <div className="bg-white dark:bg-slate-950 rounded-lg space-y-6 m-8 mt-2">
+    <div className="rounded-lg space-y-6 m-8 mt-2">
       <ToggleStrip
         columns={availableMonths}
         selectedColumns={selectedMonths}
@@ -129,7 +142,7 @@ const Transactions = () => {
                   data={filteredData}
                   xAxisKey="date"
                   selectedColumns={["balance"]}
-                  cardheight={"h-[37vh]"}
+
                 />
               </div>
             </MaximizableChart>
