@@ -61,9 +61,9 @@ const PieCharts = ({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={config}
-          className="mx-auto aspect-square max-h-[400px]"
+      <ChartContainer 
+          config={config} 
+          className="w-full min-h-[300px] h-[calc(100vh-20rem)] max-h-[460px]"
         >
           <PieChart>
             <ChartTooltip

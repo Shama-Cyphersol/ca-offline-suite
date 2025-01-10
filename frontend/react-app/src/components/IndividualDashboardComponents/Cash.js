@@ -180,19 +180,20 @@ const Cash = () => {
         </TabsList>
 
         <TabsContent value="withdrawal">
-          <div className="mb-6">
-            <BarLineChart data={cashWithdrawalData} title="Withdrawal" />
+          
+          <div className="mb-6 w-full h-[60vh]">
+            <BarLineChart data={cashWithdrawalData} title="Withdrawal"/>
           </div>
           <div>
             <DataTable data={cashWithdrawalData} />
           </div>
         </TabsContent>
 
+
         <TabsContent value="debit">
-          <div className="mb-6">
+        <div className="mb-6 w-full h-[60vh]">
             <BarLineChart data={cashDepositData} title="Deposit" />
           </div>
-
           <div>
             <DataTable data={cashDepositData} />
           </div>
