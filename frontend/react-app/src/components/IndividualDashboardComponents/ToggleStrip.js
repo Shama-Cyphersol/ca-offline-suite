@@ -26,17 +26,17 @@ const ToggleStrip = ({ columns, selectedColumns, setSelectedColumns }) => {
       <div className="flex gap-4 z-10 overflow-x-auto">
         <button
           onClick={toggleSelectAll}
-          className="text-sm font-medium text-slate-500 dark:text-slate-500 whitespace-nowrap"
+          className="text-sm font-medium text-slate-500 dark:text-slate-500"
         >
           {isAllSelected ? "Deselect All" : "Select All"}
         </button>
         {columns.map((column) => (
           <div
             key={column}
-            className={`relative px-4 py-2 text-sm whitespace-nowrap font-medium cursor-pointer transition-transform duration-300 ${
+            className={`relative px-4 py-2 text-sm font-medium cursor-pointer transition-transform duration-300 ${
               selectedColumns.includes(column)
                 ? "text-slate-900 dark:text-slate-300 font-semibold"
-                : "text-slate-500 dark:text-slate-500 "
+                : "text-slate-500 dark:text-slate-500"
             }`}
             onClick={() => toggleColumn(column)}
           >

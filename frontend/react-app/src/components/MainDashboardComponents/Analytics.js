@@ -32,7 +32,7 @@ const Analytics = () => {
       <Card className="border dark:border-gray-700 rounded-lg shadow-sm">
         <CardHeader className="px-4 pb-2">
           <CardTitle className="text-3xl font-bold text-zinc-800 dark:text-slate-300">
-            Reports
+            Analytics
           </CardTitle>
           <CardDescription className="text-sm text-zinc-500 dark:text-[#7F8EA3]">
             Select a report to view or download

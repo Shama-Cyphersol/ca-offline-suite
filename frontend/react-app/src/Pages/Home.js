@@ -44,7 +44,7 @@ const Dashboard = () => {
       icon: FilePlus2,
     },
     {
-      title: "Reports",
+      title: "Analytics",
       url: "#",
       icon: ChartNoAxesCombined,
     },
@@ -76,11 +76,11 @@ const Dashboard = () => {
       url: "#",
       icon: ReceiptText,
     },
-    {
-      title:"Marker",
-      url:"#",
-      icon:Files
-    }
+    // {
+    //   title:"Marker",
+    //   url:"#",
+    //   icon:Files
+    // }
   ];
 
   useEffect(() => {
@@ -120,7 +120,7 @@ const Dashboard = () => {
               {activeTab === "Opportunity to Earn" && <Eligibility />}
               {activeTab === "Billing" && <Billing />}
 
-              {activeTab === "Reports" && <Analytics />}
+              {activeTab === "Analytics" && <Analytics />}
               {activeTab === "Marker" && <PdfColumnMarker />}
               {/* {activeTab === "Import to Tally" && <ImportToTally />} */}
               {activeTab === "TallyPrime" && <ExcelViewer />}

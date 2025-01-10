@@ -51,7 +51,7 @@ function createWindow() {
     win.loadURL('http://localhost:3000');
   } else {
     // Use absolute path resolution for production
-    const prodPath = path.resolve(__dirname, 'react-app', 'build', 'index.html');
+    const prodPath = path.resolve(__dirname, '..', 'react-app', 'build', 'index.html');
     log.info("Directory name:", __dirname);
     console.log('Production path:', prodPath);
     log.info('Production path:', prodPath);
