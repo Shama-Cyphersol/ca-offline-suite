@@ -1,148 +1,187 @@
-import React, { useState, useMemo } from "react";
-import summaryData from "../../data/summary.json";
+import React, { useState } from "react";
+import SingleLineChart from "../charts/LineChart";
+import SingleBarChart from "../charts/BarChart";
 import PieCharts from "../charts/PieCharts";
-import TableData from "./TableData";
+import DataTable from "./TableData";
+import { Maximize2, Minimize2 } from "lucide-react";
+import transactionData from "../../data/Transaction.json";
+import { Card, CardHeader, CardTitle } from "../ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import ToggleStrip from "./ToggleStrip";
 
-const Summary = () => {
-  const { income, importantExpenses, otherExpenses } = summaryData;
-  const [selectedMonths, setSelectedMonths] = useState([]);
+const MaximizableChart = ({ children, title }) => {
+  const [isMaximized, setIsMaximized] = useState(false);
 
-  // Extract unique months from the data
-  const months = useMemo(() => {
-    const allMonths = new Set();
-    [income, importantExpenses, otherExpenses].forEach((category) => {
-      category.forEach((item) => {
-        Object.keys(item).forEach((key) => {
-          if (
-            key !== "total" &&
-            key !== "income" &&
-            key !== "importantExpenses" &&
-            key !== "otherExpenses"
-          ) {
-            allMonths.add(key);
-          }
-        });
-      });
-    });
-    return Array.from(allMonths).sort();
-  }, [income, importantExpenses, otherExpenses]);
+  const toggleMaximize = () => setIsMaximized(!isMaximized);
 
-  // Handle month selection
-  const handleMonthChange = (month) => {
-    setSelectedMonths((prev) =>
-      prev.includes(month) ? prev.filter((m) => m !== month) : [...prev, month]
+  if (isMaximized) {
+    return (
+      <Dialog open={isMaximized} onOpenChange={setIsMaximized}>
+        <DialogContent className="max-w-[100vw] w-[70vw] max-h-[90vh]">
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 w-full overflow-hidden">{children}</div>
+        </DialogContent>
+      </Dialog>
     );
-  };
-
-  // Handle select all
-  const handleSelectAll = () => {
-    setSelectedMonths(
-      selectedMonths.length === months.length ? [] : [...months]
-    );
-  };
-
-  // Transform data for selected months
-  const transformData = (data, valueKey, nameKey, excludeName) => {
-    if (selectedMonths.length === 0) {
-      return data
-        .filter((item) => item[nameKey] !== excludeName)
-        .map((item) => ({
-          name: item[nameKey],
-          value: parseFloat(item[valueKey] || 0),
-        }))
-        .filter((item) => item.value > 0);
-    }
-
-    return data
-      .filter((item) => item[nameKey] !== excludeName)
-      .map((item) => ({
-        name: item[nameKey],
-        value: selectedMonths.reduce(
-          (sum, month) => sum + parseFloat(item[month] || 0),
-          0
-        ),
-      }))
-      .filter((item) => item.value > 0);
-  };
-
-  const incomeData = transformData(income, "total", "income", "Total Credit");
-  const importantExpensesData = transformData(
-    importantExpenses,
-    "total",
-    "importantExpenses",
-    "Total"
-  );
-  const otherExpensesData = transformData(
-    otherExpenses,
-    "total",
-    "otherExpenses",
-    "Total Debit"
-  );
+  }
 
   return (
-    <div className="dashboard p-4">
-      {/* Month Selection */}
-      <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-        <div className="flex items-center mb-4">
-          <input
-            type="checkbox"
-            id="selectAll"
-            checked={selectedMonths.length === months.length}
-            onChange={handleSelectAll}
-            className="mr-2"
-          />
-          <label htmlFor="selectAll" className="font-medium">
-            Select All Months
-          </label>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {months.map((month) => (
-            <div key={month} className="flex items-center">
-              <input
-                type="checkbox"
-                id={month}
-                checked={selectedMonths.includes(month)}
-                onChange={() => handleMonthChange(month)}
-                className="mr-2"
-              />
-              <label htmlFor={month}>{month}</label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Charts and Tables */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="space-y-4">
-          <PieCharts
-            data={incomeData}
-            title="Income Breakdown"
-            valueKey="value"
-            nameKey="name"
-          />
-          <TableData data={incomeData} />
-        </div>
-
-        <div>
-          <PieCharts
-            data={importantExpensesData}
-            title="Important Expenses Breakdown"
-            valueKey="value"
-            nameKey="name"
-          />
-        </div>
-
-        <div>
-          <PieCharts
-            data={otherExpensesData}
-            title="Other Expenses Breakdown"
-            valueKey="value"
-            nameKey="name"
-          />
-        </div>
-      </div>
+    <div className="w-full md:w-1/2 lg:w-1/3 p-2">
+      <Card className="h-full">
+        <CardHeader className="relative">
+          <CardTitle className="dark:text-slate-300">{title}</CardTitle>
+          <button
+            onClick={toggleMaximize}
+            className="absolute top-4 right-4 p-1 rounded-lg 
+                     bg-slate-100 dark:bg-slate-800 
+                     hover:bg-slate-200 dark:hover:bg-slate-700
+                     transition-colors duration-200"
+            aria-label="Maximize"
+          >
+            <Maximize2 className="h-4 w-4" />
+          </button>
+        </CardHeader>
+        <div className="p-4">{children}</div>
+      </Card>
     </div>
   );
 };
 
-export default Summary;
+const Transactions = () => {
+  // Function to format date as DD-MM-YYYY
+  const formatDate = (dateStr) => {
+    const [day, month, year] = dateStr.split("-");
+    return `${day}-${month}-${year}`;
+  };
+
+  const monthsData = transactionData.reduce((acc, transaction) => {
+    const [day, month, year] = transaction["Value Date"].split("-");
+    const monthKey = `${day}-${month}-${year}`;
+    if (!acc[monthKey]) acc[monthKey] = [];
+    acc[monthKey].push(transaction);
+    return acc;
+  }, {});
+
+  const processDailyData = (transactions) => {
+    return transactions.reduce((acc, transaction) => {
+      const date = formatDate(transaction["Value Date"]);
+      if (!acc[date]) {
+        acc[date] = {
+          date,
+          credit: transaction.Credit || 0,
+          debit: transaction.Debit || 0,
+          balance: transaction.Balance,
+          category: transaction.Category,
+        };
+      }
+      acc[date].credit += transaction.Credit || 0;
+      acc[date].debit += transaction.Debit || 0;
+      return acc;
+    }, {});
+  };
+
+  const processCategoryData = (transactions) => {
+    const categoryTotals = transactions.reduce((acc, transaction) => {
+      const category = transaction.Category;
+      if (!acc[category]) {
+        acc[category] = {
+          Category: category,
+          Debit: 0,
+        };
+      }
+      acc[category].Debit += transaction.Debit || 0;
+      return acc;
+    }, {});
+
+    return Object.values(categoryTotals);
+  };
+
+  const availableMonths = Object.keys(monthsData).sort((a, b) => {
+    const [dayA, monthA, yearA] = a.split("-");
+    const [dayB, monthB, yearB] = b.split("-");
+    return (
+      new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB)
+    );
+  });
+
+  const [selectedMonths, setSelectedMonths] = useState(availableMonths);
+
+  const filteredData = selectedMonths
+    .flatMap((month) => {
+      const dailyData = processDailyData(monthsData[month]);
+      return Object.values(dailyData);
+    })
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const categoryData = processCategoryData(
+    selectedMonths.flatMap((month) => monthsData[month])
+  );
+
+  return (
+    <div className="bg-white dark:bg-slate-950 rounded-lg space-y-6 m-8 mt-2">
+      <ToggleStrip
+        columns={availableMonths}
+        selectedColumns={selectedMonths}
+        setSelectedColumns={setSelectedMonths}
+      />
+
+      {selectedMonths.length === 0 ? (
+        <div className="text-center text-gray-600 dark:text-gray-400 my-6">
+          Select months to display the graphs
+        </div>
+      ) : (
+        <>
+          <div className="flex flex-wrap -mx-2">
+            <MaximizableChart title="Daily Balance Trend">
+              <div className="w-full h-full">
+                <SingleLineChart
+                  data={filteredData}
+                  xAxisKey="date"
+                  selectedColumns={["balance"]}
+                  cardheight={"h-[37vh]"}
+                />
+              </div>
+            </MaximizableChart>
+
+            <MaximizableChart title="Credit vs Debit">
+              <div className="w-full h-full">
+                <SingleBarChart
+                  data={filteredData}
+                  xAxis={{ key: "date" }}
+                  yAxis={[
+                    {
+                      key: "credit",
+                      type: "bar",
+                      color: "hsl(var(--chart-3))",
+                    },
+                    {
+                      key: "debit",
+                      type: "line",
+                      color: "hsl(var(--chart-5))",
+                    },
+                  ]}
+                />
+              </div>
+            </MaximizableChart>
+
+            <MaximizableChart title="Debit Distribution by Category">
+              <div className="w-full h-full">
+                <PieCharts
+                  data={categoryData}
+                  nameKey="Category"
+                  valueKey="Debit"
+                />
+              </div>
+            </MaximizableChart>
+          </div>
+
+          <DataTable data={filteredData} />
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Transactions;

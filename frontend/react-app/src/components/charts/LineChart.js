@@ -36,6 +36,11 @@ const SingleLineChart = ({
     color: getColor(index),
   }));
 
+  // Simplified number formatting
+  const formatYAxis = (value) => {
+    return value.toLocaleString(); // This will add commas for thousands
+  };
+
   return (
     <Card className="w-full h-full">
       <CardHeader>
@@ -63,7 +68,13 @@ const SingleLineChart = ({
                 typeof value === "string" ? value.slice(0, 10) : value
               }
             />
-            <YAxis axisLine={false} tickLine={false} tickMargin={8} />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tickMargin={8}
+              tickFormatter={formatYAxis}
+              {...config.yAxis}
+            />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
             {lines.map((line) => (
