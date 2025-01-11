@@ -56,14 +56,14 @@ const PieCharts = ({
   }));
 
   return (
-    <Card className="flex flex-col min-h-[20vw]">
+    <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
       <ChartContainer 
-          config={config} 
-          className="w-full min-h-[300px] h-[calc(100vh-20rem)] max-h-[460px]"
+          config={config}
+          className="w-full min-h-[30vh]"
         >
           <PieChart>
             <ChartTooltip

@@ -1,7 +1,7 @@
 import React from "react";
-import SingleLineChart from "../charts/LineChart";
 import DataTable from "./TableData";
 import refundData from "../../data/refund.json";
+import SingleBarChart from "../charts/BarChart";
 
 const Reversal = () => {
   // Process data to get daily balance
@@ -11,7 +11,7 @@ const Reversal = () => {
       if (!acc[date]) {
         acc[date] = {
           valueDate: date,
-          balance: transaction.Balance,
+          credit: transaction.Credit,
         };
       }
       return acc;
@@ -26,17 +26,27 @@ const Reversal = () => {
   const processedData = processData();
 
   return (
-    <div className="bg-white rounded-lg space-y-6 m-8">
-      <SingleLineChart
-        title="Balance Trend"
-        data={processedData}
-        xAxisKey="valueDate"
-        selectedColumns={["balance"]}
-      />
+    <div className="rounded-lg m-8 mt-2 space-y-6">
+        {refundData.length === 0 ? (
+                        <div className="bg-gray-100 p-4 rounded-md w-full h-[10vh]">
+                            <p className="text-gray-800 text-center mt-3 font-medium text-lg">No Data Available</p>
+                        </div>
+        ) : (
+            <>
+                <div className="w-full h-[60vh]">
+                <SingleBarChart
+                    title="Reversal/Refund"
+                    data={processedData}
+                    xAxisKey="valueDate"
+                    selectedColumns={["credit"]}
+                />
+                </div>
+                <div>
+                    <DataTable data={refundData} />
+                </div>
+            </>
+        )}
 
-      <div>
-        <DataTable data={refundData} />
-      </div>
     </div>
   );
 };

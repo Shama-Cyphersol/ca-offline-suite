@@ -60,7 +60,7 @@ yarn-error.log*
 /frontend/react-app/yarn-error.log*
 /frontend/react-app/node_modules/
 frontend/react-app/package-lock.json
-frontend/electron/db.sqlite3
+frontend/db.sqlite3
 
 # Electron
 /frontend/electron/dist

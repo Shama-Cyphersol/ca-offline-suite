@@ -3,112 +3,112 @@
     "Value Date": "03-04-2023",
     "Description": "achdebit/bajajfinanceltd/p405pbl6215374",
     "Debit": 29790,
-    "Balance": 1260831.49,
+    "Balance": 12608.49,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "25-04-2023",
     "Description": "achdebit/hdfcltd/344663507",
     "Debit": 72822,
-    "Balance": 1523164.59,
+    "Balance": 15231.59,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "02-05-2023",
     "Description": "cms/bajfinserv/202304254664443",
     "Debit": 29790,
-    "Balance": 1896294.99,
+    "Balance": 18964.99,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "25-05-2023",
     "Description": "achdebit/hdfcltd/347575201",
     "Debit": 72822,
-    "Balance": 1464364.91,
+    "Balance": 14643.91,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "02-06-2023",
     "Description": "cms/bajfinserv/202304254664443",
     "Debit": 29790,
-    "Balance": 1291679.21,
+    "Balance": 12916.21,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "02-08-2023",
     "Description": "cms/bajfinserv/202304254664443",
     "Debit": 27019,
-    "Balance": 486516.67,
+    "Balance": 4866.67,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "25-08-2023",
     "Description": "achdebit/hdfcbankltd/356415139",
     "Debit": 89378,
-    "Balance": 972256.27,
+    "Balance": 9726.27,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "02-09-2023",
     "Description": "cms/bajfinserv/202304254664443",
     "Debit": 27019,
-    "Balance": 934115.02,
+    "Balance": 9345.02,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "25-09-2023",
     "Description": "achdr5852823831/hdfcbankltd/110133818643",
     "Debit": 89378,
-    "Balance": 494268.54,
+    "Balance": 4948.54,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "03-10-2023",
     "Description": "cms/bajfinserv/202304254664443",
     "Debit": 27019,
-    "Balance": 735103.54,
+    "Balance": 7353.54,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "25-10-2023",
     "Description": "achdr/hdfcbankltd/6727908586/110162596389",
     "Debit": 89378,
-    "Balance": 678944.9,
+    "Balance": 6784.9,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "03-10-2023",
     "Description": "cms/bajfinserv/202304254664443",
     "Debit": 27019,
-    "Balance": 735103.54,
+    "Balance": 7353.54,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "25-10-2023",
     "Description": "achdr/hdfcbankltd/6727908586/110162596389",
     "Debit": 89378,
-    "Balance": 678944.9,
+    "Balance": 67894.9,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "02-11-2023",
     "Description": "cms/bajfinserv/202304254664443",
     "Debit": 27019,
-    "Balance": 838599.9,
+    "Balance": 83859.9,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "25-11-2023",
     "Description": "achdr/hdfcbankltd/7994019638/110202425254",
     "Debit": 89378,
-    "Balance": 644394.6,
+    "Balance": 64434.6,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "02-12-2023",
     "Description": "cms/bajfinserv/202304254664443",
     "Debit": 27019,
-    "Balance": 252307.6,
+    "Balance": 2527.6,
     "Category": "Probable EMI"
   },
   {
@@ -122,7 +122,7 @@
     "Value Date": "25-01-2024",
     "Description": "achdr/hdfcbankltd/9766510124/110261783071",
     "Debit": 89378,
-    "Balance": 290675.14,
+    "Balance": 29065.14,
     "Category": "Probable EMI"
   },
   {
@@ -136,21 +136,21 @@
     "Value Date": "26-02-2024",
     "Description": "achdr/hdfcbankltd/0722717520/110293233360",
     "Debit": 89378,
-    "Balance": 290648.3,
+    "Balance": 29048.3,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "02-03-2024",
     "Description": "cms/bajfinserv/202304254664443",
     "Debit": 53354,
-    "Balance": 264376.3,
+    "Balance": 26436.3,
     "Category": "Probable EMI"
   },
   {
     "Value Date": "25-03-2024",
     "Description": "achdr/hdfcbankltd/2125049676/110339158800",
     "Debit": 89378,
-    "Balance": 143039.15,
+    "Balance": 14309.15,
     "Category": "Probable EMI"
   }
 ]
