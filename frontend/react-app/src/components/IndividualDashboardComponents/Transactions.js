@@ -5,6 +5,7 @@ import PieCharts from "../charts/PieCharts";
 import DataTable from "./TableData";
 import { Maximize2, Minimize2 } from "lucide-react";
 import transactionData from "../../data/Transaction.json";
+
 import { Card, CardHeader, CardTitle } from "../ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import ToggleStrip from "./ToggleStrip"; // Import the ToggleStrip component
