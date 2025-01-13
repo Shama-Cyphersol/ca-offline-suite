@@ -67,7 +67,7 @@ const NameManager = ({ caseId, initialGroups = [], onRefreshDashboard }) => {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <Card className="shadow-lg">
+      <Card className="shadow-sm">
         <CardHeader className="border-b">
           <div className="flex items-center justify-between">
             <div>
