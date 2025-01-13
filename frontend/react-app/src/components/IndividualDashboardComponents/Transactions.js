@@ -68,10 +68,12 @@ const Transactions = () => {
       if (!acc[date]) {
         acc[date] = {
           date,
+          Description:transaction.Description,
           credit: transaction.Credit || 0,
           debit: transaction.Debit || 0,
           balance: transaction.Balance,
           category: transaction.Category,
+          Entity:transaction.Entity
         };
       }
       acc[date].credit += transaction.credit || 0;
