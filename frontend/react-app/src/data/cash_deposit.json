@@ -1,23 +1,74 @@
 [
   {
-    "Value Date": "07-02-2024",
-    "Description": "chqdep-transferow1-noidawbo:trchadhaandcoll:hdfcbankltd",
-    "Credit": 3090,
-    "Balance": 70680.78,
-    "Category": "Cash Deposits"
+    "Value Date": 1681862400000,
+    "Description": "cashdeposit-416021xxxxxx3604-kharwest",
+    "Debit": null,
+    "Credit": 23000.0,
+    "Balance": 27141.0,
+    "Bank": "a",
+    "Category": "Cash deposits",
+    "Entity": "",
+    "Month": "Apr-2023",
+    "Date": 19
   },
   {
-    "Value Date": "20-02-2024",
-    "Description": "chqdep-transferow1-noidawbo:tr",
-    "Credit": 196043,
-    "Balance": 340428.44,
-    "Category": "Cash Deposits"
+    "Value Date": 1690761600000,
+    "Description": "cashdeposit-416021xxxxxx3604-chemburcentralavenue",
+    "Debit": null,
+    "Credit": 48000.0,
+    "Balance": 48377.93,
+    "Bank": "a",
+    "Category": "Cash deposits",
+    "Entity": "",
+    "Month": "Jul-2023",
+    "Date": 31
   },
   {
-    "Value Date": "20-02-2024",
-    "Description": "chqdep-transferow1-noidawbo:tr",
-    "Credit": 16856,
-    "Balance": 236405.44,
-    "Category": "Cash Deposits"
+    "Value Date": 1690761600000,
+    "Description": "cashdeposit-416021xxxxxx3604-chemburce",
+    "Debit": null,
+    "Credit": 22500.0,
+    "Balance": 70877.93,
+    "Bank": "a",
+    "Category": "Cash deposits",
+    "Entity": "",
+    "Month": "Jul-2023",
+    "Date": 31
+  },
+  {
+    "Value Date": 1691539200000,
+    "Description": "cashdeposit-xxxxxxxxxx5699-chemburcentralavenue",
+    "Debit": null,
+    "Credit": 10000.0,
+    "Balance": 62853.76,
+    "Bank": "a",
+    "Category": "Cash deposits",
+    "Entity": "",
+    "Month": "Aug-2023",
+    "Date": 9
+  },
+  {
+    "Value Date": 1691539200000,
+    "Description": "cashdeposit-xxxxxxxxxx5699-chemburcent",
+    "Debit": null,
+    "Credit": 10000.0,
+    "Balance": 72853.76,
+    "Bank": "a",
+    "Category": "Cash deposits",
+    "Entity": "",
+    "Month": "Aug-2023",
+    "Date": 9
+  },
+  {
+    "Value Date": 1692576000000,
+    "Description": "cashdeposit-416021xxxxxx3604-santacruzeastsantacruz",
+    "Debit": null,
+    "Credit": 6000.0,
+    "Balance": 6030.67,
+    "Bank": "a",
+    "Category": "Cash deposits",
+    "Entity": "",
+    "Month": "Aug-2023",
+    "Date": 21
   }
 ]
