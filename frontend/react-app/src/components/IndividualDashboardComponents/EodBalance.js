@@ -53,14 +53,14 @@ const EodBalance = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg space-y-6 m-8 mt-2 dark:bg-slate-950">
+    <div className="bg-white rounded-lg space-y-6 m-8 mt-2 dark:bg-slate-950 w-[80vw]">
       <ToggleStrip
         columns={numericColumns}
         selectedColumns={selectedColumns}
         setSelectedColumns={setSelectedColumns}
       />
       <div className="flex flex-col gap-1">
-        <div className="h-[50vh] mb-10">
+        <div className="h-[50vh] w-[80vw]">
           <SingleLineChart
             title="EOD Balance"
             data={eodData}
@@ -71,7 +71,7 @@ const EodBalance = () => {
             config={chartConfig}
           />
         </div>
-        <div className="mt-10">
+        <div className="mt-5">
           <DataTable data={transformedData} title="EOD Balance" />
         </div>
       </div>

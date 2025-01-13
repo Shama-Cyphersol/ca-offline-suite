@@ -61,10 +61,7 @@ const SuspensePieChart = ({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-      <ChartContainer 
-          config={config}
-          className="w-full min-h-[50vh]"
-        >
+        <ChartContainer config={config} className="w-full min-h-[55vh]">
           <PieChart>
             <ChartTooltip
               cursor={false}

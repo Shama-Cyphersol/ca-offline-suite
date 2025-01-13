@@ -50,7 +50,7 @@ const Suspense = () => {
         </TabsList>
 
         <TabsContent value="credit">
-          <div className="grid grid-rows-[60vh_auto] gap-2">
+          <div className="grid grid-rows-[60vh_auto] gap-8">
             <div className="grid grid-cols-2 gap-6">
               <div className="w-full h-full">
                 <HorizontalBarChart
@@ -62,7 +62,7 @@ const Suspense = () => {
                 />
               </div>
               <div className="w-full h-full">
-                <PieCharts
+                <SuspensePieChart
                   data={transformedCreditData}
                   title="Suspense Credit Chart"
                 />
@@ -75,7 +75,7 @@ const Suspense = () => {
         </TabsContent>
 
         <TabsContent value="debit">
-          <div className="grid grid-rows-[60vh_auto]">
+          <div className="grid grid-rows-[60vh_auto] gap-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="w-full h-full">
                 <HorizontalBarChart
@@ -87,7 +87,7 @@ const Suspense = () => {
                 />
               </div>
               <div className="w-full h-full">
-                <PieCharts
+                <SuspensePieChart
                   data={transformedDebitData}
                   title="Suspense Debit Chart"
                 />
