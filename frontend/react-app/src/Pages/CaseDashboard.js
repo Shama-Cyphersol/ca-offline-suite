@@ -16,7 +16,7 @@ import BiDirectionalAnalysis from "../components/CaseDashboardComponents/BiDirec
 import FIFOLIFO from "../components/CaseDashboardComponents/FIFOLIFO";
 import FundTracking from "../components/CaseDashboardComponents/FundTracking";
 import NameManager from "../components/CaseDashboardComponents/NameManager";
-
+import name_acc_df from "../data/name_acc_df.json"
 // Dummy data structure matching the expected format
 const dummyResult = {
   cummalative_df: {
@@ -334,10 +334,8 @@ const CaseDashboard = () => {
               {activeTab === "Fund Tracking" && <FundTracking />}
               {activeTab === "Name Manager" && <NameManager
               caseId="123"
-              initialGroups={[['John', 'Jon'], ['Elizabeth', 'Beth']]}
-              onRefreshDashboard={(source) => {
-                console.log('Refresh dashboard from', source);
-              }}
+              nameAccData={name_acc_df}
+              onRefreshDashboard={(type) => console.log('Dashboard refresh requested:', type)}
               />}
             </main>
           </div>

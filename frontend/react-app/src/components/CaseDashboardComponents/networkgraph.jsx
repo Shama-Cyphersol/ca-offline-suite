@@ -19,7 +19,7 @@ import { Badge } from '../ui/badge';
 
 const NetworkGraphComponent = ({ transactions = [] }) => {
   const [nodeSize, setNodeSize] = useState(80);
-  const [minTransactions, setMinTransactions] = useState(0);
+  const [minTransactions, setMinTransactions] = useState(15);
   const [minAmount, setMinAmount] = useState(0);
   const [selectedNode, setSelectedNode] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -40,59 +40,73 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
     const entityMap = new Map();
     const edgeMap = new Map();
 
-    // Calculate entity statistics
+    // Process each transaction
     transactions.forEach((tx) => {
-      // ... (previous transaction processing code remains the same)
-      const fromStats = entityMap.get(tx.from) || { 
-        transactions: 0, 
+      // Skip opening balance entries
+      if (tx.Category === 'Opening Balance') return;
+
+      // Extract the main entity from the Description
+      const descriptionParts = tx.Description.toLowerCase().split('-');
+      const mainEntity = descriptionParts[0] === 'upi' ? descriptionParts[1] : descriptionParts[0];
+      
+      // Use 'SELF' as the source for all transactions
+      const source = 'SELF';
+      const target = mainEntity;
+
+      // Update entity statistics
+      const sourceStats = entityMap.get(source) || {
+        transactions: 0,
         totalCredit: 0,
         totalDebit: 0,
-        totalAmount: 0 
+        totalAmount: 0
       };
-      if (tx.type === 'credit') {
-        fromStats.totalCredit += tx.amount;
-      } else {
-        fromStats.totalDebit += tx.amount;
-      }
-      fromStats.transactions += 1;
-      fromStats.totalAmount += tx.amount;
-      entityMap.set(tx.from, fromStats);
-
-      const toStats = entityMap.get(tx.to) || { 
-        transactions: 0, 
+      const targetStats = entityMap.get(target) || {
+        transactions: 0,
         totalCredit: 0,
         totalDebit: 0,
-        totalAmount: 0 
+        totalAmount: 0
       };
-      if (tx.type === 'credit') {
-        toStats.totalCredit += tx.amount;
-      } else {
-        toStats.totalDebit += tx.amount;
-      }
-      toStats.transactions += 1;
-      toStats.totalAmount += tx.amount;
-      entityMap.set(tx.to, toStats);
 
-      const edgeId = `${tx.from}-${tx.to}`;
-      const edgeStats = edgeMap.get(edgeId) || { 
-        creditAmount: 0, 
+      if (tx.Credit) {
+        sourceStats.totalCredit += tx.Credit;
+        targetStats.totalCredit += tx.Credit;
+      }
+      if (tx.Debit) {
+        sourceStats.totalDebit += tx.Debit;
+        targetStats.totalDebit += tx.Debit;
+      }
+
+      sourceStats.transactions += 1;
+      targetStats.transactions += 1;
+      sourceStats.totalAmount += tx.Debit || tx.Credit || 0;
+      targetStats.totalAmount += tx.Debit || tx.Credit || 0;
+
+      entityMap.set(source, sourceStats);
+      entityMap.set(target, targetStats);
+
+      // Update edge statistics
+      const edgeId = `${source}-${target}`;
+      const edgeStats = edgeMap.get(edgeId) || {
+        creditAmount: 0,
         debitAmount: 0,
-        transactions: 0 
+        transactions: 0
       };
-      if (tx.type === 'credit') {
-        edgeStats.creditAmount += tx.amount;
-      } else {
-        edgeStats.debitAmount += tx.amount;
+
+      if (tx.Credit) {
+        edgeStats.creditAmount += tx.Credit;
+      }
+      if (tx.Debit) {
+        edgeStats.debitAmount += tx.Debit;
       }
       edgeStats.transactions += 1;
       edgeMap.set(edgeId, edgeStats);
     });
 
-    // Create nodes with dynamic sizing
+    // Create nodes
     const nodes = Array.from(entityMap.entries()).map(([id, stats], index) => ({
       id,
-      data: { 
-        label: id, 
+      data: {
+        label: id,
         ...stats,
         displayName: id.length > 15 ? `${id.substring(0, 12)}...` : id
       },
@@ -101,7 +115,7 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
         width: responsiveNodeSize,
         height: responsiveNodeSize,
         borderRadius: '50%',
-        backgroundColor: stats.totalAmount > 100000 ? '#ffd700' : '#60a5fa',
+        backgroundColor: id === 'SELF' ? '#ffd700' : '#60a5fa',
         border: '2px solid #1a365d',
         display: 'flex',
         justifyContent: 'center',
@@ -114,7 +128,7 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
       },
     }));
 
-    // Create edges (edge creation code remains the same)
+    // Create edges
     const edges = [];
     edgeMap.forEach((stats, id) => {
       const [source, target] = id.split('-');
@@ -135,13 +149,10 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
             stroke: '#22c55e',
             strokeWidth: Math.log(stats.transactions + 1) * 1.5
           },
-          markerEnd: { 
+          markerEnd: {
             type: MarkerType.ArrowClosed,
             color: '#22c55e'
-          },
-          sourceHandle: 'right',
-          targetHandle: 'left',
-          data: { type: 'credit' }
+          }
         });
       }
 
@@ -161,13 +172,10 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
             stroke: '#ef4444',
             strokeWidth: Math.log(stats.transactions + 1) * 1.5
           },
-          markerEnd: { 
+          markerEnd: {
             type: MarkerType.ArrowClosed,
             color: '#ef4444'
-          },
-          sourceHandle: 'left',
-          targetHandle: 'right',
-          data: { type: 'debit' }
+          }
         });
       }
     });
@@ -178,7 +186,7 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  // Update node sizes dynamically when slider changes
+  // Update node sizes dynamically
   const updateNodeSizes = useCallback((newSize) => {
     setNodeSize(newSize);
     setNodes((prevNodes) =>
@@ -195,7 +203,7 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
     );
   }, [setNodes]);
 
-  // Filter nodes and edges based on minimum transactions and amount
+  // Filter nodes and edges
   const filteredNodes = useMemo(() => {
     return nodes.filter((node) => 
       node.data.transactions >= minTransactions && 
@@ -216,63 +224,38 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
     setIsDialogOpen(true);
   }, []);
 
-  // Transaction Table Component (remains the same)
+  // Transaction Table Component
   const TransactionTable = ({ transactions, nodeId }) => {
-    const relevantTransactions = transactions.filter(
-      tx => tx.from === nodeId || tx.to === nodeId
-    );
+    const relevantTransactions = transactions.filter(tx => {
+      const descriptionParts = tx.Description.toLowerCase().split('-');
+      const mainEntity = descriptionParts[0] === 'upi' ? descriptionParts[1] : descriptionParts[0];
+      return nodeId === 'SELF' || mainEntity === nodeId;
+    });
 
     return (
       <div className="overflow-x-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-xl font-semibold">Network Graph</h1>
-          <div className="flex gap-4 items-center text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-              <span>Person</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-blue-400"></div>
-              <span>Entity</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-green-400"></div>
-              <span>Common Entity</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-0.5 w-6 bg-green-600"></div>
-              <span>Credit</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-0.5 w-6 bg-red-600"></div>
-              <span>Debit</span>
-            </div>
-          </div>
-        </div>
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-50">
+              <th className="p-2 text-left">Date</th>
+              <th className="p-2 text-left">Description</th>
               <th className="p-2 text-left">Type</th>
-              <th className="p-2 text-left">From</th>
-              <th className="p-2 text-left">To</th>
               <th className="p-2 text-left">Amount</th>
-              <th className="p-2 text-left hidden md:table-cell">Date</th>
-              <th className="p-2 text-left hidden lg:table-cell">Reference</th>
+              <th className="p-2 text-left">Balance</th>
             </tr>
           </thead>
           <tbody>
             {relevantTransactions.map((tx, index) => (
               <tr key={index} className="border-b hover:bg-gray-50">
+                <td className="p-2">{tx['Value Date']}</td>
+                <td className="p-2">{tx.Description}</td>
                 <td className="p-2">
-                  <Badge variant={tx.type === 'credit' ? 'success' : 'destructive'}>
-                    {tx.type.toUpperCase()}
+                  <Badge variant={tx.Credit ? 'success' : 'destructive'}>
+                    {tx.Credit ? 'CREDIT' : 'DEBIT'}
                   </Badge>
                 </td>
-                <td className="p-2">{tx.from}</td>
-                <td className="p-2">{tx.to}</td>
-                <td className="p-2">₹{tx.amount.toLocaleString()}</td>
-                <td className="p-2 hidden md:table-cell">{tx.date}</td>
-                <td className="p-2 hidden lg:table-cell">{tx.reference}</td>
+                <td className="p-2">₹{(tx.Credit || tx.Debit).toLocaleString()}</td>
+                <td className="p-2">₹{tx.Balance.toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
@@ -303,7 +286,7 @@ const NetworkGraphComponent = ({ transactions = [] }) => {
               value={[minTransactions]}
               onValueChange={([value]) => setMinTransactions(value)}
               min={0}
-              max={1000}
+              max={50}
               step={1}
               className="mt-2"
             />

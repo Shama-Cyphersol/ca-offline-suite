@@ -9,44 +9,64 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Badge } from "../ui/badge";
 
-const NameManager = ({ caseId, initialGroups = [], onRefreshDashboard }) => {
+const NameManager = ({ caseId, nameAccData, onRefreshDashboard }) => {
   const [searchText, setSearchText] = useState("");
-  const [unselectedGroups, setUnselectedGroups] = useState(initialGroups);
+  const [unselectedGroups, setUnselectedGroups] = useState(
+    nameAccData.reduce((groups, item) => {
+      const similarGroup = groups.find(group => 
+        group.some(g => g.Name.toLowerCase().includes(item.Name.toLowerCase()))
+      );
+      
+      if (similarGroup) {
+        similarGroup.push(item);
+      } else {
+        groups.push([item]);
+      }
+      return groups;
+    }, [])
+  );
   const [mergedGroups, setMergedGroups] = useState([]);
   const [selectedNames, setSelectedNames] = useState({});
 
   const filteredGroups = searchText
     ? unselectedGroups.filter(group =>
-        group.some(name =>
-          name.toLowerCase().includes(searchText.toLowerCase())
+        group.some(item =>
+          item.Name.toLowerCase().includes(searchText.toLowerCase()) ||
+          item.AccNumber.includes(searchText)
         )
       )
     : unselectedGroups;
 
-  const handleCheckboxChange = (groupIndex, name) => {
+  const handleCheckboxChange = (groupIndex, item) => {
     setSelectedNames(prev => ({
       ...prev,
-      [`${groupIndex}-${name}`]: !prev[`${groupIndex}-${name}`]
+      [`${groupIndex}-${item.AccNumber}`]: !prev[`${groupIndex}-${item.AccNumber}`]
     }));
   };
 
   const handleMergeSelected = () => {
-    const selectedGroupsToMerge = unselectedGroups
-      .map((group, groupIndex) =>
-        group.filter(name => selectedNames[`${groupIndex}-${name}`])
-      )
-      .filter(group => group.length > 0);
+    // Collect all selected items into a single array
+    const selectedItems = unselectedGroups.reduce((acc, group, groupIndex) => {
+      const selectedFromGroup = group.filter(item => 
+        selectedNames[`${groupIndex}-${item.AccNumber}`]
+      );
+      return [...acc, ...selectedFromGroup];
+    }, []);
 
-    if (selectedGroupsToMerge.length === 0) return;
+    if (selectedItems.length === 0) return;
 
-    setMergedGroups(prev => [...prev, ...selectedGroupsToMerge]);
+    // Add the selected items as a single merged group
+    setMergedGroups(prev => [...prev, selectedItems]);
+
+    // Remove the selected items from unselectedGroups
     setUnselectedGroups(prev => 
-      prev.filter((group) => 
-        !selectedGroupsToMerge.some(selectedGroup => 
-          selectedGroup.every(name => group.includes(name))
+      prev.map(group => 
+        group.filter(item => 
+          !selectedItems.some(selected => selected.AccNumber === item.AccNumber)
         )
-      )
+      ).filter(group => group.length > 0)
     );
+
     setSelectedNames({});
   };
 
@@ -58,8 +78,8 @@ const NameManager = ({ caseId, initialGroups = [], onRefreshDashboard }) => {
   const handleSelectAll = () => {
     const newSelectedNames = {};
     unselectedGroups.forEach((group, groupIndex) => {
-      group.forEach(name => {
-        newSelectedNames[`${groupIndex}-${name}`] = true;
+      group.forEach(item => {
+        newSelectedNames[`${groupIndex}-${item.AccNumber}`] = true;
       });
     });
     setSelectedNames(newSelectedNames);
@@ -94,7 +114,7 @@ const NameManager = ({ caseId, initialGroups = [], onRefreshDashboard }) => {
                   <div className="relative flex-1 max-w-sm">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                     <Input
-                      placeholder="Search names..."
+                      placeholder="Search names or account numbers..."
                       value={searchText}
                       onChange={e => setSearchText(e.target.value)}
                       className="pl-10"
@@ -119,16 +139,19 @@ const NameManager = ({ caseId, initialGroups = [], onRefreshDashboard }) => {
                       </CardHeader>
                       <CardContent className="p-4">
                         <div className="space-y-2">
-                          {group.map((name) => (
+                          {group.map((item) => (
                             <label
-                              key={name}
+                              key={item.AccNumber}
                               className="flex items-center space-x-2 hover:bg-secondary/10 p-1 rounded cursor-pointer"
                             >
                               <Checkbox
-                                checked={selectedNames[`${groupIndex}-${name}`] || false}
-                                onCheckedChange={() => handleCheckboxChange(groupIndex, name)}
+                                checked={selectedNames[`${groupIndex}-${item.AccNumber}`] || false}
+                                onCheckedChange={() => handleCheckboxChange(groupIndex, item)}
                               />
-                              <span className="text-sm">{name}</span>
+                              <div className="flex flex-col">
+                                <span className="text-sm font-medium">{item.Name}</span>
+                                <span className="text-xs text-muted-foreground">{item.AccNumber}</span>
+                              </div>
                             </label>
                           ))}
                         </div>
@@ -156,6 +179,7 @@ const NameManager = ({ caseId, initialGroups = [], onRefreshDashboard }) => {
                       <TableRow>
                         <TableHead className="w-16">#</TableHead>
                         <TableHead>Merged Names</TableHead>
+                        <TableHead>Account Numbers</TableHead>
                         <TableHead className="w-24">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -165,8 +189,19 @@ const NameManager = ({ caseId, initialGroups = [], onRefreshDashboard }) => {
                           <TableCell className="font-medium">{index + 1}</TableCell>
                           <TableCell>
                             <div className="flex flex-wrap gap-2">
-                              {group.map(name => (
-                                <Badge key={name} variant="secondary">{name}</Badge>
+                              {group.map(item => (
+                                <Badge key={item.AccNumber} variant="secondary">
+                                  {item.Name}
+                                </Badge>
+                              ))}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex flex-col gap-1">
+                              {group.map(item => (
+                                <span key={item.AccNumber} className="text-xs text-muted-foreground">
+                                  {item.AccNumber}
+                                </span>
                               ))}
                             </div>
                           </TableCell>

@@ -1,31 +1,27 @@
-import React from 'react'
-import PieCharts from '../charts/PieCharts'
-import EntityTable from './EntityTable'
-import DataTable from '../IndividualDashboardComponents/TableData'
-
-const Data = [
-    { entity: "Entity A", frequency: 10 },
-    { entity: "Entity B", frequency: 30 },
-    { entity: "Entity C", frequency: 5 },
-    { entity: "Entity D", frequency: 20 },
-    { entity: "Entity E", frequency: 35 },
-]
-
-
+import React from 'react';
+import PieCharts from '../charts/PieCharts';
+import EntityTable from './EntityTable';
+import entitydistdata from "../../data/entity_analysis.json";
 
 function EntityDistribution() {
+  // Sort the data by No_of_times_occurred in descending order
+  const sortedData = [...entitydistdata].sort((a, b) => b.No_of_times_occurred - a.No_of_times_occurred);
+
+  // Select the top 10 entities
+  const top10Entities = sortedData.slice(0, 10);
+
   return (
     <div className="space-y-6 m-8">
-        <PieCharts 
-        title='Entity Distribution'
-        data={Data}
-        nameKey="entity"
-        valueKey="frequency"
-        />
-        
-        <EntityTable/>
+      <PieCharts 
+        title='Top 10 Entity Distribution'
+        data={top10Entities}
+        nameKey="Entity_Name"
+        valueKey="No_of_times_occurred"
+      />
+      
+      <EntityTable/>
     </div>
-  )
+  );
 }
 
-export default EntityDistribution
+export default EntityDistribution;
