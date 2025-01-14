@@ -1,10 +1,9 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const BreadcrumbContext = createContext();
 
 export const useBreadcrumb = () => {
-  
   const context = useContext(BreadcrumbContext);
   if (!context) {
     throw new Error('useBreadcrumb must be used within a BreadcrumbProvider');
@@ -14,119 +13,113 @@ export const useBreadcrumb = () => {
 
 export const BreadcrumbProvider = ({ children }) => {
   const navigate = useNavigate();
+  // const location = useLocation();
 
   const [breadcrumbs, setBreadcrumbs] = useState([
     { label: 'Home', path: '/' }
   ]);
 
-  // Store last values in state instead of variables
+  const [navigationStack, setNavigationStack] = useState(['/']);
   const [lastStates, setLastStates] = useState({
     mainDashboard: [],
     caseDashboard: [],
     individualDashboard: []
   });
 
-  const updateBreadcrumbs = (newBreadcrumbs) => {
-    setBreadcrumbs(newBreadcrumbs);
-  };
+  const updateBreadcrumbs = useCallback((newBreadcrumbs) => {
+    setBreadcrumbs(newBreadcrumbs.map(crumb => ({
+      ...crumb,
+      onClick: crumb.label === 'Home' ? () => navigate('/') : undefined
+    })));
+    setNavigationStack(prev => [...prev, newBreadcrumbs[newBreadcrumbs.length - 1].path]);
+  }, [navigate]);
 
-  const addBreadcrumb = (newBreadcrumb) => {
-    setBreadcrumbs(prev => [...prev, newBreadcrumb]);
-  };
+  const navigateWithTransition = useCallback(async (path) => {
+    try {
+      await navigate(path);
+    } catch (error) {
+      console.error('Navigation failed:', error);
+    }
+  }, [navigate]);
 
-  const removeBreadcrumb = () => {
-    setBreadcrumbs(prev => prev.slice(0, -1));
-  };
-
-  const resetBreadcrumbs = () => {
-    setBreadcrumbs([{ label: 'Home', path: '/' }]);
-    setLastStates({
-      mainDashboard: [],
-      caseDashboard: [],
-      individualDashboard: []
-    });
-
-    navigate('/');
-
-  };
-
-  const navigateTo = (path) => {
-    navigate(path);
-  };
-
-  // Utility function to set breadcrumbs for main dashboard
-  const setMainDashboard = (section,path) => {
+  const setMainDashboard = useCallback(async (section, path) => {
     const newMainDashboard = [
       { label: 'Home', path: '/' },
-      { label: section,path, isCurrentPage: true }
+      { label: section, path, isCurrentPage: true }
     ];
     
     setLastStates(prev => ({
       ...prev,
       mainDashboard: newMainDashboard
     }));
-    setBreadcrumbs(newMainDashboard);
-    navigate(path);
-  };
+    updateBreadcrumbs(newMainDashboard);
+    await navigateWithTransition(path);
+  }, [navigateWithTransition, updateBreadcrumbs]);
 
- // Utility function to set breadcrumbs for case dashboard
- const setCaseDashboard = (section, path) => {
-  
-  let lastMainDashboard = lastStates.mainDashboard;
-  if (lastMainDashboard.length === 0) {
-    setMainDashboard('Home', '/');
-    lastMainDashboard = [{ label: 'Home', path: '/', isCurrentPage: true }];
-  }
-  const newCaseDashboard = [
-    ...lastMainDashboard.map(item => ({ ...item, isCurrentPage: false })),
-    { label: section, path: path, isCurrentPage: true }
-  ];
-  
-  setLastStates(prev => ({
-    ...prev,
-    caseDashboard: newCaseDashboard
-  }));
-  setBreadcrumbs(newCaseDashboard);
-  navigate(path);
-};
+  const setCaseDashboard = useCallback(async (section, path) => {
+    let lastMainDashboard = lastStates.mainDashboard;
+    if (lastMainDashboard.length === 0) {
+      await setMainDashboard('Home', '/');
+      lastMainDashboard = [{ label: 'Home', path: '/', isCurrentPage: true }];
+    }
+    
+    const newCaseDashboard = [
+      ...lastMainDashboard.map(item => ({ ...item, isCurrentPage: false })),
+      { label: section, path, isCurrentPage: true }
+    ];
+    
+    setLastStates(prev => ({
+      ...prev,
+      caseDashboard: newCaseDashboard
+    }));
+    updateBreadcrumbs(newCaseDashboard);
+    await navigateWithTransition(path);
+  }, [lastStates.mainDashboard, setMainDashboard, navigateWithTransition, updateBreadcrumbs]);
 
-// Utility function to set breadcrumbs for individual dashboard
-const setIndividualDashboard = (section, path) => {
+  const setIndividualDashboard = useCallback(async (section, path) => {
+    let lastCaseDashboard = lastStates.caseDashboard;
+    if (lastCaseDashboard.length === 0) {
+      await setCaseDashboard('Home', '/');
+      lastCaseDashboard = [{ label: 'Home', path: '/', isCurrentPage: true }];
+    }
 
-  let lastCaseDashboard = lastStates.caseDashboard;
+    const newIndividualDashboard = [
+      ...lastCaseDashboard.map(item => ({ ...item, isCurrentPage: false })),
+      { label: section, path, isCurrentPage: true }
+    ];
+    
+    setLastStates(prev => ({
+      ...prev,
+      individualDashboard: newIndividualDashboard
+    }));
+    updateBreadcrumbs(newIndividualDashboard);
+    await navigateWithTransition(path);
+  }, [lastStates.caseDashboard, setCaseDashboard, navigateWithTransition, updateBreadcrumbs]);
 
-  if (lastStates.caseDashboard.length === 0) {
-    setCaseDashboard('Home', '/');
-    lastCaseDashboard = [{ label: 'Home', path: '/', isCurrentPage: true }];
-  }
+  const resetBreadcrumbs = useCallback(async () => {
+    const homeBreadcrumb = { label: 'Home', path: '/', onClick: () => navigate('/') };
+    setBreadcrumbs([homeBreadcrumb]);
+    setLastStates({
+      mainDashboard: [],
+      caseDashboard: [],
+      individualDashboard: []
+    });
+    setNavigationStack(['/']);
+    await navigateWithTransition('/');
+  }, [navigateWithTransition, navigate]);
 
-  const newIndividualDashboard = [
-    ...lastCaseDashboard.map(item => ({ ...item, isCurrentPage: false })),
-    { label: section, path: path, isCurrentPage: true }
-  ];
-  
-  setLastStates(prev => ({
-    ...prev,
-    individualDashboard: newIndividualDashboard
-  }));
-  setBreadcrumbs(newIndividualDashboard);
-  navigate(path);
-};
-
-return (
-  <BreadcrumbContext.Provider value={{
-    breadcrumbs,
-    lastStates,
-    updateBreadcrumbs,
-    addBreadcrumb,
-    removeBreadcrumb,
-    resetBreadcrumbs,
-    setMainDashboard,
-    setCaseDashboard,
-    setIndividualDashboard,
-    navigateTo
-  }}>
-    {children}
-  </BreadcrumbContext.Provider>
-);
+  return (
+    <BreadcrumbContext.Provider value={{
+      breadcrumbs,
+      lastStates,
+      updateBreadcrumbs,
+      setMainDashboard,
+      setCaseDashboard,
+      setIndividualDashboard,
+      resetBreadcrumbs,
+      navigationStack
+    }}>
+      {children}
+    </BreadcrumbContext.Provider>
+  );
 };

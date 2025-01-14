@@ -44,7 +44,7 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
   const [openMenus, setOpenMenus] = React.useState({});
 
   useEffect(() => {
-    console.log({isCollapsed});
+    console.log({ isCollapsed });
   }, [isCollapsed]);
 
   // const toggleItem = (title) => {
@@ -69,35 +69,27 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
 
   const MenuItem = ({ item, level = 0 }) => {
     const hasSubmenu = item.items?.length > 0;
-    const isOpen = openMenus[item.title];
-    // const [isOpen, setIsOpen] = React.useState(false); // Local state for submenu toggle
-
-    // const handleMenuClick = () => {
-    //   if (hasSubmenu) {
-    //     setIsOpen((prev) => !prev); // Toggle submenu
-    //   }
-    //   setActiveTab(item.title); // Set active tab if no submenu
-    // };
 
     return (
       <div className="w-full">
         <button
-          className={`w-full flex items-center justify-start p-2 rounded-md transition-all duration-200 ease-in-out  ${level > 0 ? "ml-4" : ""} ${activeTab === item.title && !hasSubmenu? "bg-gray-300 text-black font-semibold":"text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"} ${isCollapsed ? "justify-center" : ""}`}
-          // onClick={() => !hasSubmenu && setActiveTab(item.title)}
-          onClick={() => handleMenuClick(hasSubmenu, item)}
+          className={`w-full flex items-center justify-start p-2 rounded-md transition-all duration-200 ease-in-out ${
+            level > 0 ? "ml-4" : ""
+          } ${
+            activeTab === item.title && !hasSubmenu
+              ? "bg-gray-300 text-black font-semibold dark:bg-slate-300"
+              : "text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"
+          } ${isCollapsed ? "justify-center" : ""}`}
+          onClick={() => !hasSubmenu && setActiveTab(item.title)} // Only set active tab if no submenu
         >
           <div className="flex items-center gap-3">
             {item.icon && <item.icon className="h-5 w-5 flex-shrink-0" />}
             {!isCollapsed && <span className="text-sm">{item.title}</span>}
-            {hasSubmenu && (
-              <span className="ml-auto mt-1">
-                {isOpen ? <ChevronUp /> : <ChevronDown />}
-              </span>
-            )}
           </div>
         </button>
 
-        {hasSubmenu && isOpen && (
+        {/* Submenu is always visible */}
+        {hasSubmenu && (
           <div className={`ml-4 mt-1 space-y-1 ${isCollapsed ? "hidden" : ""}`}>
             {item.items.map((subItem) => (
               <MenuItem key={subItem.title} item={subItem} level={level + 1} />
@@ -115,7 +107,6 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
       ))}
     </div>
   );
-
 
   const UserMenu = () => (
     <DropdownMenu>
@@ -183,7 +174,7 @@ const SidebarDynamic = ({ navItems, activeTab, setActiveTab }) => {
       <SidebarHeader>
         <div className="h-16 flex items-center px-4 border-b">
           <img
-          // handle dark logo too
+            // handle dark logo too
             src={logo}
             alt="Logo"
             className={`h-12 cursor-pointer transition-all duration-300 ${

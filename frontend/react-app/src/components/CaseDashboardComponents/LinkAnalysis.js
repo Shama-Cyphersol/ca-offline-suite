@@ -10,94 +10,13 @@ import {
 import TableData from "../IndividualDashboardComponents/TableData";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Alert, AlertDescription } from "../ui/alert";
+import link_analysisData from "../../data/link_analysis.json"; // Import JSON data directly
 
-const demoData = {
-  cummalative_df: {
-    link_analysis_df: [
-      {
-        Name: "John Smith",
-        Entity: "ABC Corp",
-        Total_Credit: 50000,
-        Total_Debit: 30000,
-      },
-      {
-        Name: "John Smith",
-        Entity: "XYZ Ltd",
-        Total_Credit: 75000,
-        Total_Debit: 45000,
-      },
-      {
-        Name: "Sarah Johnson",
-        Entity: "ABC Corp",
-        Total_Credit: 60000,
-        Total_Debit: 35000,
-      },
-      {
-        Name: "Sarah Johnson",
-        Entity: "123 Industries",
-        Total_Credit: 45000,
-        Total_Debit: 25000,
-      },
-      {
-        Name: "Michael Brown",
-        Entity: "XYZ Ltd",
-        Total_Credit: 80000,
-        Total_Debit: 50000,
-      },
-      {
-        Name: "Emily Davis",
-        Entity: "123 Industries",
-        Total_Credit: 55000,
-        Total_Debit: 30000,
-      },
-      {
-        Name: "Emily Davis",
-        Entity: "ABC Corp",
-        Total_Credit: 70000,
-        Total_Debit: 40000,
-      },
-      {
-        Name: "David Wilson",
-        Entity: "456 Company",
-        Total_Credit: 65000,
-        Total_Debit: 35000,
-      },
-      {
-        Name: "Lisa Anderson",
-        Entity: "789 Enterprise",
-        Total_Credit: 90000,
-        Total_Debit: 55000,
-      },
-      {
-        Name: "James Taylor",
-        Entity: "456 Company",
-        Total_Credit: 85000,
-        Total_Debit: 50000,
-      },
-      {
-        Name: "Mary Roberts",
-        Entity: "789 Enterprise",
-        Total_Credit: 95000,
-        Total_Debit: 60000,
-      },
-      {
-        Name: "Robert Brown",
-        Entity: "XYZ Ltd",
-        Total_Credit: 72000,
-        Total_Debit: 42000,
-      },
-    ],
-  },
-};
-
-const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
+const LinkAnalysisWidget = () => {
   const [selectedNames, setSelectedNames] = useState([]);
   const [selectedEntities, setSelectedEntities] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [pendingNames, setPendingNames] = useState([]);
   const [pendingEntities, setPendingEntities] = useState([]);
-  const rowsPerPage = 10;
 
   // Filter valid transactions
   const filterValidTransactions = (data) => {
@@ -113,9 +32,8 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
 
   // Initialize data
   const linkAnalysisData = useMemo(() => {
-    const rawData = result?.cummalative_df?.link_analysis_df || [];
-    return filterValidTransactions(rawData);
-  }, [result]);
+    return filterValidTransactions(link_analysisData);
+  }, []);
 
   // Get unique values for dropdowns
   const uniqueNames = useMemo(() => {
@@ -152,27 +70,12 @@ const LinkAnalysisWidget = ({ result = demoData, caseId = "DEMO-001" }) => {
     setSelectedEntities([]);
     setPendingNames([]);
     setPendingEntities([]);
-    setCurrentPage(1);
   };
 
   const applyFilters = () => {
     setSelectedNames(pendingNames);
     setSelectedEntities(pendingEntities);
-    setCurrentPage(1);
   };
-
-  if (!linkAnalysisData.length) {
-    return (
-      <div className="p-4">
-        <Alert>
-          <AlertDescription>
-            No data available. Please go to Name Manager tab and merge names for
-            case id {caseId}
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
 
   return (
     <Card className="m-8">

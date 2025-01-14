@@ -8,6 +8,7 @@ import {
   LabelList,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
@@ -20,26 +21,16 @@ import {
 
 const HorizontalBarChart = ({
   data = [],
-  title = "Dynamic Horizontal Bar Chart",
+  title = "",
   config = {},
-  xAxisKey = null,
-  yAxisKey = null,
+  xAxisKey = "Description",
+  yAxisKey = "Credit",
 }) => {
-  // Extract all columns from the first data item
-  const columns = data.length > 0 ? Object.keys(data[0]) : [];
-
-  // Determine numeric columns
-  const numericColumns = columns.filter((column) =>
-    data.some((row) => {
-      const value = String(row[column]);
-      return !isNaN(parseFloat(value)) && !value.includes("-");
-    })
-  );
-
-  // If xAxisKey is not provided, use the first non-numeric column
-  const defaultXAxis =
-    columns.find((col) => !numericColumns.includes(col)) || columns[0];
-  const xAxis = xAxisKey || defaultXAxis;
+  // Ensure valid keys are passed
+  if (!xAxisKey || !yAxisKey) {
+    console.error("xAxisKey and yAxisKey must be provided.");
+    return null;
+  }
 
   // Generate colors for bars
   const getColor = (index) => {
@@ -53,21 +44,14 @@ const HorizontalBarChart = ({
     return colors[index % colors.length];
   };
 
-  // Create bar configurations for numeric columns
-  const bars = numericColumns
-    .filter((col) => col !== xAxis) // Exclude the x-axis column
-    .map((column, index) => ({
-      key: column,
-      color: getColor(index),
-    }));
-
   return (
-    <Card className="max-w-full">
+    <Card className="w-full h-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={config}>
+      <CardContent className="h-[calc(100%-4rem)]">
+              <ChartContainer className="w-full h-full" config={config}>
+          <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
             layout="vertical"
@@ -81,35 +65,29 @@ const HorizontalBarChart = ({
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number" axisLine={false} tickLine={false} />
             <YAxis
-              dataKey={xAxis}
+              dataKey={xAxisKey}
               type="category"
               axisLine={false}
               tickLine={false}
               tickMargin={10}
+              interval={0}
               tickFormatter={(value) =>
-                typeof value === "string" ? value.slice(0, 10) : value
+                value.length > 10 ? `${value.substring(0, 9)}...` : value
               }
             />
             <Tooltip content={<ChartTooltipContent />} />
             <Legend content={<ChartLegendContent />} />
-            {bars.map((bar) => (
-              <Bar
-                key={bar.key}
-                dataKey={bar.key}
-                fill={bar.color}
-                radius={4}
-                barSize={20}
-              >
-                <LabelList
-                  dataKey={bar.key}
-                  position="right" // Explicitly position the label outside
-                  offset={10} // Adjust the spacing from the bar
-                  fontSize={12}
-                  className="fill-foreground" // Optional: Adjust label styling
-                />
-              </Bar>
-            ))}
+            <Bar dataKey={yAxisKey} fill={getColor(0)} radius={4} barSize={20}>
+              <LabelList
+                dataKey={yAxisKey}
+                position="right"
+                offset={10}
+                fontSize={12}
+                className="fill-foreground"
+              />
+            </Bar>
           </ComposedChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
     </Card>

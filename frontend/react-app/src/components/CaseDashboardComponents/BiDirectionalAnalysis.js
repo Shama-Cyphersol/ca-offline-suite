@@ -9,58 +9,34 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 import DataTable from "../IndividualDashboardComponents/TableData";
+import bidirectional_analysisData from "../../data/bidirectional_analysis.json";
 
 const Bidirectional = () => {
-  // Dummy data - Replace this with API call when ready
-  const dummyData = {
-    bidirectional_analysis: [
-      {
-        "Entity One": "Company A",
-        "Entity Two": "Company B",
-        "Number of Transactions": 15,
-        "Total Amount Exchanged": 150000,
-        "Average Amount Exchanged": 10000,
-      },
-      {
-        "Entity One": "Company B",
-        "Entity Two": "Company C",
-        "Number of Transactions": 8,
-        "Total Amount Exchanged": 80000,
-        "Average Amount Exchanged": 10000,
-      },
-      {
-        "Entity One": "Company C",
-        "Entity Two": "Company A",
-        "Number of Transactions": 12,
-        "Total Amount Exchanged": 120000,
-        "Average Amount Exchanged": 10000,
-      },
-    ],
-    entity_df: {
-      Entity: ["Company A", "Company B", "Company C", "Company D"],
-    },
-  };
-
   const [selectedEntities, setSelectedEntities] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentValue, setCurrentValue] = useState("");
   const [appliedFiltersData, setAppliedFiltersData] = useState(
-    dummyData.bidirectional_analysis
+    bidirectional_analysisData
   );
   const rowsPerPage = 10;
 
   // Get unique entities for the dropdown
   const entities = useMemo(() => {
-    return [...new Set(dummyData.entity_df.Entity)].sort();
+    const uniqueEntities = new Set();
+    bidirectional_analysisData.forEach((row) => {
+      uniqueEntities.add(row["Entity One"]);
+      uniqueEntities.add(row["Entity Two"]);
+    });
+    return Array.from(uniqueEntities).sort();
   }, []);
 
   // Filter data based on selected entities
   const filteredData = useMemo(() => {
     if (selectedEntities.length === 0) {
-      return dummyData.bidirectional_analysis;
+      return bidirectional_analysisData;
     }
 
-    return dummyData.bidirectional_analysis.filter(
+    return bidirectional_analysisData.filter(
       (row) =>
         selectedEntities.includes(row["Entity One"]) ||
         selectedEntities.includes(row["Entity Two"])
@@ -92,12 +68,12 @@ const Bidirectional = () => {
   const resetFilters = () => {
     setSelectedEntities([]);
     setCurrentValue("");
-    setAppliedFiltersData(dummyData.bidirectional_analysis);
+    setAppliedFiltersData(bidirectional_analysisData);
     setCurrentPage(1);
   };
 
   return (
-    <Card className="m-8">
+    <Card className="m-8 w-[53%]">
       <CardHeader>
         <CardTitle>Bidirectional Analysis</CardTitle>
       </CardHeader>

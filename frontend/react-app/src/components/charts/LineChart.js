@@ -1,5 +1,12 @@
 import React from "react";
-import { Line, CartesianGrid, XAxis, YAxis, LineChart } from "recharts";
+import {
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  LineChart,
+  ResponsiveContainer,
+} from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   ChartContainer,
@@ -11,11 +18,12 @@ import {
 
 const SingleLineChart = ({
   data = [],
-  title = "Single Line Chart",
+  title = "",
   config = {},
   xAxisKey = null,
   yAxisKey = null,
   selectedColumns = [],
+  showLegends = true,
 }) => {
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
   const xAxis = xAxisKey || columns[0];
@@ -36,13 +44,19 @@ const SingleLineChart = ({
     color: getColor(index),
   }));
 
+  // Simplified number formatting
+  const formatYAxis = (value) => {
+    return value.toLocaleString(); // This will add commas for thousands
+  };
+
   return (
-    <Card>
+    <Card className="w-full h-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={config}>
+      <CardContent className="h-[calc(100%-4rem)]">
+        <ChartContainer className="w-full h-full" config={config}>
+            <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={data}
             margin={{
@@ -62,9 +76,15 @@ const SingleLineChart = ({
                 typeof value === "string" ? value.slice(0, 10) : value
               }
             />
-            <YAxis axisLine={false} tickLine={false} tickMargin={8} />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tickMargin={8}
+              tickFormatter={formatYAxis}
+              {...config.yAxis}
+            />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
+            {showLegends&&<ChartLegend content={<ChartLegendContent />} />}
             {lines.map((line) => (
               <Line
                 key={line.key}
@@ -82,6 +102,7 @@ const SingleLineChart = ({
               />
             ))}
           </LineChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
     </Card>

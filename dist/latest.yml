@@ -1,0 +1,8 @@
+version: 1.0.0
+files:
+  - url: Cyphersol-Setup-1.0.0.exe
+    sha512: 0ZKDdpkrTfgZ7dT3MtMHKe0vjdtFHT57XXb/V0rke+WFufE2YMJsWFFwP7kfq2AeJ+g7e67OO/aplci4JyONEA==
+    size: 82037887
+path: Cyphersol-Setup-1.0.0.exe
+sha512: 0ZKDdpkrTfgZ7dT3MtMHKe0vjdtFHT57XXb/V0rke+WFufE2YMJsWFFwP7kfq2AeJ+g7e67OO/aplci4JyONEA==
+releaseDate: '2024-12-31T15:06:17.457Z'

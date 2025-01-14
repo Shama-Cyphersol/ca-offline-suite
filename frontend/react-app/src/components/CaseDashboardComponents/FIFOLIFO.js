@@ -17,112 +17,44 @@ import {
   TableRow,
 } from "../ui/table";
 import { ChevronDown, ChevronUp } from "lucide-react";
-
-const dummyData = {
-  "Utilization of Credit (10000) received by Gamma from Alpha on 2024-04-03": {
-    LIFO: {
-      "Value Date": ["2024-04-01"],
-      Name: ["Alpha"],
-      Description: ["Opening Balance"],
-      Debit: [0],
-      Credit: [0],
-      Entity: ["poojan"],
-    },
-    FIFO: {
-      "Value Date": [
-        "2024-04-03",
-        "2024-04-04",
-        "2024-04-05",
-        "2024-04-06",
-        "2024-04-06",
-        "2024-04-07",
-        "2024-04-10",
-      ],
-      Name: ["Gamma", "Gamma", "Gamma", "Gamma", "Gamma", "Gamma", "Gamma"],
-      Description: [
-        "Credit from Alpha",
-        "Groceries",
-        "Travel Expense",
-        "Transfer to Delta",
-        "Dining",
-        "Gift to Beta",
-        "Transfer to Delta",
-      ],
-      Debit: [0, 250, 100, 1500, 150, 200, 1500],
-      Credit: [10000, 0, 0, 0, 0, 0, 0],
-      Entity: ["Alpha", null, "raj", "Delta", null, "Beta", "Delta"],
-      "Utilized Credit": [0, 250, 350, 1850, 2000, 2200, 3700],
-      "Remaining Credit": [10000, 9750, 9650, 8150, 8000, 7800, 6300],
-    },
-  },
-  "Utilization of Credit (1000) received by Alpha from Beta on 2024-04-03": {
-    LIFO: {
-      "Value Date": ["2024-04-01"],
-      Name: ["Beta"],
-      Description: ["Opening Balance"],
-      Debit: [0],
-      Credit: [0],
-      Entity: [null],
-    },
-    FIFO: {
-      "Value Date": ["2024-04-03", "2024-04-04", "2024-04-05"],
-      Name: ["Alpha", "Alpha", "Alpha"],
-      Description: ["Credit from Beta", "Groceries", "Electricity Bill"],
-      Debit: [0, 200, 150],
-      Credit: [1000, 0, 0],
-      Entity: ["Beta", "sanjay", "gar"],
-      "Utilized Credit": [0, 200, 350],
-      "Remaining Credit": [1000, 800, 650],
-    },
-  },
-};
+import fifoLifoData from "../../data/fifo.json";
 
 const DataTable = ({ data }) => {
-  if (!data || typeof data !== "object") return null;
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    return (
+      <div className="text-center text-gray-500 text-sm p-2">
+        Data is not available
+      </div>
+    );
+  }
 
-  const columns = Object.keys(data);
-  if (!columns.length) return null;
-
-  const rowCount = data[columns[0]]?.length || 0;
-  if (!rowCount) return null;
-
-  // Calculate totals for numeric columns
-  const numericColumns = columns.filter((col) =>
-    data[col].every((value) => typeof value === "number")
-  );
-
-  const totals = numericColumns.reduce((acc, column) => {
-    acc[column] = data[column].reduce((sum, value) => sum + value, 0);
-    return acc;
-  }, {});
+  // Get all unique keys from the objects
+  const columns = [...new Set(data.flatMap((obj) => Object.keys(obj)))];
 
   return (
     <div className="w-full overflow-x-auto">
       <Table>
-        {/* Table Header */}
         <TableHeader>
           <TableRow>
             {columns.map((column) => (
               <TableHead
                 key={column}
-                className="text-gray-500 p-3 text-sm text-center"
+                className="text-gray-500 p-3 text-sm text-center whitespace-nowrap"
               >
                 {column}
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
-
-        {/* Table Body */}
         <TableBody>
-          {Array.from({ length: rowCount }).map((_, rowIndex) => (
+          {data.map((row, rowIndex) => (
             <TableRow key={rowIndex} className="bg-white">
               {columns.map((column) => (
                 <TableCell
                   key={`${rowIndex}-${column}`}
-                  className="p-3 text-sm text-center border-b"
+                  className="p-3 text-sm text-center border-b whitespace-nowrap"
                 >
-                  {data[column][rowIndex]}
+                  {row[column] !== null ? row[column]?.toString() : "-"}
                 </TableCell>
               ))}
             </TableRow>
@@ -137,18 +69,23 @@ const TransactionGroup = ({ title, lifoData, fifoData }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Card className="mb-4">
+    <Card className="mb-4 w-[75vw]">
       <CardHeader
         className="cursor-pointer p-2"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-sm">{title}</CardTitle>
+        <div
+          className="flex justify-between items-center cursor-pointer p-2 bg-gray-100 hover:bg-slate-200 transition rounded-md"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <CardTitle className="text-sm font-semibold text-gray-700">
+            {title}
+          </CardTitle>
           <Button variant="ghost" size="sm">
             {isOpen ? (
-              <ChevronUp className="h-4 w-4" />
+              <ChevronUp className="h-4 w-4 text-gray-600" />
             ) : (
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className="h-4 w-4 text-gray-600" />
             )}
           </Button>
         </div>
@@ -177,21 +114,25 @@ const LIFOFIFO = () => {
   // Get unique entities for the dropdown
   const entities = useMemo(() => {
     const entitySet = new Set();
-    Object.values(dummyData).forEach(({ LIFO, FIFO }) => {
-      LIFO.Entity.forEach((entity) => entitySet.add(entity));
-      FIFO.Entity.forEach((entity) => entitySet.add(entity));
+    Object.values(fifoLifoData).forEach(({ LIFO, FIFO }) => {
+      LIFO.forEach((item) => item.Entity && entitySet.add(item.Entity));
+      FIFO.forEach((item) => item.Entity && entitySet.add(item.Entity));
     });
-    return [...entitySet].sort();
+    return [...entitySet].filter(Boolean).sort();
   }, []);
 
   // Filter data based on applied entities
   const filteredData = useMemo(() => {
-    if (appliedEntities.length === 0) return dummyData;
+    if (appliedEntities.length === 0) return fifoLifoData;
 
-    return Object.entries(dummyData).reduce((acc, [key, value]) => {
+    return Object.entries(fifoLifoData).reduce((acc, [key, value]) => {
       const hasMatchingEntity =
-        value.LIFO.Entity.some((entity) => appliedEntities.includes(entity)) ||
-        value.FIFO.Entity.some((entity) => appliedEntities.includes(entity));
+        value.LIFO.some(
+          (item) => item.Entity && appliedEntities.includes(item.Entity)
+        ) ||
+        value.FIFO.some(
+          (item) => item.Entity && appliedEntities.includes(item.Entity)
+        );
 
       if (hasMatchingEntity) {
         acc[key] = value;
@@ -227,7 +168,6 @@ const LIFOFIFO = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
-          {/* Filters Section */}
           <div className="flex gap-4 items-end">
             <div className="flex-1">
               <label className="block text-sm font-medium mb-2">
@@ -259,7 +199,6 @@ const LIFOFIFO = () => {
                   Reset Filters
                 </Button>
               </div>
-              {/* Selected Entities Tags */}
               <div className="flex flex-wrap gap-2 mt-2">
                 {selectedEntities.map((entity) => (
                   <div
@@ -279,7 +218,6 @@ const LIFOFIFO = () => {
             </div>
           </div>
 
-          {/* Transaction Groups */}
           <div className="space-y-4">
             {Object.entries(filteredData).map(([title, data], index) => (
               <TransactionGroup

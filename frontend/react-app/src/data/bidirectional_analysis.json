@@ -1,0 +1,18 @@
+[
+    {
+        "Entity One": "MR AIYAZANWARQURESHI",
+        "Entity Two": "POOJAN VIG",
+        "Total Credit Transactions": 43,
+        "Total Debit Transactions": 38,
+        "Total Credit Amount": 144211.0,
+        "Total Debit Amount": 133601.0,
+        "Net Exchange (Credit - Debit)": 10610.0,
+        "Average Amount Exchanged": 3429.7777777778,
+        "Median Amount Exchanged": 313.0,
+        "Standard Deviation of Amount Exchanged": 7509.9439561824,
+        "Highest Amount Exchanged": 35000.0,
+        "Highest Amount Type": "Credit",
+        "First Transaction Date": 1680739200000,
+        "Last Transaction Date": 1704412800000
+    }
+]

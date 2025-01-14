@@ -5,6 +5,7 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
+  ResponsiveContainer,
   // Legend,
   // Tooltip,
 } from "recharts";
@@ -19,10 +20,11 @@ import {
 
 const SingleBarChart = ({
   data = [],
-  title = "Dynamic Bar Chart",
+  title = "",
   config = {},
   xAxisKey = null,
   yAxisKey = null,
+  showLegends = false,
 }) => {
   // Get all columns from the first data item
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
@@ -61,12 +63,13 @@ const SingleBarChart = ({
     }));
 
   return (
-    <Card>
+    <Card className="w-full h-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={config}>
+      <CardContent className="h-[calc(100%-4rem)]">
+        <ChartContainer className="w-full h-full" config={config}>
+            <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             margin={{
@@ -88,7 +91,7 @@ const SingleBarChart = ({
             />
             <YAxis axisLine={false} tickLine={false} tickMargin={8} />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
+            {showLegends&&<ChartLegend content={<ChartLegendContent />} />}
             {bars.map((bar) => (
               <Bar
                 key={bar.key}
@@ -99,6 +102,7 @@ const SingleBarChart = ({
               />
             ))}
           </BarChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
     </Card>

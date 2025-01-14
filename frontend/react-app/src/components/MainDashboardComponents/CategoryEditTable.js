@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Search, Loader2, Save } from "lucide-react";
+import { Search, Loader2, Save,Plus } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -39,7 +39,7 @@ import {
 } from "../ui/select";
 import { useToast } from "../../hooks/use-toast";
 
-const CategoryEditTable = ({ data = [], categoryOptions }) => {
+const CategoryEditTable = ({ data = [], categoryOptions,setCategoryOptions }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [transactions, setTransactions] = useState([]);
   const [filteredData, setFilteredData] = useState(data);
@@ -208,6 +208,11 @@ const CategoryEditTable = ({ data = [], categoryOptions }) => {
     );
   };
 
+  // Filter categories based on search term
+  const filteredCategories = categoryOptions.filter((category) =>
+    category.toLowerCase().includes(categorySearchTerm.toLowerCase())
+  );
+
   const handleSelectAll = () => {
     const visibleCategories = getFilteredUniqueValues(currentFilterColumn);
     const allSelected = visibleCategories.every((cat) =>
@@ -263,6 +268,23 @@ const CategoryEditTable = ({ data = [], categoryOptions }) => {
       value.toLowerCase().includes(categorySearchTerm.toLowerCase())
     );
   };
+
+  const handleCategorySearch = (e) => {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent event bubbling
+    setCategorySearchTerm(e.target.value);
+  };
+
+  // Function to add new category
+  const handleAddCategory = (newCategory) => {
+    if (newCategory && !categoryOptions.includes(newCategory)) {
+      const updatedOptions = [...categoryOptions, newCategory].sort();
+      setCategoryOptions(updatedOptions);
+      return true;
+    }
+    return false;
+  };
+
 
   useEffect(() => {
     const totalPagesTemp = Math.ceil(filteredData.length / rowsPerPage);
@@ -425,21 +447,60 @@ const CategoryEditTable = ({ data = [], categoryOptions }) => {
                         className="max-w-[200px] group relative"
                       >
                         {column.toLowerCase() === "category" ? (
-                          <Select
+                          
+                            <Select
                             value={row[column]}
-                            onValueChange={(value) => handleCategoryChange(index, value)}
-                            className="w-full"
-                            disabled={globalSelectedRows.has(startIndex + index)}
+                            onValueChange={(value) =>
+                              handleCategoryChange(index, value)
+                            }
                           >
                             <SelectTrigger className="w-full">
                               <SelectValue>{row[column]}</SelectValue>
                             </SelectTrigger>
                             <SelectContent>
-                              {categoryOptions.map((category) => (
-                                <SelectItem key={category} value={category}>
-                                  {category}
-                                </SelectItem>
-                              ))}
+                              <div className="p-2 border-b flex gap-2">
+                                <div className="relative flex-1">
+                                  <Input
+                                    placeholder="Search categories..."
+                                    value={categorySearchTerm}
+                                    onChange={(e) =>
+                                      handleCategorySearch(e)
+                                    }
+                                  />
+                                </div>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="px-2 h-10"
+                                  onClick={() => {
+                                    if (categorySearchTerm.trim()) {
+                                      const added = handleAddCategory(
+                                        categorySearchTerm.trim()
+                                      );
+                                      if (added) {
+                                        handleCategoryChange(
+                                          index,
+                                          categorySearchTerm.trim()
+                                        );
+                                        setCategorySearchTerm("");
+                                        toast({
+                                          title: "Category Added",
+                                          description: `Added new category: ${categorySearchTerm.trim()}`,
+                                        });
+                                      }
+                                    }
+                                  }}
+                                >
+                                  <Plus className="h-4 w-4" />
+                                </Button>
+                              </div>
+                              <div className="max-h-[200px] overflow-y-auto">
+                                {filteredCategories.map((category) => (
+                                  <SelectItem key={category} value={category}>
+                                    {category}
+                                  </SelectItem>
+                                ))}
+                              </div>
                             </SelectContent>
                           </Select>
                         ) : (

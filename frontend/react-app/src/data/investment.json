@@ -1,0 +1,27 @@
+[
+    {
+        "Value Date": 1699401600000,
+        "Description": "upi-zerodha-zerodha.razorpay@icici-icic0dc0099-331218347715-3493285444196536z",
+        "Debit": 20000.0,
+        "Credit": null,
+        "Balance": 18590.65,
+        "Bank": "a",
+        "Category": "Investment",
+        "Entity": "Zerodha",
+        "Month": "Nov-2023",
+        "Date": 8
+    },
+  
+    {
+        "Value Date": 1700006400000,
+        "Description": "neft-abc-services-ltd-abc1234567890z",
+        "Debit": 50030.0,
+        "Credit": 20000.0,
+        "Balance": 75090.65,
+        "Bank": "a",
+        "Category": "Income",
+        "Entity": "ABC Services Ltd.",
+        "Month": "Nov-2023",
+        "Date": 15
+    }
+]

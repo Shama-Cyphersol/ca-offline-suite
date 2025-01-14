@@ -20,8 +20,8 @@ import { useToast } from "../../hooks/use-toast";
 import { Badge } from "../ui/badge";
 import { useState } from "react";
 import { cn } from "../../lib/utils";
-import { useNavigate } from 'react-router-dom';
-import { Eye, Plus, Trash2, Info, Search, Edit2,X} from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+import { Eye, Plus, Trash2, Info, Search, Edit2, X } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -255,13 +255,12 @@ const RecentReports = () => {
   // };
 
   const handleDeleteReport = (reportName) => {
-    
     setRecentReports(
       recentReports.filter((report) => report.reportName !== reportName)
     );
-    if((recentReports.length-1)%10===0){
-      if(currentPage>1){
-        setCurrentPage(currentPage-1);
+    if ((recentReports.length - 1) % 10 === 0) {
+      if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
       }
     }
     toast({
@@ -272,24 +271,23 @@ const RecentReports = () => {
   };
 
   const handleView = (caseId) => {
-    console.log({isLoading})
+    console.log({ isLoading });
     setIsLoading(true);
     navigate(`/case-dashboard/${caseId}/defaultTab`);
     setIsLoading(false);
   };
 
+  const toggleEdit = (id) => {
+    console.log("Clicked on edit");
+    setIsCategoryEditOpen(!isCategoryEditOpen);
+  };
+  const handleAddReport = () => {
+    setIsAddPdfModalOpen(true);
+  };
 
-    const toggleEdit = (id) => {
-        console.log('Clicked on edit');
-        setIsCategoryEditOpen(!isCategoryEditOpen);
-    }
-    const handleAddReport = () => {
-      setIsAddPdfModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsAddPdfModalOpen(false);
-    };
+  const closeModal = () => {
+    setIsAddPdfModalOpen(false);
+  };
 
   return (
     <Card>
@@ -472,38 +470,44 @@ const RecentReports = () => {
                   </PaginationItem>
                 ))}
 
-                                <PaginationItem>
-                                    <PaginationNext
-                                        onClick={() => handlePageChange(currentPage + 1)}
-                                        className={cn(
-                                            "cursor-pointer",
-                                            currentPage === totalPages && "pointer-events-none opacity-50"
-                                        )}
-                                    />
-                                </PaginationItem>
-                            </PaginationContent>
-                        </Pagination>
-                    </div>
-                )}
-            </CardContent>
-            {/* Modal for GenerateReportForm */}
-            {isAddPdfModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-                    <div className="bg-white rounded-lg shadow-lg max-w-5xl w-full p-6">
-                        <header className="flex justify-between items-center">
-                            <h2 className="text-lg font-semibold">Add Additional Statements</h2>
-                            <button onClick={closeModal} className="text-2xl text-gray-500 hover:text-gray-700">
-                                <X/>
-                            </button>
-                        </header>
-                        <div className="mt-4">
-                            <GenerateReportForm source="add pdf"/>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </Card>
-    )
-}
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    className={cn(
+                      "cursor-pointer",
+                      currentPage === totalPages &&
+                        "pointer-events-none opacity-50"
+                    )}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
+      </CardContent>
+      {/* Modal for GenerateReportForm */}
+      {isAddPdfModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+          <div className="bg-white rounded-lg shadow-lg max-w-5xl w-full p-6">
+            <header className="flex justify-between items-center">
+              <h2 className="text-lg font-semibold">
+                Add Additional Statements
+              </h2>
+              <button
+                onClick={closeModal}
+                className="text-2xl text-gray-500 hover:text-gray-700"
+              >
+                <X />
+              </button>
+            </header>
+            <div className="mt-4">
+              <GenerateReportForm source="add pdf" />
+            </div>
+          </div>
+        </div>
+      )}
+    </Card>
+  );
+};
 
 export default RecentReports;
