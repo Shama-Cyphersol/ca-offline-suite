@@ -24,6 +24,7 @@ const SingleBarChart = ({
   config = {},
   xAxisKey = null,
   yAxisKey = null,
+  showLegends = false,
 }) => {
   // Get all columns from the first data item
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
@@ -90,7 +91,7 @@ const SingleBarChart = ({
             />
             <YAxis axisLine={false} tickLine={false} tickMargin={8} />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
+            {showLegends&&<ChartLegend content={<ChartLegendContent />} />}
             {bars.map((bar) => (
               <Bar
                 key={bar.key}

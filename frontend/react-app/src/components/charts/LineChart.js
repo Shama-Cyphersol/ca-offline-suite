@@ -1,5 +1,12 @@
 import React from "react";
-import { Line, CartesianGrid, XAxis, YAxis, LineChart, ResponsiveContainer } from "recharts";
+import {
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  LineChart,
+  ResponsiveContainer,
+} from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   ChartContainer,
@@ -16,6 +23,7 @@ const SingleLineChart = ({
   xAxisKey = null,
   yAxisKey = null,
   selectedColumns = [],
+  showLegends = true,
 }) => {
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
   const xAxis = xAxisKey || columns[0];
@@ -35,6 +43,11 @@ const SingleLineChart = ({
     key: column,
     color: getColor(index),
   }));
+
+  // Simplified number formatting
+  const formatYAxis = (value) => {
+    return value.toLocaleString(); // This will add commas for thousands
+  };
 
   return (
     <Card className="w-full h-full">
@@ -63,9 +76,15 @@ const SingleLineChart = ({
                 typeof value === "string" ? value.slice(0, 10) : value
               }
             />
-            <YAxis axisLine={false} tickLine={false} tickMargin={8} />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tickMargin={8}
+              tickFormatter={formatYAxis}
+              {...config.yAxis}
+            />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
+            {showLegends&&<ChartLegend content={<ChartLegendContent />} />}
             {lines.map((line) => (
               <Line
                 key={line.key}

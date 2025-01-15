@@ -1,156 +1,51 @@
 [
-  {
-    "Value Date": "03-04-2023",
-    "Description": "achdebit/bajajfinanceltd/p405pbl6215374",
-    "Debit": 29790,
-    "Balance": 1260831.49,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "25-04-2023",
-    "Description": "achdebit/hdfcltd/344663507",
-    "Debit": 72822,
-    "Balance": 1523164.59,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "02-05-2023",
-    "Description": "cms/bajfinserv/202304254664443",
-    "Debit": 29790,
-    "Balance": 1896294.99,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "25-05-2023",
-    "Description": "achdebit/hdfcltd/347575201",
-    "Debit": 72822,
-    "Balance": 1464364.91,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "02-06-2023",
-    "Description": "cms/bajfinserv/202304254664443",
-    "Debit": 29790,
-    "Balance": 1291679.21,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "02-08-2023",
-    "Description": "cms/bajfinserv/202304254664443",
-    "Debit": 27019,
-    "Balance": 486516.67,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "25-08-2023",
-    "Description": "achdebit/hdfcbankltd/356415139",
-    "Debit": 89378,
-    "Balance": 972256.27,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "02-09-2023",
-    "Description": "cms/bajfinserv/202304254664443",
-    "Debit": 27019,
-    "Balance": 934115.02,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "25-09-2023",
-    "Description": "achdr5852823831/hdfcbankltd/110133818643",
-    "Debit": 89378,
-    "Balance": 494268.54,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "03-10-2023",
-    "Description": "cms/bajfinserv/202304254664443",
-    "Debit": 27019,
-    "Balance": 735103.54,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "25-10-2023",
-    "Description": "achdr/hdfcbankltd/6727908586/110162596389",
-    "Debit": 89378,
-    "Balance": 678944.9,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "03-10-2023",
-    "Description": "cms/bajfinserv/202304254664443",
-    "Debit": 27019,
-    "Balance": 735103.54,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "25-10-2023",
-    "Description": "achdr/hdfcbankltd/6727908586/110162596389",
-    "Debit": 89378,
-    "Balance": 678944.9,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "02-11-2023",
-    "Description": "cms/bajfinserv/202304254664443",
-    "Debit": 27019,
-    "Balance": 838599.9,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "25-11-2023",
-    "Description": "achdr/hdfcbankltd/7994019638/110202425254",
-    "Debit": 89378,
-    "Balance": 644394.6,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "02-12-2023",
-    "Description": "cms/bajfinserv/202304254664443",
-    "Debit": 27019,
-    "Balance": 252307.6,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "25-12-2023",
-    "Description": "achdr/hdfcbankltd/8865707593/110231322272",
-    "Debit": 89378,
-    "Balance": 12018.13,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "25-01-2024",
-    "Description": "achdr/hdfcbankltd/9766510124/110261783071",
-    "Debit": 89378,
-    "Balance": 290675.14,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "02-02-2024",
-    "Description": "cms/bajfinserv/202304254664443",
-    "Debit": 53354,
-    "Balance": 73826.14,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "26-02-2024",
-    "Description": "achdr/hdfcbankltd/0722717520/110293233360",
-    "Debit": 89378,
-    "Balance": 290648.3,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "02-03-2024",
-    "Description": "cms/bajfinserv/202304254664443",
-    "Debit": 53354,
-    "Balance": 264376.3,
-    "Category": "Probable EMI"
-  },
-  {
-    "Value Date": "25-03-2024",
-    "Description": "achdr/hdfcbankltd/2125049676/110339158800",
-    "Debit": 89378,
-    "Balance": 143039.15,
-    "Category": "Probable EMI"
-  }
-]
+    {
+      "Value Date": 1699142400000,
+      "Description": "achd-moneyview-9wdpk31h15lw",
+      "Debit": 1883.0,
+      "Credit": null,
+      "Balance": 56587.0,
+      "Bank": "a",
+      "Category": "Probable emi",
+      "Entity": "",
+      "Month": "Nov-2023",
+      "Date": 5
+    },
+    {
+      "Value Date": 1699228800000,
+      "Description": "achd-razorpay-06907067",
+      "Debit": 5657.0,
+      "Credit": null,
+      "Balance": 8127.01,
+      "Bank": "a",
+      "Category": "Probable emi",
+      "Entity": "",
+      "Month": "Nov-2023",
+      "Date": 6
+    },
+    {
+      "Value Date": 1704412800000,
+      "Description": "achd-moneyview-cy6k6ziak6k1",
+      "Debit": 1883.0,
+      "Credit": null,
+      "Balance": -1876.43,
+      "Bank": "a",
+      "Category": "Probable emi",
+      "Entity": "",
+      "Month": "Jan-2024",
+      "Date": 5
+    },
+    {
+      "Value Date": 1704499200000,
+      "Description": "achd-razorpay-07539833",
+      "Debit": 5657.0,
+      "Credit": null,
+      "Balance": 4959.57,
+      "Bank": "a",
+      "Category": "Probable emi",
+      "Entity": "",
+      "Month": "Jan-2024",
+      "Date": 6
+    }
+  ]
+  

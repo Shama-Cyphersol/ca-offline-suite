@@ -15,6 +15,7 @@ const SuspensePieChart = ({
   config = {},
   valueKey = null,
   nameKey = null,
+  showLegends = false
 }) => {
   // Get all columns from the first data item
   // const columns = data.length > 0 ? Object.keys(data[0]) : [];
@@ -61,16 +62,13 @@ const SuspensePieChart = ({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-      <ChartContainer 
-          config={config}
-          className="w-full min-h-[50vh]"
-        >
+        <ChartContainer config={config} className="w-full min-h-[55vh]">
           <PieChart>
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            {/* <ChartLegend content={<ChartLegendContent />} /> */}
+            {showLegends&&<ChartLegend content={<ChartLegendContent />} />}
             <Pie
               data={transformedData}
               dataKey={finalValueKey}
