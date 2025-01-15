@@ -74,11 +74,11 @@ const Bidirectional = () => {
 
   return (
     <Card className="m-8 w-[53%]">
-      <CardHeader>
+      {/* <CardHeader>
         <CardTitle>Bidirectional Analysis</CardTitle>
-      </CardHeader>
+      </CardHeader> */}
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-4 mt-4">
           {/* Filters Section */}
           <div className="flex gap-4 items-end">
             {/* Dropdown Section */}
@@ -145,7 +145,7 @@ const Bidirectional = () => {
 
           {/* Table Section */}
           <div className="border rounded-lg">
-            <DataTable data={currentData} />
+            <DataTable data={currentData} title="Bidirectional Analysis" />
           </div>
         </div>
       </CardContent>

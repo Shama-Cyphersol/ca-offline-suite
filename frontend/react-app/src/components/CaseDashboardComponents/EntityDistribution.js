@@ -17,6 +17,7 @@ function EntityDistribution() {
         data={top10Entities}
         nameKey="Entity_Name"
         valueKey="No_of_times_occurred"
+        showLegends={true}
       />
       
       <EntityTable/>

@@ -9,30 +9,32 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Badge } from "../ui/badge";
 
-const NameManager = ({ caseId, nameAccData, onRefreshDashboard }) => {
+const NameManager = ({ caseId, data, onRefreshDashboard }) => {
   const [searchText, setSearchText] = useState("");
-  const [unselectedGroups, setUnselectedGroups] = useState(
-    nameAccData.reduce((groups, item) => {
-      const similarGroup = groups.find(group => 
-        group.some(g => g.Name.toLowerCase().includes(item.Name.toLowerCase()))
-      );
+  // const [unselectedGroups, setUnselectedGroups] = useState(
+  //   data.reduce((groups, item) => {
+  //     const similarGroup = groups.find(group => 
+  //       group.some(g => g.Name.toLowerCase().includes(item.Name.toLowerCase()))
+  //     );
       
-      if (similarGroup) {
-        similarGroup.push(item);
-      } else {
-        groups.push([item]);
-      }
-      return groups;
-    }, [])
-  );
+  //     if (similarGroup) {
+  //       similarGroup.push(item);
+  //     } else {
+  //       groups.push([item]);
+  //     }
+  //     return groups;
+  //   }, [])
+  // );
+  const [unselectedGroups, setUnselectedGroups] = useState(data.original_groups);
+
   const [mergedGroups, setMergedGroups] = useState([]);
   const [selectedNames, setSelectedNames] = useState({});
 
   const filteredGroups = searchText
     ? unselectedGroups.filter(group =>
         group.some(item =>
-          item.Name.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.AccNumber.includes(searchText)
+          item.toLowerCase().includes(searchText.toLowerCase()) ||
+          item.includes(searchText)
         )
       )
     : unselectedGroups;
@@ -40,53 +42,72 @@ const NameManager = ({ caseId, nameAccData, onRefreshDashboard }) => {
   const handleCheckboxChange = (groupIndex, item) => {
     setSelectedNames(prev => ({
       ...prev,
-      [`${groupIndex}-${item.AccNumber}`]: !prev[`${groupIndex}-${item.AccNumber}`]
+      [`${groupIndex}-${item}`]: !prev[`${groupIndex}-${item}`]
     }));
   };
 
   const handleMergeSelected = () => {
-    // Collect all selected items into a single array
-    const selectedItems = unselectedGroups.reduce((acc, group, groupIndex) => {
+    // Get all selected items grouped by their original groups
+    const selectedItemsByGroup = unselectedGroups.reduce((acc, group, groupIndex) => {
       const selectedFromGroup = group.filter(item => 
-        selectedNames[`${groupIndex}-${item.AccNumber}`]
+        selectedNames[`${groupIndex}-${item}`]
       );
-      return [...acc, ...selectedFromGroup];
+      
+      if (selectedFromGroup.length > 0) {
+        acc.push(selectedFromGroup);
+      }
+      
+      return acc;
     }, []);
-
-    if (selectedItems.length === 0) return;
-
-    // Add the selected items as a single merged group
-    setMergedGroups(prev => [...prev, selectedItems]);
-
+  
+    if (selectedItemsByGroup.length === 0) return;
+  
+    // Add each group of selected items as a separate merged group
+    setMergedGroups(prev => [...prev, ...selectedItemsByGroup]);
+  
     // Remove the selected items from unselectedGroups
     setUnselectedGroups(prev => 
       prev.map(group => 
         group.filter(item => 
-          !selectedItems.some(selected => selected.AccNumber === item.AccNumber)
+          !selectedItemsByGroup.some(selectedGroup => 
+            selectedGroup.includes(item)
+          )
         )
       ).filter(group => group.length > 0)
     );
-
+  
     setSelectedNames({});
   };
 
   const handleDemerge = (index) => {
-    setUnselectedGroups(prev => [...prev, mergedGroups[index]]);
+    const demergedItems = mergedGroups[index];
+    
+    // Find the original groups that contain any of the demerged items
+    const originalGroupsToRestore = data.original_groups.filter(originalGroup =>
+      originalGroup.some(item => demergedItems.includes(item))
+    );
+  
+    // Add back the original groups to unselectedGroups
+    setUnselectedGroups(prev => [...prev, ...originalGroupsToRestore]);
+  
+    // Remove the merged group
     setMergedGroups(prev => prev.filter((_, i) => i !== index));
   };
+  
+  
 
   const handleSelectAll = () => {
     const newSelectedNames = {};
     unselectedGroups.forEach((group, groupIndex) => {
       group.forEach(item => {
-        newSelectedNames[`${groupIndex}-${item.AccNumber}`] = true;
+        newSelectedNames[`${groupIndex}-${item}`] = true;
       });
     });
     setSelectedNames(newSelectedNames);
   };
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="container mx-auto py-8 px-4 select-none">
       <Card className="shadow-sm">
         <CardHeader className="border-b">
           <div className="flex items-center justify-between">
@@ -139,18 +160,18 @@ const NameManager = ({ caseId, nameAccData, onRefreshDashboard }) => {
                       </CardHeader>
                       <CardContent className="p-4">
                         <div className="space-y-2">
-                          {group.map((item) => (
+                          {group.map((item,key) => (
                             <label
-                              key={item.AccNumber}
+                              key={key}
                               className="flex items-center space-x-2 hover:bg-secondary/10 p-1 rounded cursor-pointer"
                             >
                               <Checkbox
-                                checked={selectedNames[`${groupIndex}-${item.AccNumber}`] || false}
+                                checked={selectedNames[`${groupIndex}-${item}`] || false}
                                 onCheckedChange={() => handleCheckboxChange(groupIndex, item)}
                               />
                               <div className="flex flex-col">
-                                <span className="text-sm font-medium">{item.Name}</span>
-                                <span className="text-xs text-muted-foreground">{item.AccNumber}</span>
+                                <span className="text-sm ">{item}</span>
+                                {/* <span className="text-xs text-muted-foreground">{item.AccNumber}</span> */}
                               </div>
                             </label>
                           ))}
@@ -160,10 +181,10 @@ const NameManager = ({ caseId, nameAccData, onRefreshDashboard }) => {
                   ))}
                 </div>
 
-                <div className="flex justify-center mt-6">
+                <div className="fixed bottom-4 left-[55%] transform -translate-x-1/2 z-10 w-full max-w-xs">
                   <Button 
                     onClick={handleMergeSelected}
-                    className="w-full max-w-xs"
+                    className="w-full shadow-lg "
                   >
                     Merge Selected Names
                   </Button>
@@ -179,7 +200,6 @@ const NameManager = ({ caseId, nameAccData, onRefreshDashboard }) => {
                       <TableRow>
                         <TableHead className="w-16">#</TableHead>
                         <TableHead>Merged Names</TableHead>
-                        <TableHead>Account Numbers</TableHead>
                         <TableHead className="w-24">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -190,19 +210,11 @@ const NameManager = ({ caseId, nameAccData, onRefreshDashboard }) => {
                           <TableCell>
                             <div className="flex flex-wrap gap-2">
                               {group.map(item => (
-                                <Badge key={item.AccNumber} variant="secondary">
-                                  {item.Name}
+                                <Badge key={item} variant="secondary">
+                                  {item}
                                 </Badge>
                               ))}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex flex-col gap-1">
-                              {group.map(item => (
-                                <span key={item.AccNumber} className="text-xs text-muted-foreground">
-                                  {item.AccNumber}
-                                </span>
-                              ))}
+                             
                             </div>
                           </TableCell>
                           <TableCell>
@@ -221,8 +233,8 @@ const NameManager = ({ caseId, nameAccData, onRefreshDashboard }) => {
                   </Table>
                 </Card>
 
-                <div className="flex justify-center">
-                  <AlertDialog>
+                <div className="fixed bottom-4 left-[55%] transform -translate-x-1/2 z-10 w-full max-w-xs">
+                <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button className="w-full max-w-xs">
                         Finalize Groups
@@ -251,6 +263,7 @@ const NameManager = ({ caseId, nameAccData, onRefreshDashboard }) => {
           </Tabs>
         </CardContent>
       </Card>
+
     </div>
   );
 };

@@ -40,10 +40,10 @@ const TransactionGroup = ({ title, lifoData, fifoData }) => {
       {isOpen && (
         <CardContent className="space-y-6">
           <div>
-            <TableData data={lifoData} src="LIFO" />
+            <TableData data={lifoData} source="LIFO" />
           </div>
           <div>
-            <TableData data={fifoData} src="FIFO" />
+            <TableData data={fifoData} source="FIFO" />
           </div>
         </CardContent>
       )}

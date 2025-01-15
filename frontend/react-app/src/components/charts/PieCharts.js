@@ -71,7 +71,7 @@ const PieCharts = ({
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            {/* <ChartLegend content={<ChartLegendContent />} /> */}
+            {showLegends&&<ChartLegend content={<ChartLegendContent />} />}
             <Pie
               data={transformedData}
               dataKey={finalValueKey}

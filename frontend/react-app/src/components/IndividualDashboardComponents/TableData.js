@@ -33,7 +33,7 @@ import {
 } from "../ui/pagination";
 import { Label } from "../ui/label";
 
-const DataTable = ({ data = [], src }) => {
+const DataTable = ({ data = [], source,title,subtitle }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState(data);
   const [searchTerm, setSearchTerm] = useState("");
@@ -206,15 +206,15 @@ const DataTable = ({ data = [], src }) => {
     return { ...acc, [column]: total.toFixed(2) };
   }, {});
 
-  // If src is lifo or fifo, render a different table
-  if (src === "LIFO" || src === "FIFO") {
+  // If source is lifo or fifo, render a different table
+  if (source === "LIFO" || source === "FIFO") {
     return (
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
-            <div className="space-y-2">
+            <div className="">
               <CardTitle className="text-lg font-medium dark:text-slate-300">
-                {src} Transaction
+                {source} Transaction
               </CardTitle>
               <CardDescription className="text-sm">
                 View and manage your data
@@ -241,7 +241,7 @@ const DataTable = ({ data = [], src }) => {
         <CardContent>
           {data.length === 0 ? (
             <div className="text-center text-sm">
-              No data available for {src}.
+              No data available for {source}.
             </div>
           ) : (
             <div className="relative">
@@ -385,13 +385,13 @@ const DataTable = ({ data = [], src }) => {
   }
 
   return (
-    // if src is equal to lifo or fifo then show the table
+    // if source is equal to lifo or fifo then show the table
     <Card>
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="space-y-2">
-            <CardTitle className="dark:text-slate-300">{title}</CardTitle>
-            <CardDescription>View and manage your data</CardDescription>
+            <CardTitle className="dark:text-slate-300">{title || "Data Table"}</CardTitle>
+            <CardDescription>{subtitle||"View and manage your data"}</CardDescription>
           </div>
           <div className="relative flex items-center gap-2">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
