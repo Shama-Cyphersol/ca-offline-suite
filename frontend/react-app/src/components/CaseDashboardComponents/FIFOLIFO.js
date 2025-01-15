@@ -8,62 +8,9 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Button } from "../ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import fifoLifoData from "../../data/fifo.json";
-
-const DataTable = ({ data }) => {
-  if (!data || !Array.isArray(data) || data.length === 0) {
-    return (
-      <div className="text-center text-gray-500 text-sm p-2">
-        Data is not available
-      </div>
-    );
-  }
-
-  // Get all unique keys from the objects
-  const columns = [...new Set(data.flatMap((obj) => Object.keys(obj)))];
-
-  return (
-    <div className="w-full overflow-x-auto">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            {columns.map((column) => (
-              <TableHead
-                key={column}
-                className="text-gray-500 p-3 text-sm text-center whitespace-nowrap"
-              >
-                {column}
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((row, rowIndex) => (
-            <TableRow key={rowIndex} className="bg-white">
-              {columns.map((column) => (
-                <TableCell
-                  key={`${rowIndex}-${column}`}
-                  className="p-3 text-sm text-center border-b whitespace-nowrap"
-                >
-                  {row[column] !== null ? row[column]?.toString() : "-"}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  );
-};
+import TableData from "../IndividualDashboardComponents/TableData";
 
 const TransactionGroup = ({ title, lifoData, fifoData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -93,12 +40,10 @@ const TransactionGroup = ({ title, lifoData, fifoData }) => {
       {isOpen && (
         <CardContent className="space-y-6">
           <div>
-            <h3 className="text-sm font-semibold mb-2">LIFO Transactions</h3>
-            <DataTable data={lifoData} />
+            <TableData data={lifoData} src="LIFO" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold mb-2">FIFO Transactions</h3>
-            <DataTable data={fifoData} />
+            <TableData data={fifoData} src="FIFO" />
           </div>
         </CardContent>
       )}
