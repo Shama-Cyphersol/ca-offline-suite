@@ -1,10 +1,10 @@
-const { sqliteTable, text, real } = require("drizzle-orm/sqlite-core");
+const { sqliteTable, text, real, integer } = require("drizzle-orm/sqlite-core");
 const { transactions } = require("./Transactions");
 
 const finance_vouchers = sqliteTable("finance_vouchers", {
-  id: text("id").primaryKey().notNull(),
+  id: integer("id").primaryKey({ autoIncrement: true }).notNull(),
   companyName: text("company_name").notNull(),
-  date: text("date").notNull(),
+  date: integer("date", { mode: "timestamp" }).notNull(),
   effectiveDate: text("effective_date").notNull(),
   billReference: text("bill_reference").notNull(),
   drLedger: text("dr_ledger").notNull(),
