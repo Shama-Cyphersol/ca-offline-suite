@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1737023147926,
-      "tag": "0000_deep_stardust",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1737023877862,
-      "tag": "0001_shocking_freak",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1737016430424,
-      "tag": "0002_shiny_orphan",
+      "when": 1737024433924,
+      "tag": "0000_bitter_liz_osborn",
       "breakpoints": true
     }
   ]
