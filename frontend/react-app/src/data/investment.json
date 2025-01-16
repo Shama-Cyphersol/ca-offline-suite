@@ -11,78 +11,7 @@
         "Month": "Nov-2023",
         "Date": 8
     },
-    {
-        "Value Date": 1699488000000,
-        "Description": "upi-amazon-amazonpay.80074521@hdfcbank-hdfc0001234-441218649825-8836425471239824a",
-        "Debit": 2500.0,
-        "Credit": null,
-        "Balance": 16090.65,
-        "Bank": "a",
-        "Category": "Shopping",
-        "Entity": "Amazon",
-        "Month": "Nov-2023",
-        "Date": 9
-    },
-    {
-        "Value Date": 1699574400000,
-        "Description": "neft-xyz-corporation-ltd-xyzltd12345-20231234567890z",
-        "Debit": 44030.0,
-        "Credit": 50000.0,
-        "Balance": 66090.65,
-        "Bank": "a",
-        "Category": "Salary",
-        "Entity": "XYZ Corporation",
-        "Month": "Nov-2023",
-        "Date": 10
-    },
-    {
-        "Value Date": 1699660800000,
-        "Description": "atm-withdrawal-icici-bank-08122023-4000",
-        "Debit": 4000.0,
-        "Credit": null,
-        "Balance": 62090.65,
-        "Bank": "a",
-        "Category": "Cash Withdrawal",
-        "Entity": "ICICI ATM",
-        "Month": "Nov-2023",
-        "Date": 11
-    },
-    {
-        "Value Date": 1699747200000,
-        "Description": "upi-zomato-zomato.payments@axisbank-axis012345678-541218647215-2198736451987364z",
-        "Debit": 12600.0,
-        "Credit": null,
-        "Balance": 60890.65,
-        "Bank": "a",
-        "Category": "Food",
-        "Entity": "Zomato",
-        "Month": "Nov-2023",
-        "Date": 12
-    },
-    {
-        "Value Date": 1699833600000,
-        "Description": "upi-swiggy-swiggy.pay@hdfcbank-hdfc00988765-321654987123456789z",
-        "Debit": 29036.0,
-        "Credit": null,
-        "Balance": 60090.65,
-        "Bank": "a",
-        "Category": "Food",
-        "Entity": "Swiggy",
-        "Month": "Nov-2023",
-        "Date": 13
-    },
-    {
-        "Value Date": 1699920000000,
-        "Description": "upi-flipkart-flipkart.payments@axisbank-axis0123498765-6543219876543210z",
-        "Debit": 50000.0,
-        "Credit": null,
-        "Balance": 55090.65,
-        "Bank": "a",
-        "Category": "Shopping",
-        "Entity": "Flipkart",
-        "Month": "Nov-2023",
-        "Date": 14
-    },
+  
     {
         "Value Date": 1700006400000,
         "Description": "neft-abc-services-ltd-abc1234567890z",
@@ -94,29 +23,5 @@
         "Entity": "ABC Services Ltd.",
         "Month": "Nov-2023",
         "Date": 15
-    },
-    {
-        "Value Date": 1700092800000,
-        "Description": "upi-phonebill-recharge@icici-icici00112233-123456789987654321z",
-        "Debit": 15000.0,
-        "Credit": null,
-        "Balance": 73590.65,
-        "Bank": "a",
-        "Category": "Utilities",
-        "Entity": "Phone Bill",
-        "Month": "Nov-2023",
-        "Date": 16
-    },
-    {
-        "Value Date": 1700179200000,
-        "Description": "upi-ola-ola.money@hdfcbank-hdfc00087654321-321654987987654321z",
-        "Debit": 8020.0,
-        "Credit": null,
-        "Balance": 72790.65,
-        "Bank": "a",
-        "Category": "Transportation",
-        "Entity": "Ola",
-        "Month": "Nov-2023",
-        "Date": 17
     }
 ]

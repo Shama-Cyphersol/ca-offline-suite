@@ -23,6 +23,7 @@ const SingleLineChart = ({
   xAxisKey = null,
   yAxisKey = null,
   selectedColumns = [],
+  showLegends = true,
 }) => {
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
   const xAxis = xAxisKey || columns[0];
@@ -55,52 +56,52 @@ const SingleLineChart = ({
       </CardHeader>
       <CardContent className="h-[calc(100%-4rem)]">
         <ChartContainer className="w-full h-full" config={config}>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={data}
-              margin={{
-                top: 20,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey={xAxis}
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                tickFormatter={(value) =>
-                  typeof value === "string" ? value.slice(0, 10) : value
-                }
+            <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={data}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey={xAxis}
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) =>
+                typeof value === "string" ? value.slice(0, 10) : value
+              }
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tickMargin={8}
+              tickFormatter={formatYAxis}
+              {...config.yAxis}
+            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            {showLegends&&<ChartLegend content={<ChartLegendContent />} />}
+            {lines.map((line) => (
+              <Line
+                key={line.key}
+                dataKey={line.key}
+                type="natural"
+                stroke={line.color}
+                strokeWidth={2}
+                dot={{
+                  fill: line.color,
+                  r: 4,
+                }}
+                activeDot={{
+                  r: 6,
+                }}
               />
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tickMargin={8}
-                tickFormatter={formatYAxis}
-                {...config.yAxis}
-              />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              {lines.map((line) => (
-                <Line
-                  key={line.key}
-                  dataKey={line.key}
-                  type="natural"
-                  stroke={line.color}
-                  strokeWidth={2}
-                  dot={{
-                    fill: line.color,
-                    r: 4,
-                  }}
-                  activeDot={{
-                    r: 6,
-                  }}
-                />
-              ))}
-            </LineChart>
+            ))}
+          </LineChart>
           </ResponsiveContainer>
         </ChartContainer>
       </CardContent>

@@ -163,7 +163,7 @@ const Summary = () => {
         isMaximized={isMaximized}
         setIsMaximized={setIsMaximized}
       >
-        <div className="w-full h-full p-4">
+        <div className="w-full p-4">
           {checkDataAvailability(data) ? (
             <>
               <PieCharts
@@ -171,6 +171,7 @@ const Summary = () => {
                 title=""
                 valueKey="value"
                 nameKey="name"
+                showLegends={isMaximized}
               />
               {!isMaximized && (
                 <Button

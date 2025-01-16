@@ -10,8 +10,7 @@ import { Card, CardHeader, CardTitle } from "../ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import ToggleStrip from "./ToggleStrip"; // Import the ToggleStrip component
 
-const MaximizableChart = ({ children, title }) => {
-  const [isMaximized, setIsMaximized] = useState(false);
+const MaximizableChart = ({ children, title , isMaximized,setIsMaximized}) => {
 
   const toggleMaximize = () => setIsMaximized(!isMaximized);
 
@@ -51,6 +50,9 @@ const MaximizableChart = ({ children, title }) => {
 };
 
 const Transactions = () => {
+  const [isDailyBalanceMaximized, setIsDailyBalanceMaximized] = useState(false);
+  const [isCreditDebitMaximized, setIsCreditDebitMaximized] = useState(false);
+  const [isCategoryMaximized, setIsCategoryMaximized] = useState(false);
 
   const monthsData = transactionData.reduce((acc, transaction) => {
     const date = new Date(transaction["Value Date"]);
@@ -139,18 +141,18 @@ const Transactions = () => {
       ) : (
         <>
           <div className="flex flex-wrap -mx-2">
-            <MaximizableChart title="Daily Balance Trend">
+            <MaximizableChart title="Daily Balance Trend" isMaximized={isDailyBalanceMaximized} setIsMaximized={setIsDailyBalanceMaximized}>
               <div className="w-full h-full">
                 <SingleLineChart
                   data={filteredData}
                   xAxisKey="date"
                   selectedColumns={["balance"]}
-
+                  showLegends={isDailyBalanceMaximized}
                 />
               </div>
             </MaximizableChart>
 
-            <MaximizableChart title="Credit vs Debit">
+            <MaximizableChart title="Credit vs Debit" isMaximized={isCreditDebitMaximized} setIsMaximized={setIsCreditDebitMaximized}>
               <div className="w-full h-full">
                 <SingleBarChart
                   data={filteredData}
@@ -167,16 +169,18 @@ const Transactions = () => {
                       color: "hsl(var(--chart-5))",
                     },
                   ]}
+                  showLegends={isCreditDebitMaximized}
                 />
               </div>
             </MaximizableChart>
 
-            <MaximizableChart title="Debit Distribution by Category">
+            <MaximizableChart title="Debit Distribution by Category" isMaximized={isCategoryMaximized} setIsMaximized={setIsCategoryMaximized}>
               <div className="w-full h-full">
                 <PieCharts
                   data={categoryData}
                   nameKey="Category"
                   valueKey="Debit"
+                  showLegends={isCategoryMaximized}
                 />
               </div>
             </MaximizableChart>

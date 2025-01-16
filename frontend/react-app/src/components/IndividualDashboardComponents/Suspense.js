@@ -5,6 +5,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import DataTable from "./TableData";
 import SuspenseCreditData from "../../data/suspense_credit.json";
 import SuspenseDebitData from "../../data/suspense_debit.json";
+import PieCharts from "../charts/PieCharts";
+
 
 const Suspense = () => {
   // Transform credit data
@@ -42,7 +44,7 @@ const Suspense = () => {
   };
 
   return (
-    <div className="rounded-xl shadow-sm m-8 mt-2 bg-white space-y-6 dark:bg-slate-950">
+    <div className="rounded-xl shadow-sm m-8 mt-2 bg-white space-y-6 dark:bg-slate-950 ">
       <Tabs defaultValue="credit">
         <TabsList className="grid w-[500px] grid-cols-2 pb-10">
           <TabsTrigger value="credit">Credit</TabsTrigger>
@@ -50,7 +52,7 @@ const Suspense = () => {
         </TabsList>
 
         <TabsContent value="credit">
-          <div className="grid grid-rows-[60vh_auto] gap-8">
+          <div className="grid grid-rows-[60vh_auto] gap-4">
             <div className="grid grid-cols-2 gap-6">
               <div className="w-full h-full">
                 <HorizontalBarChart
