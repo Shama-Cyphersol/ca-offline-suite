@@ -7,7 +7,6 @@ import SuspenseCreditData from "../../data/suspense_credit.json";
 import SuspenseDebitData from "../../data/suspense_debit.json";
 import PieCharts from "../charts/PieCharts";
 
-
 const Suspense = () => {
   // Transform credit data
   const transformedCreditData = SuspenseCreditData.map((item) => ({
