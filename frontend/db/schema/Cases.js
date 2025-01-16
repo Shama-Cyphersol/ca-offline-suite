@@ -9,7 +9,7 @@ const cases = sqliteTable("cases", {
     .notNull()
     .references(() => users.id, { onDelete: "CASCADE" }),
   status: text("status").notNull(),
-  createdAt: integer("created_at").notNull(), // Timestamp of creation
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(), // Timestamp of creation
 });
 
 module.exports = { cases };

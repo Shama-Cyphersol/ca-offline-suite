@@ -3,11 +3,11 @@ const { sqliteTable, text, integer } = require("drizzle-orm/sqlite-core");
 
 // Users table
 const users = sqliteTable("users", {
-  id: integer("id").primaryKey().notNull(),
+  id: integer("id").primaryKey({ autoIncrement: true }).notNull(),
   name: text("name").notNull(),
   email: text("email").unique().notNull(),
   password: text("password").notNull(),
-  dateJoined: text("date_joined").notNull(),
+  dateJoined: integer("date_joined", { mode: "timestamp" }).notNull(),
 });
 
 module.exports = { users };
