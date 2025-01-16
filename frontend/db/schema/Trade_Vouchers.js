@@ -1,4 +1,4 @@
-const { sqliteTable, text } = require("drizzle-orm/sqlite-core");
+const { sqliteTable, text, real } = require("drizzle-orm/sqlite-core");
 const { transactions } = require("./Transactions");
 
 export const trade_vouchers = sqliteTable("trade_vouchers", {

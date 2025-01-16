@@ -8,5 +8,6 @@ export const cases = sqliteTable("cases", {
   userId: integer("user_id") // Foreign key referencing users.id
     .notNull()
     .references(() => users.id, { onDelete: "CASCADE" }),
+  status: text("status").notNull(),
   createdAt: integer("created_at").notNull(), // Timestamp of creation
 });
