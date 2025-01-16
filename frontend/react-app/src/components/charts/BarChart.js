@@ -69,39 +69,39 @@ const SingleBarChart = ({
       </CardHeader>
       <CardContent className="h-[calc(100%-4rem)]">
         <ChartContainer className="w-full h-full" config={config}>
-            <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={data}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey={xAxis}
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) =>
-                typeof value === "string" ? value.slice(0, 10) : value
-              }
-            />
-            <YAxis axisLine={false} tickLine={false} tickMargin={8} />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            {showLegends&&<ChartLegend content={<ChartLegendContent />} />}
-            {bars.map((bar) => (
-              <Bar
-                key={bar.key}
-                dataKey={bar.key}
-                fill={bar.color}
-                radius={4}
-                barSize={30}
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={data}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey={xAxis}
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) =>
+                  typeof value === "string" ? value.slice(0, 10) : value
+                }
               />
-            ))}
-          </BarChart>
+              <YAxis axisLine={false} tickLine={false} tickMargin={8} />
+              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              {showLegends && <ChartLegend content={<ChartLegendContent />} />}
+              {bars.map((bar) => (
+                <Bar
+                  key={bar.key}
+                  dataKey={bar.key}
+                  fill={bar.color}
+                  radius={4}
+                  barSize={30}
+                />
+              ))}
+            </BarChart>
           </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
