@@ -6,10 +6,10 @@ const { drizzle } = require("drizzle-orm/libsql");
 // const { schema } = require("./schema");
 
 class DatabaseManager {
-  static #instance = null;
+  static instance = null;
 
   static getInstance() {
-    if (!DatabaseManager.#instance) {
+    if (!DatabaseManager.instance) {
       const dbUrl = process.env.DB_FILE_NAME;
       console.log('dbUrl', dbUrl);
       if (!dbUrl) {
@@ -20,9 +20,9 @@ class DatabaseManager {
       // const client = createClient({ url: dbUrl });
 
       // Create Drizzle ORM instance with the schema
-      DatabaseManager.#instance = drizzle(dbUrl);
+      DatabaseManager.instance = drizzle(dbUrl);
     }
-    return DatabaseManager.#instance;
+    return DatabaseManager.instance;
   }
 }
 // 
