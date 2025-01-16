@@ -23,6 +23,7 @@ const SingleLineChart = ({
   xAxisKey = null,
   yAxisKey = null,
   selectedColumns = [],
+  showLegends = true,
 }) => {
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
   const xAxis = xAxisKey || columns[0];
@@ -83,7 +84,7 @@ const SingleLineChart = ({
                 {...config.yAxis}
               />
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent />} />
+              {showLegends && <ChartLegend content={<ChartLegendContent />} />}
               {lines.map((line) => (
                 <Line
                   key={line.key}

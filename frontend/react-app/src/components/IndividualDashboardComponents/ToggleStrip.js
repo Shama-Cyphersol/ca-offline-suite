@@ -20,9 +20,9 @@ const ToggleStrip = ({ columns, selectedColumns, setSelectedColumns }) => {
 
   return (
     <Card>
-      <div className="relative flex items-center gap-2 p-3 pt-2 rounded-md">
-        <div className="absolute top-0 left-0 h-full w-full rounded-md"></div>
-        <div className="flex flex-wrap gap-4 z-10 justify-center">
+      <div className="relative flex items-center gap-2 p-3 pt-2 rounded-md ">
+        <div className="absolute top-0 left-0 h-full w-full rounded-md "></div>
+        <div className="flex flex-wrap gap-2 z-10 justify-center">
           <button
             onClick={toggleSelectAll}
             className="text-sm font-medium text-slate-500 dark:text-slate-500 whitespace-nowrap"
@@ -32,7 +32,7 @@ const ToggleStrip = ({ columns, selectedColumns, setSelectedColumns }) => {
           {columns.map((column) => (
             <div
               key={column}
-              className={`relative px-4 py-2 text-sm whitespace-nowrap font-medium cursor-pointer transition-transform duration-300 ${
+              className={`relative px-4 py-2 text-xs whitespace-nowrap font-medium cursor-pointer transition-transform duration-300 ${
                 selectedColumns.includes(column)
                   ? "text-slate-900 dark:text-slate-300 font-semibold"
                   : "text-slate-500 dark:text-slate-500 "
@@ -42,7 +42,7 @@ const ToggleStrip = ({ columns, selectedColumns, setSelectedColumns }) => {
               {column}
               {selectedColumns.includes(column) && (
                 <div
-                  className="absolute bottom-0 left-0 w-full h-1 bg-slate-900 dark:bg-slate-300 rounded-full transition-all duration-300"
+                  className="absolute bottom-0 left-0 w-[90%] h-1 bg-slate-900 dark:bg-slate-300 rounded-full transition-all duration-300"
                   style={{
                     transform: "scaleX(1)",
                   }}
