@@ -5,7 +5,7 @@ const finance_vouchers = sqliteTable("finance_vouchers", {
   id: integer("id").primaryKey({ autoIncrement: true }).notNull(),
   companyName: text("company_name").notNull(),
   date: integer("date", { mode: "timestamp" }).notNull(),
-  effectiveDate: text("effective_date").notNull(),
+  effectiveDate: integer("effective_date",{ mode: "timestamp" }).notNull(),
   billReference: text("bill_reference").notNull(),
   drLedger: text("dr_ledger").notNull(),
   crLedger: text("cr_ledger").notNull(),
