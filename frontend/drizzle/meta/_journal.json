@@ -5,8 +5,15 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1737013922809,
-      "tag": "0000_friendly_forge",
+      "when": 1737023147926,
+      "tag": "0000_deep_stardust",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1737023877862,
+      "tag": "0001_shocking_freak",
       "breakpoints": true
     },
     {
