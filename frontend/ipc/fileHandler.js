@@ -1,10 +1,22 @@
 const path = require('path');
 const { ipcMain, shell } = require('electron');
 const log = require('electron-log');
+const db = require('../db/db');
+const { users } = require('../db/schema/User');
+// console.log("Users : ", users)
 
-function registerOpenFileIpc(BASE_DIR) {
+async function registerOpenFileIpc(BASE_DIR) {
 
     console.log("Registering open-file IPC handler");
+    console.log("Trying Db connection");
+    try{
+        const result = await db.select().from(users);
+        console.log("Users: ", result);
+    }
+    catch(e){
+        console.log("DB connection failed");
+        console.log(e);
+    }
 
     ipcMain.handle('open-file', async (event, filePath) => {
         try {

@@ -1,7 +1,7 @@
 const { sqliteTable, text, real } = require("drizzle-orm/sqlite-core");
 const { transactions } = require("./Transactions");
 
-export const finance_vouchers = sqliteTable("finance_vouchers", {
+const finance_vouchers = sqliteTable("finance_vouchers", {
   id: text("id").primaryKey().notNull(),
   companyName: text("company_name").notNull(),
   date: text("date").notNull(),
@@ -17,3 +17,5 @@ export const finance_vouchers = sqliteTable("finance_vouchers", {
     .notNull()
     .references(() => transactions.id, { onDelete: "CASCADE" }),
 });
+
+module.exports = { finance_vouchers };
