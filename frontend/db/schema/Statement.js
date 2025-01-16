@@ -1,7 +1,7 @@
 const { sqliteTable, text, integer, real } = require("drizzle-orm/sqlite-core");
 const { cases } = require("./Cases");
 
-export const statements = sqliteTable("statements", {
+const statements = sqliteTable("statements", {
   id: text("id").primaryKey().notNull(),
   caseId: text("case_id")
   .notNull()
@@ -12,3 +12,5 @@ export const statements = sqliteTable("statements", {
   bankName: text("bank_name"),
   createdAt: text("created_at").notNull(),
 });
+
+module.exports = { statements };

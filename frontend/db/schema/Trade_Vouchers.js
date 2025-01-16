@@ -1,7 +1,7 @@
 const { sqliteTable, text, real } = require("drizzle-orm/sqlite-core");
 const { transactions } = require("./Transactions");
 
-export const trade_vouchers = sqliteTable("trade_vouchers", {
+const trade_vouchers = sqliteTable("trade_vouchers", {
     id: text("id").primaryKey().notNull(),
     companyName: text("company_name").notNull(),
     accountingDate: text("accounting_date").notNull(),
@@ -20,4 +20,6 @@ export const trade_vouchers = sqliteTable("trade_vouchers", {
     narration: text("narration"), // Optional narration
     status: text("status").notNull(), // Status of the invoice
   });
+
+module.exports = { trade_vouchers };
   
