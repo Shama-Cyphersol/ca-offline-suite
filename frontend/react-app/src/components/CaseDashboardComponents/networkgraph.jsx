@@ -1,4 +1,12 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useMemo, useEffect,useCallback } from 'react';
+import { Card, CardHeader, CardContent } from '../ui/card';
+import { Slider } from '../ui/slider';
+import { Input } from '../ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
+import { Badge } from '../ui/badge';
+import { ScrollArea } from '../ui/scroll-area';
+import networkGrpahData from "../../data/network_graph_dummy.json";
+
 import ReactFlow, {
   Controls,
   Background,
@@ -6,346 +14,310 @@ import ReactFlow, {
   useEdgesState,
   MarkerType,
 } from 'reactflow';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '../ui/dialog';
-import { Card } from '../ui/card';
-import { Slider } from '../ui/slider';
-import { Input } from '../ui/input';
-import { Badge } from '../ui/badge';
 
-const NetworkGraphComponent = ({ transactions = [] }) => {
-  const [nodeSize, setNodeSize] = useState(80);
-  const [minTransactions, setMinTransactions] = useState(15);
+const NetworkGraph = ({ data = networkGrpahData }) => {
+  // Calculate max transactions and default min transactions
+  const { maxTransactions, defaultMinTransactions } = useMemo(() => {
+    const entityCounts = {};
+    data.forEach(transaction => {
+      const entity = transaction.Entity;
+      entityCounts[entity] = (entityCounts[entity] || 0) + 1;
+    });
+    const max = Math.max(...Object.values(entityCounts));
+    return {
+      maxTransactions: max,
+      defaultMinTransactions: Math.ceil((2/3) * max)
+    };
+  }, [data]);
+
+  // Initialize state with computed default values
+  const [nodeSize, setNodeSize] = useState(50);
+  const [minTransactions, setMinTransactions] = useState(defaultMinTransactions);
   const [minAmount, setMinAmount] = useState(0);
   const [selectedNode, setSelectedNode] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  // Calculate responsive node size based on screen width
-  const responsiveNodeSize = useMemo(() => {
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      if (width < 640) return nodeSize * 0.6;
-      if (width < 1024) return nodeSize * 0.8;
-      return nodeSize;
-    }
-    return nodeSize;
-  }, [nodeSize]);
+  const colorPalette = {
+    Person: '#F1C40F',
+    Entity: '#3498DB',
+    CommonEntity: '#2ECC71'
+  };
 
-  // Process transactions to create nodes and edges
-  const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
-    const entityMap = new Map();
-    const edgeMap = new Map();
+  // Process data to create network graph
+  const processGraphData = useCallback(() => {
+    const nodes = [];
+    const edges = new Map();
+    const entityStats = new Map();
+    const entityConnections = new Map();
 
-    // Process each transaction
-    transactions.forEach((tx) => {
-      // Skip opening balance entries
-      if (tx.Category === 'Opening Balance') return;
-
-      // Extract the main entity from the Description
-      const descriptionParts = tx.Description.toLowerCase().split('-');
-      const mainEntity = descriptionParts[0] === 'upi' ? descriptionParts[1] : descriptionParts[0];
+    // Process transactions to build entity statistics and connections
+    data.forEach(transaction => {
+      const source = transaction.Name;
+      const target = transaction.Entity;
+      const amount = transaction.Debit || transaction.Credit || 0;
       
-      // Use 'SELF' as the source for all transactions
-      const source = 'SELF';
-      const target = mainEntity;
-
-      // Update entity statistics
-      const sourceStats = entityMap.get(source) || {
-        transactions: 0,
-        totalCredit: 0,
-        totalDebit: 0,
-        totalAmount: 0
-      };
-      const targetStats = entityMap.get(target) || {
-        transactions: 0,
-        totalCredit: 0,
-        totalDebit: 0,
-        totalAmount: 0
-      };
-
-      if (tx.Credit) {
-        sourceStats.totalCredit += tx.Credit;
-        targetStats.totalCredit += tx.Credit;
+      // Skip if amount is below minimum
+      if (amount < minAmount) return;
+      
+      if (!entityConnections.has(target)) {
+        entityConnections.set(target, new Set());
       }
-      if (tx.Debit) {
-        sourceStats.totalDebit += tx.Debit;
-        targetStats.totalDebit += tx.Debit;
+      entityConnections.get(target).add(source);
+      
+      const sourceStats = entityStats.get(source) || {
+        totalDebit: 0,
+        totalCredit: 0,
+        transactions: 0,
+        type: 'Person'
+      };
+
+      if (sourceStats.type === 'Entity') {
+        sourceStats.type = 'Person';
+      }
+      const targetStats = entityStats.get(target) || {
+        totalDebit: 0,
+        totalCredit: 0,
+        transactions: 0,
+        type: 'Entity'
+      };
+
+      if (transaction.Debit) {
+        sourceStats.totalDebit += transaction.Debit;
+        targetStats.totalDebit += transaction.Debit;
+      }
+      if (transaction.Credit) {
+        sourceStats.totalCredit += transaction.Credit;
+        targetStats.totalCredit += transaction.Credit;
       }
 
       sourceStats.transactions += 1;
       targetStats.transactions += 1;
-      sourceStats.totalAmount += tx.Debit || tx.Credit || 0;
-      targetStats.totalAmount += tx.Debit || tx.Credit || 0;
 
-      entityMap.set(source, sourceStats);
-      entityMap.set(target, targetStats);
+      entityStats.set(source, sourceStats);
+      entityStats.set(target, targetStats);
 
-      // Update edge statistics
-      const edgeId = `${source}-${target}`;
-      const edgeStats = edgeMap.get(edgeId) || {
-        creditAmount: 0,
-        debitAmount: 0,
+      const edgeKey = `${source}-${target}`;
+      const edgeStats = edges.get(edgeKey) || {
+        debit: 0,
+        credit: 0,
         transactions: 0
       };
 
-      if (tx.Credit) {
-        edgeStats.creditAmount += tx.Credit;
+      if (transaction.Debit) {
+        edgeStats.debit += transaction.Debit;
       }
-      if (tx.Debit) {
-        edgeStats.debitAmount += tx.Debit;
+      if (transaction.Credit) {
+        edgeStats.credit += transaction.Credit;
       }
       edgeStats.transactions += 1;
-      edgeMap.set(edgeId, edgeStats);
+      edges.set(edgeKey, edgeStats);
     });
 
-    // Create nodes
-    const nodes = Array.from(entityMap.entries()).map(([id, stats], index) => ({
-      id,
-      data: {
-        label: id,
-        ...stats,
-        displayName: id.length > 15 ? `${id.substring(0, 12)}...` : id
-      },
-      position: { x: Math.random() * 900, y: Math.random() * 600 },
-      style: {
-        width: responsiveNodeSize,
-        height: responsiveNodeSize,
-        borderRadius: '50%',
-        backgroundColor: id === 'SELF' ? '#ffd700' : '#60a5fa',
-        border: '2px solid #1a365d',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: `${Math.max(10, responsiveNodeSize * 0.15)}px`,
-        fontWeight: 'bold',
-        color: '#1a365d',
-        cursor: 'pointer',
-        transition: 'all 0.3s ease'
-      },
-    }));
+    // Create nodes array with proper filtering
+    const processedNodes = [];
+    entityStats.forEach((stats, id) => {
+      if (stats.transactions >= minTransactions) {
+        const isCommonEntity = entityConnections.get(id)?.size >= 2;
+        const nodeColor = stats.type === 'Person' 
+          ? colorPalette.Person 
+          : (isCommonEntity ? colorPalette.CommonEntity : colorPalette.Entity);
 
-    // Create edges
-    const edges = [];
-    edgeMap.forEach((stats, id) => {
-      const [source, target] = id.split('-');
+        processedNodes.push({
+          id,
+          data: { 
+            label: id,
+            ...stats
+          },
+          position: { 
+            x: Math.random() * 800, 
+            y: Math.random() * 600 
+          },
+          style: {
+            width: `${nodeSize}px`,
+            height: `${nodeSize}px`,
+            backgroundColor: nodeColor,
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            border: '2px solid #2C3E50',
+            color: '#2C3E50',
+            fontSize: `${Math.max(12, nodeSize * 0.25)}px`,
+            fontWeight: 'bold'
+          }
+        });
+      }
+    });
+
+    // Create edges array
+    const processedEdges = [];
+    edges.forEach((stats, key) => {
+      const [source, target] = key.split('-');
       
-      if (stats.creditAmount > 0) {
-        edges.push({
-          id: `${id}-credit`,
-          source,
-          target,
-          label: (
-            <div className="bg-white p-1 rounded shadow-sm text-xs md:text-sm">
-              <div className="text-green-600">₹{stats.creditAmount.toLocaleString()}</div>
-            </div>
-          ),
-          type: 'default',
-          animated: true,
-          style: { 
-            stroke: '#22c55e',
-            strokeWidth: Math.log(stats.transactions + 1) * 1.5
-          },
-          markerEnd: {
-            type: MarkerType.ArrowClosed,
-            color: '#22c55e'
-          }
-        });
-      }
-
-      if (stats.debitAmount > 0) {
-        edges.push({
-          id: `${id}-debit`,
-          source,
-          target,
-          label: (
-            <div className="bg-white p-1 rounded shadow-sm text-xs md:text-sm">
-              <div className="text-red-600">₹{stats.debitAmount.toLocaleString()}</div>
-            </div>
-          ),
-          type: 'default',
-          animated: true,
-          style: { 
-            stroke: '#ef4444',
-            strokeWidth: Math.log(stats.transactions + 1) * 1.5
-          },
-          markerEnd: {
-            type: MarkerType.ArrowClosed,
-            color: '#ef4444'
-          }
-        });
+      // Only create edges if both nodes exist after filtering
+      if (processedNodes.some(n => n.id === source) && processedNodes.some(n => n.id === target)) {
+        if (stats.debit > 0) {
+          processedEdges.push({
+            id: `${key}-debit`,
+            source,
+            target,
+            type: 'default',
+            animated: true,
+            style: { stroke: '#E74C3C', strokeWidth: 2 },
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+              color: '#E74C3C'
+            },
+            label: `₹${stats.debit.toLocaleString()}`,
+            labelStyle: { fill: '#E74C3C', fontSize: 12 },
+            sourceHandle: 'right',
+            targetHandle: 'left',
+            data: { curvature: 0.5 }
+          });
+        }
+        
+        if (stats.credit > 0) {
+          processedEdges.push({
+            id: `${key}-credit`,
+            source,
+            target,
+            type: 'default',
+            animated: true,
+            style: { stroke: '#2ECC71', strokeWidth: 2 },
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+              color: '#2ECC71'
+            },
+            label: `₹${stats.credit.toLocaleString()}`,
+            labelStyle: { fill: '#2ECC71', fontSize: 12 },
+            sourceHandle: 'right',
+            targetHandle: 'left',
+            data: { curvature: 0.5 }
+          });
+        }
       }
     });
 
-    return { nodes, edges };
-  }, [nodeSize, transactions, responsiveNodeSize]);
+    return { nodes: processedNodes, edges: processedEdges };
+  }, [data, minTransactions, nodeSize, minAmount, colorPalette]);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  // Initialize nodes and edges states
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-  // Update node sizes dynamically
-  const updateNodeSizes = useCallback((newSize) => {
-    setNodeSize(newSize);
-    setNodes((prevNodes) =>
-      prevNodes.map((node) => ({
-        ...node,
-        style: {
-          ...node.style,
-          width: newSize,
-          height: newSize,
-          fontSize: `${Math.max(10, newSize * 0.15)}px`,
-          transition: 'all 0.3s ease'
-        },
-      }))
-    );
-  }, [setNodes]);
+  // Update graph when filters change
+  useEffect(() => {
+    const { nodes: newNodes, edges: newEdges } = processGraphData();
+    setNodes(newNodes);
+    setEdges(newEdges);
+  }, [minTransactions, nodeSize, minAmount, ]);
 
-  // Filter nodes and edges
-  const filteredNodes = useMemo(() => {
-    return nodes.filter((node) => 
-      node.data.transactions >= minTransactions && 
-      node.data.totalAmount >= minAmount
-    );
-  }, [nodes, minTransactions, minAmount]);
-
-  const filteredEdges = useMemo(() => {
-    const nodeIds = new Set(filteredNodes.map(node => node.id));
-    return edges.filter(edge => 
-      nodeIds.has(edge.source) && nodeIds.has(edge.target)
-    );
-  }, [edges, filteredNodes]);
-
-  // Handle node click
-  const onNodeClick = useCallback((_, node) => {
+  // Node click handler
+  const onNodeClick = (_, node) => {
     setSelectedNode(node);
     setIsDialogOpen(true);
-  }, []);
-
-  // Transaction Table Component
-  const TransactionTable = ({ transactions, nodeId }) => {
-    const relevantTransactions = transactions.filter(tx => {
-      const descriptionParts = tx.Description.toLowerCase().split('-');
-      const mainEntity = descriptionParts[0] === 'upi' ? descriptionParts[1] : descriptionParts[0];
-      return nodeId === 'SELF' || mainEntity === nodeId;
-    });
-
-    return (
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="bg-gray-50">
-              <th className="p-2 text-left">Date</th>
-              <th className="p-2 text-left">Description</th>
-              <th className="p-2 text-left">Type</th>
-              <th className="p-2 text-left">Amount</th>
-              <th className="p-2 text-left">Balance</th>
-            </tr>
-          </thead>
-          <tbody>
-            {relevantTransactions.map((tx, index) => (
-              <tr key={index} className="border-b hover:bg-gray-50">
-                <td className="p-2">{tx['Value Date']}</td>
-                <td className="p-2">{tx.Description}</td>
-                <td className="p-2">
-                  <Badge variant={tx.Credit ? 'success' : 'destructive'}>
-                    {tx.Credit ? 'CREDIT' : 'DEBIT'}
-                  </Badge>
-                </td>
-                <td className="p-2">₹{(tx.Credit || tx.Debit).toLocaleString()}</td>
-                <td className="p-2">₹{tx.Balance.toLocaleString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
   };
 
+  // Filter transactions for selected node
+  const nodeTransactions = useMemo(() => {
+    if (!selectedNode) return [];
+    return data.filter(tx => 
+      tx.Name === selectedNode.id || tx.Entity === selectedNode.id
+    );
+  }, [selectedNode, data]);
+
   return (
-    <div className="space-y-4 w-full">
-      <Card className="p-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="text-sm font-medium">Node Size</label>
-            <Slider
-              value={[nodeSize]}
-              onValueChange={([value]) => updateNodeSizes(value)}
-              min={50}
-              max={150}
-              step={10}
-              className="mt-2"
-            />
-            <span className="text-sm text-gray-600">{nodeSize}</span>
+    <div className="space-y-4">
+      <Card>
+        <CardContent className="p-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="text-sm font-medium">Node Size</label>
+              <Slider
+                value={[nodeSize]}
+                onValueChange={([value]) => setNodeSize(value)}
+                min={20}
+                max={200}
+                step={10}
+                className="mt-2"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Min Transactions ({minTransactions})</label>
+              <Slider
+                value={[minTransactions]}
+                onValueChange={([value]) => setMinTransactions(value)}
+                min={1}
+                max={maxTransactions}
+                step={1}
+                className="mt-2"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Min Amount</label>
+              <Input
+                type="number"
+                value={minAmount}
+                onChange={(e) => setMinAmount(Number(e.target.value))}
+                placeholder="Enter minimum amount"
+                className="mt-2"
+              />
+            </div>
           </div>
-          <div>
-            <label className="text-sm font-medium">Min Transactions</label>
-            <Slider
-              value={[minTransactions]}
-              onValueChange={([value]) => setMinTransactions(value)}
-              min={0}
-              max={50}
-              step={1}
-              className="mt-2"
-            />
-            <span className="text-sm text-gray-600">{minTransactions}</span>
-          </div>
-          <div>
-            <label className="text-sm font-medium">Min Amount</label>
-            <Input
-              type="number"
-              value={minAmount}
-              onChange={(e) => setMinAmount(Number(e.target.value))}
-              placeholder="Enter minimum amount"
-              className="mt-2"
-            />
-          </div>
-        </div>
+        </CardContent>
       </Card>
 
-      <div className="flex max-w-full lg:h-[65vh] border rounded-lg bg-white">
+      <div className="h-[600px] border rounded-lg bg-white">
         <ReactFlow
-          nodes={filteredNodes}
-          edges={filteredEdges}
+          nodes={nodes}
+          edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onNodeClick={onNodeClick}
           fitView
-          minZoom={0.1}
-          maxZoom={4}
         >
-          <Controls className="bg-white" />
-          <Background color="#e5e7eb" gap={16} />
+          <Controls />
+          <Background />
         </ReactFlow>
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        {selectedNode && (
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                <span>Transactions for {selectedNode.id}</span>
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline">
-                    Total Credit: ₹{selectedNode.data.totalCredit.toLocaleString()}
-                  </Badge>
-                  <Badge variant="outline">
-                    Total Debit: ₹{selectedNode.data.totalDebit.toLocaleString()}
-                  </Badge>
-                </div>
-              </DialogTitle>
-            </DialogHeader>
-            <TransactionTable 
-              transactions={transactions} 
-              nodeId={selectedNode.id} 
-            />
-          </DialogContent>
-        )}
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Transactions for {selectedNode?.id}</DialogTitle>
+          </DialogHeader>
+          <ScrollArea className="h-[500px]">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th className="text-left p-2">Date</th>
+                  <th className="text-left p-2">Description</th>
+                  <th className="text-left p-2">Type</th>
+                  <th className="text-right p-2">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {nodeTransactions.map((tx, index) => (
+                  <tr key={index} className="border-t">
+                    <td className="p-2">{new Date(tx['Value Date']).toLocaleDateString()}</td>
+                    <td className="p-2">{tx.Description}</td>
+                    <td className="p-2">
+                      <Badge variant={tx.Credit ? "success" : "destructive"}>
+                        {tx.Credit ? "CREDIT" : "DEBIT"}
+                      </Badge>
+                    </td>
+                    <td className="p-2 text-right">
+                      ₹{(tx.Credit || tx.Debit).toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </ScrollArea>
+        </DialogContent>
       </Dialog>
     </div>
   );
 };
 
-export default NetworkGraphComponent;
+export default NetworkGraph;

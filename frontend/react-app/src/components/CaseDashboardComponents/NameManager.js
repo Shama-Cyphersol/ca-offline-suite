@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ui/tabs';
@@ -25,10 +25,15 @@ const NameManager = ({ caseId, data, onRefreshDashboard }) => {
   //     return groups;
   //   }, [])
   // );
-  const [unselectedGroups, setUnselectedGroups] = useState(data.original_groups);
+  const [originalGroups, setOriginalGroups] = useState(data.original_groups);
+  const [unselectedGroups, setUnselectedGroups] = useState();
 
   const [mergedGroups, setMergedGroups] = useState([]);
   const [selectedNames, setSelectedNames] = useState({});
+
+  useEffect(() => {
+    setUnselectedGroups(originalGroups);
+  }, []);
 
   const filteredGroups = searchText
     ? unselectedGroups.filter(group =>
