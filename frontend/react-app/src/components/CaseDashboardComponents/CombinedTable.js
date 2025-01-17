@@ -39,8 +39,8 @@ const IndividualTable = ({ caseId }) => {
   // Sample data
   const data = [
     {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
+      name: "Combined report",
+      accountNumber: "",
       filePath:
         "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
     },

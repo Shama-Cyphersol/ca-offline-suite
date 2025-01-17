@@ -39,114 +39,17 @@ const IndividualTable = ({ caseId }) => {
   // Sample data
   const data = [
     {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
+      name: "MR AIYAZ ANWAR QURESHI",
+      accountNumber: "50100575475699",
       filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
+        "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/Aiyaz hdf 23.pdf",
     },
     {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
+      name: "POOJAN VIG",
+      accountNumber: "50100575475700",
       filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
+        "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/hdfc poojan.pdf",
     },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    {
-      name: "ZAM ZAM FOUNDATION",
-      accountNumber: "920020069625328",
-      filePath:
-        "C:/Users/qures/Downloads/Zam zam/920020069625328-01-01-2019to02-08-2024.pdf",
-    },
-    // ... other data items
   ];
 
   // Filter data based on search term

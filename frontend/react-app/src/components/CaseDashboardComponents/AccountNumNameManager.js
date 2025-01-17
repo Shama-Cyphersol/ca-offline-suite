@@ -51,75 +51,17 @@ const AccountNumNameManager = () => {
   const [reports, setReports] = useState([
     {
       id: 1,
-      fileName: "/path/to/documents/john_doe_statement.pdf",
-      accNumber: "ACC123456",
-      name: "John Doe",
+      name: "MR AIYAZ ANWAR QURESHI",
+      accNumber: "50100575475699",
+      fileName:
+        "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/Aiyaz hdf 23.pdf",
     },
     {
       id: 2,
-      fileName: "/path/to/documents/jane_smith_statement.pdf",
-      accNumber: "ACC789012",
-      name: "Jane Smith",
-    },
-    {
-      id: 3,
-      fileName: "/path/to/documents/bob_wilson_statement.pdf",
-      accNumber: "ACC345678",
-      name: "Bob Wilson",
-    },
-    {
-      id: 4,
-      fileName: "/path/to/documents/alice_johnson_statement.pdf",
-      accNumber: "ACC901234",
-      name: "Alice Johnson",
-    },
-    {
-      id: 5,
-      fileName: "/path/to/documents/charlie_brown_statement.pdf",
-      accNumber: "ACC567890",
-      name: "Charlie Brown",
-    },
-    {
-      id: 6,
-      fileName: "/path/to/documents/diana_clark_statement.pdf",
-      accNumber: "ACC234567",
-      name: "Diana Clark",
-    },
-    {
-      id: 7,
-      fileName: "/path/to/documents/evan_white_statement.pdf",
-      accNumber: "ACC890123",
-      name: "Evan White",
-    },
-    {
-      id: 8,
-      fileName: "/path/to/documents/fiona_green_statement.pdf",
-      accNumber: "ACC456789",
-      name: "Fiona Green",
-    },
-    {
-      id: 9,
-      fileName: "/path/to/documents/george_taylor_statement.pdf",
-      accNumber: "ACC012345",
-      name: "George Taylor",
-    },
-    {
-      id: 10,
-      fileName: "/path/to/documents/helen_adams_statement.pdf",
-      accNumber: "ACC678901",
-      name: "Helen Adams",
-    },
-    {
-      id: 11,
-      fileName: "/path/to/documents/ian_brown_statement.pdf",
-      accNumber: "ACC234567",
-      name: "Ian Brown",
-    },
-    {
-      id: 12,
-      fileName: "/path/to/documents/jack_smith_statement.pdf",
-      accNumber: "ACC890123",
-      name: "Jack Smith",
+      name: "POOJAN VIG",
+      accNumber: "50100575475700",
+      fileName:
+        "C:/Users/qures/Downloads/ATS_TESTING_BANK_PDF/ATS_TESTING_BANK_PDF/hdfc poojan.pdf",
     },
   ]);
 

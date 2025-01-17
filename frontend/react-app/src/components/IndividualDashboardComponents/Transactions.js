@@ -75,7 +75,7 @@ const Transactions = () => {
           debit: transaction.Debit || 0,
           balance: transaction.Balance,
           category: transaction.Category,
-          Entity:transaction.Entity
+          // Entity:transaction.Entity
         };
       }
       acc[date].credit += transaction.credit || 0;

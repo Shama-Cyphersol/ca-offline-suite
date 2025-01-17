@@ -71,7 +71,7 @@ export default function Eligibility() {
         <Card className="p-4 rounded-lg">
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
-              <AccordionTrigger className="font-bold">User 1</AccordionTrigger>
+              <AccordionTrigger className="font-bold">Aiyaz Qureshi</AccordionTrigger>
               <AccordionContent>
                 <Table>
                   <TableHeader>
@@ -108,7 +108,7 @@ export default function Eligibility() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
-              <AccordionTrigger className="font-bold">User 2</AccordionTrigger>
+              <AccordionTrigger className="font-bold">Poojan vig</AccordionTrigger>
               <AccordionContent>
                 <Table>
                   <TableHeader>
